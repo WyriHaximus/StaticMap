@@ -1,0 +1,28 @@
+{
+    "name": "wyrihaximus/staticmap",
+    "description": "PHP implementation of the Google Maps Static API",
+    "homepage": "http://wyrihaximus.net/projects/php/staticmap",
+    "license": "MIT",
+    "keywords": [
+        "image manipulation",
+        "image processing",
+        "drawing",
+        "graphics"
+    ],
+    "authors": [
+        {
+            "name": "Cees-Jan Kiewiet",
+            "email": "ceesjank@gmail.com",
+            "homepage": "http://wyrihaximus.net/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3",
+        "imagine/Imagine": "0.4.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "StaticMap": "lib/"
+        }
+    }
+}
