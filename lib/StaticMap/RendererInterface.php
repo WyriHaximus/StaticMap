@@ -17,10 +17,10 @@ namespace StaticMap;
  * @package StaticMap
  * @author  Cees-Jan Kiewiet <ceesjank@gmail.com>
  */
-interface RendererInterface {
-    
+interface RendererInterface
+{
     public function save($type = 'png', $compression = 9, $fileName = null);
-    
+
     public function destroy();
-    
+
 }

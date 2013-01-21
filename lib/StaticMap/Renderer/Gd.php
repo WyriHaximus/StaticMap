@@ -17,22 +17,24 @@ namespace StaticMap\Renderer;
  * @package StaticMap
  * @author  Cees-Jan Kiewiet <ceesjank@gmail.com>
  */
-final class Gd extends \StaticMap\Renderer implements \StaticMap\RendererInterface {
-    
+final class Gd extends \StaticMap\Renderer implements \StaticMap\RendererInterface
+{
     private $imBase;
     private $imCrop;
-    
-    protected function createCropImage($size) {
+
+    protected function createCropImage($size)
+    {
         $this->imCrop = imagecreatetruecolor($size->getWidth(), $size->getHeight());
     }
-    
-    protected function createBaseImage($size) {
+
+    protected function createBaseImage($size)
+    {
         $this->imBase = imagecreatetruecolor($size->getWidth(), $size->getHeight());
     }
-    
-    protected function addTile($fileName, $dest) {
-        switch(substr($fileName, -3))
-        {
+
+    protected function addTile($fileName, $dest)
+    {
+        switch (substr($fileName, -3)) {
             case 'jpg':
                 $tileIm = imagecreatefromjpeg($fileName);
                 break;
@@ -40,25 +42,28 @@ final class Gd extends \StaticMap\Renderer implements \StaticMap\RendererInterfa
                 $tileIm = imagecreatefrompng($fileName);
                 break;
         }
-        
-        if(isset($tileIm)) {
+
+        if (isset($tileIm)) {
             imagecopy($this->imCrop, $tileIm, $dest->getWidth(), $dest->getHeight(), 0, 0, \StaticMap\Renderer::tileSize, \StaticMap\Renderer::tileSize);
             imagedestroy($tileIm);
         }
     }
-    
-    protected function drawBlip($blip) {
+
+    protected function drawBlip($blip)
+    {
         $blipIm = imagecreatefrompng($blip['image']);
         imagecopy($this->imBase, $blipIm, $blip['position']->getWidth(), $blip['position']->getHeight(), 0, 0, $blip['imageSize'][0], $blip['imageSize'][1]);
         imagedestroy($blipIm);
     }
-    
-    protected function crop($crop, $size) {
+
+    protected function crop($crop, $size)
+    {
         imagecopy($this->imBase, $this->imCrop, 0, 0, $crop->getWidth(), $crop->getHeight(), $size->getWidth(), $size->getHeight());
         imagedestroy($this->imCrop);
     }
-    
-    public function save($type = 'png', $compression = 9, $fileName = null) {
+
+    public function save($type = 'png', $compression = 9, $fileName = null)
+    {
         switch ($type) {
             case 'png':
                 imagepng($this->imBase, $fileName, $compression);
@@ -68,9 +73,10 @@ final class Gd extends \StaticMap\Renderer implements \StaticMap\RendererInterfa
                 break;
         }
     }
-    
-    public function destroy() {
+
+    public function destroy()
+    {
         imagedestroy($this->imBase);
     }
-    
+
 }
