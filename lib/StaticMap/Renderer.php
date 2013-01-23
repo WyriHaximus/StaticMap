@@ -85,8 +85,8 @@ abstract class Renderer
 
     public function addCenterBlip()
     {
-        $imageSize = getimagesize(__DIR__ . 'Img' . DIRECTORY_SEPARATOR . 'blip.png');
-        $this->addBlip(new \StaticMap\Size((($this->size->getWidth() - $imageSize[0]) / 2), (($this->size->getHeight() - $imageSize[1]) / 2)), __DIR__ . 'Img' . DIRECTORY_SEPARATOR . 'blip.png');
+        $imageSize = getimagesize(__DIR__ . DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png');
+        $this->addBlip(new \StaticMap\Size((($this->size->getWidth() - $imageSize[0]) / 2), (($this->size->getHeight() - $imageSize[1]) / 2)), __DIR__ . DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png');
     }
 
     public function addBlip($position, $image)
