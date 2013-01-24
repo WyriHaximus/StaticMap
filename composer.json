@@ -4,9 +4,9 @@
     "homepage": "http://wyrihaximus.net/projects/php/staticmap",
     "license": "MIT",
     "keywords": [
-        "image manipulation",
+        "maps",
+        "static maps",
         "image processing",
-        "drawing",
         "graphics"
     ],
     "authors": [
