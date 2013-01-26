@@ -8,11 +8,11 @@ branches:
 before_script:
   - wget -nc http://getcomposer.org/composer.phar
   - php composer.phar update
+script: phpunit -c phpunit.xml.travisci --coverage-text
 notifications:
+  irc: "irc.freenode.org#wyrihaximus"
   webhooks:
-    urls:
-      - http://wyrihaximus.net/wyri_projects/wyri_projects/webhook/travisci.json
+    urls: http://wyrihaximus.net/wyri_projects/wyri_projects/webhook/travisci.json
     on_success: always
     on_failure: always
     on_start: true
-script: phpunit -c phpunit.xml.travisci --coverage-text
