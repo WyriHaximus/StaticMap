@@ -170,6 +170,11 @@ abstract class AbstractRendererTest extends \PHPUnit_Framework_TestCase
 
     private function compareImages($fileGood, $fileResult, $size)
     {
+        $imSizeResult = getimagesize($fileResult);
+        
+        $this->assertEquals($size, $imSizeResult[0]);
+        $this->assertEquals($size, $imSizeResult[1]);
+        
         $imGood = imagecreatefrompng($fileGood);
         $imResult = imagecreatefrompng($fileResult);
 
@@ -181,10 +186,10 @@ abstract class AbstractRendererTest extends \PHPUnit_Framework_TestCase
                 $rgbResult = @imagecolorat($imResult, $i, $j);
                 $colorsResult = imagecolorsforindex($imResult, $rgbResult);
 
-                $this->assertSame($colorsGood['red'], $colorsResult['red']);
-                $this->assertSame($colorsGood['green'], $colorsResult['green']);
-                $this->assertSame($colorsGood['blue'], $colorsResult['blue']);
-                $this->assertSame($colorsGood['alpha'], $colorsResult['alpha']);
+                $this->assertEquals($colorsGood['red'], $colorsResult['red']);
+                $this->assertEquals($colorsGood['green'], $colorsResult['green']);
+                $this->assertEquals($colorsGood['blue'], $colorsResult['blue']);
+                $this->assertEquals($colorsGood['alpha'], $colorsResult['alpha']);
             }
         }
 
