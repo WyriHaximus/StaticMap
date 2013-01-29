@@ -120,6 +120,27 @@ abstract class AbstractRendererTest extends \PHPUnit_Framework_TestCase
 
         $this->compareImages(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderBigTest.png', $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderBigTest.png', 345);
     }
+    
+    public function testCenterBlip()
+    {
+        $RendererClass = new \ReflectionClass($this->RendererClass);
+        $Renderer = $RendererClass->newInstance(
+            1,
+            new \StaticMap\Size(256, 256),
+            new \StaticMap\LatLng(13, 13),
+            new \StaticMap\Tiles(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . '{x}/{y}.png', __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg')
+        );
+        
+        $Renderer->addCenterBlip();
+
+        $Renderer->generate();
+
+        $Renderer->save('png', 9, $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderCenterBlipTest.png');
+
+        $Renderer->destroy();
+
+        $this->compareImages(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderCenterBlipTest.png', $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderCenterBlipTest.png', 256);
+    }
 
     public function _testSmallJpegRender()
     {
