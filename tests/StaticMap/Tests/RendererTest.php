@@ -11,10 +11,19 @@ class LookIntoRenderer extends \StaticMap\Renderer
 
 }
 
-abstract class AbstractRendererTest extends \PHPUnit_Framework_TestCase
+class RendererTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
+        $this->Renderer = new \StaticMap\Renderer\Gd(
+            3,
+            new \StaticMap\Size(25, 25),
+            new \StaticMap\LatLng(71, 111),
+            new \StaticMap\Tiles(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . '{x}/{y}.png', __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg')
+        );
+        
+        $this->RendererClass = '\StaticMap\Renderer\Gd';
+        
         $this->tmpDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'StaticMapTests';
         if (!file_exists($this->tmpDir)) {
             @mkdir($this->tmpDir, 0777, true);
