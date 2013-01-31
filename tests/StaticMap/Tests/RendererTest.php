@@ -15,15 +15,6 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->Renderer = new \StaticMap\Renderer\Gd(
-            3,
-            new \StaticMap\Size(25, 25),
-            new \StaticMap\LatLng(71, 111),
-            new \StaticMap\Tiles(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . '{x}/{y}.png', __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg')
-        );
-        
-        $this->RendererClass = '\StaticMap\Renderer\Gd';
-        
         $this->tmpDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'StaticMapTests';
         if (!file_exists($this->tmpDir)) {
             @mkdir($this->tmpDir, 0777, true);
@@ -39,15 +30,10 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $this->removeDir($this->tmpDir);
     }
 
-    public function _testInheritance()
-    {
-        $classImplements = class_implements($this->Renderer);
-        $this->assertTrue(isset($classImplements['StaticMap\RendererInterface']));
-    }
-
     public function testCalculateBox()
     {
         $Renderer = new LookIntoRenderer(
+            new \Imagine\Gd\Imagine(),
             3,
             new \StaticMap\Size(25, 25),
             new \StaticMap\LatLng(71, 111),
@@ -75,65 +61,53 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
     public function testSmallRender()
     {
-        $RendererClass = new \ReflectionClass($this->RendererClass);
-        $Renderer = $RendererClass->newInstance(
+        $Renderer = new \StaticMap\Renderer(
+            new \Imagine\Gd\Imagine(),
             1,
             new \StaticMap\Size(25, 25),
             new \StaticMap\LatLng(0, 0),
             new \StaticMap\Tiles(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . '{x}/{y}.png', __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg')
         );
 
-        $Renderer->generate();
-
-        $Renderer->save('png', 9, $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderSmallTest.png');
-
-        $Renderer->destroy();
+        $Renderer->generate()->save($this->tmpDir . DIRECTORY_SEPARATOR . 'RenderSmallTest.png');
 
         $this->compareImages(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderSmallTest.png', $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderSmallTest.png', 25);
     }
 
     public function testMediumRender()
     {
-        $RendererClass = new \ReflectionClass($this->RendererClass);
-        $Renderer = $RendererClass->newInstance(
+        $Renderer = new \StaticMap\Renderer(
+            new \Imagine\Gd\Imagine(),
             1,
             new \StaticMap\Size(256, 256),
             new \StaticMap\LatLng(13, 13),
             new \StaticMap\Tiles(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . '{x}/{y}.png', __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg')
         );
 
-        $Renderer->generate();
-
-        $Renderer->save('png', 9, $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderMediumTest.png');
-
-        $Renderer->destroy();
+        $Renderer->generate()->save($this->tmpDir . DIRECTORY_SEPARATOR . 'RenderMediumTest.png');
 
         $this->compareImages(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderMediumTest.png', $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderMediumTest.png', 256);
     }
 
     public function testBigRender()
     {
-        $RendererClass = new \ReflectionClass($this->RendererClass);
-        $Renderer = $RendererClass->newInstance(
+        $Renderer = new \StaticMap\Renderer(
+            new \Imagine\Gd\Imagine(),
             1,
             new \StaticMap\Size(345, 345),
             new \StaticMap\LatLng(-55, 65),
             new \StaticMap\Tiles(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . '{x}/{y}.png', __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg')
         );
 
-        $Renderer->generate();
-
-        $Renderer->save('png', 9, $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderBigTest.png');
-
-        $Renderer->destroy();
+        $Renderer->generate()->save($this->tmpDir . DIRECTORY_SEPARATOR . 'RenderBigTest.png');
 
         $this->compareImages(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderBigTest.png', $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderBigTest.png', 345);
     }
     
     public function testCenterBlip()
     {
-        $RendererClass = new \ReflectionClass($this->RendererClass);
-        $Renderer = $RendererClass->newInstance(
+        $Renderer = new \StaticMap\Renderer(
+            new \Imagine\Gd\Imagine(),
             1,
             new \StaticMap\Size(256, 256),
             new \StaticMap\LatLng(13, 13),
@@ -142,11 +116,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         
         $Renderer->addCenterBlip();
 
-        $Renderer->generate();
-
-        $Renderer->save('png', 9, $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderCenterBlipTest.png');
-
-        $Renderer->destroy();
+        $Renderer->generate()->save($this->tmpDir . DIRECTORY_SEPARATOR . 'RenderCenterBlipTest.png');
 
         $this->compareImages(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderCenterBlipTest.png', $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderCenterBlipTest.png', 256);
     }
