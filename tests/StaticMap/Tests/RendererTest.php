@@ -35,7 +35,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $Renderer = new LookIntoRenderer(
             new \Imagine\Gd\Imagine(),
             3,
-            new \StaticMap\Size(25, 25),
+            new \Imagine\Image\Box(25, 25),
             new \StaticMap\LatLng(71, 111),
             new \StaticMap\Tiles(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . '{x}/{y}.png', __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg')
         );
@@ -54,7 +54,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(363, $box['crop']->getWidth());
         $this->assertEquals(429, $box['crop']->getHeight());
 
-        $this->assertTrue($box['base'] instanceof \StaticMap\Size);
+        $this->assertTrue($box['base'] instanceof \Imagine\Image\Box);
         $this->assertEquals(768, $box['base']->getWidth());
         $this->assertEquals(768, $box['base']->getHeight());
     }
@@ -64,7 +64,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $Renderer = new \StaticMap\Renderer(
             new \Imagine\Gd\Imagine(),
             1,
-            new \StaticMap\Size(25, 25),
+            new \Imagine\Image\Box(25, 25),
             new \StaticMap\LatLng(0, 0),
             new \StaticMap\Tiles(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . '{x}/{y}.png', __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg')
         );
@@ -79,7 +79,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $Renderer = new \StaticMap\Renderer(
             new \Imagine\Gd\Imagine(),
             1,
-            new \StaticMap\Size(256, 256),
+            new \Imagine\Image\Box(256, 256),
             new \StaticMap\LatLng(13, 13),
             new \StaticMap\Tiles(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . '{x}/{y}.png', __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg')
         );
@@ -94,7 +94,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $Renderer = new \StaticMap\Renderer(
             new \Imagine\Gd\Imagine(),
             1,
-            new \StaticMap\Size(345, 345),
+            new \Imagine\Image\Box(345, 345),
             new \StaticMap\LatLng(-55, 65),
             new \StaticMap\Tiles(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . '{x}/{y}.png', __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg')
         );
@@ -109,7 +109,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $Renderer = new \StaticMap\Renderer(
             new \Imagine\Gd\Imagine(),
             1,
-            new \StaticMap\Size(256, 256),
+            new \Imagine\Image\Box(256, 256),
             new \StaticMap\LatLng(13, 13),
             new \StaticMap\Tiles(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . '{x}/{y}.png', __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg')
         );

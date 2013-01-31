@@ -64,11 +64,11 @@ class Renderer
      */
     private $blips = array();
 
-    public function __construct(\Imagine\Image\ImagineInterface $imagine, $zoom, \StaticMap\Size $size, \StaticMap\LatLng $center, \StaticMap\Tiles $tiles)
+    public function __construct(\Imagine\Image\ImagineInterface $imagine, $zoom, \Imagine\Image\Box $size, \StaticMap\LatLng $center, \StaticMap\Tiles $tiles)
     {
         $this->imagine = $imagine;
         $this->zoom = $zoom;
-        $this->size = new \Imagine\Image\Box($size->getWidth(), $size->getHeight());
+        $this->size = $size;
         $this->center = $center;
         $this->tiles = $tiles;
     }
@@ -82,7 +82,7 @@ class Renderer
     {
         $box = $this->calculateBox();
         
-        $this->resultImage = $this->imagine->create(new \Imagine\Image\Box($box['base']->getWidth(), $box['base']->getHeight()));
+        $this->resultImage = $this->imagine->create($box['base']);
         $jj = 0;
         for ($i = $box['tiles']['start']->getHeight(); $i < $box['tiles']['stop']->getHeight(); $i++) {
             $ii = 0;
@@ -201,7 +201,7 @@ class Renderer
                 'stop' => new \StaticMap\Size($tile_width_stop, $tile_height_stop),
             ),
             'crop' => new \StaticMap\Size($upper_x + self::tileSize, $upper_y + self::tileSize),
-            'base' => new \StaticMap\Size((($max_width_count + 2) * self::tileSize), (($max_height_count + 2) * self::tileSize)),
+            'base' => new \Imagine\Image\Box((($max_width_count + 2) * self::tileSize), (($max_height_count + 2) * self::tileSize)),
         );
     }
 
