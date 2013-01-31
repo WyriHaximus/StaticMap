@@ -17,9 +17,22 @@ namespace StaticMap;
  * @package StaticMap
  * @author  Cees-Jan Kiewiet <ceesjank@gmail.com>
  */
-abstract class Renderer
+final class Renderer
 {
     const tileSize = 256;
+
+    /**
+     * Imagine instance
+     * @var \Imagine\Image\ImagineInterface
+     */
+    private $imagine;
+    
+    /**
+     * Property containing the image under construction
+     * 
+     * @var \Imagine\Image\ImageInterface 
+     */
+    private $resultImage;
 
     /**
      * Value for the zoom
@@ -51,51 +64,106 @@ abstract class Renderer
      */
     private $blips = array();
 
-    public function __construct($zoom, \StaticMap\Size $size, \StaticMap\LatLng $center, \StaticMap\Tiles $tiles)
+    public function __construct(\Imagine\Image\ImagineInterface $imagine, $zoom, \StaticMap\Size $size, \StaticMap\LatLng $center, \StaticMap\Tiles $tiles)
     {
+        $this->imagine = $imagine;
         $this->zoom = $zoom;
-        $this->size = $size;
+        $this->size = new \Imagine\Image\Box($size->getWidth(), $size->getHeight());
         $this->center = $center;
         $this->tiles = $tiles;
     }
-
+    
+    /**
+     * Generate the static map image and add blips to it if any are found
+     * 
+     * @return \Imagine\Image\ImageInterface The resulting image
+     */
     public function generate()
     {
         $box = $this->calculateBox();
-
-        $this->createCropImage($box['base']);
-
+        
+        $this->resultImage = $this->imagine->create(new \Imagine\Image\Box($box['base']->getWidth(), $box['base']->getHeight()));
         $jj = 0;
-        for ($i = $box['tiles']['start']->getHeight(); $i <= $box['tiles']['stop']->getHeight(); $i++) {
+        for ($i = $box['tiles']['start']->getHeight(); $i < $box['tiles']['stop']->getHeight(); $i++) {
             $ii = 0;
-            for ($j = $box['tiles']['start']->getWidth(); $j <= $box['tiles']['stop']->getWidth(); $j++) {
-                $this->addTile($this->tiles->getTile($j, $i), new \StaticMap\Size(($ii * self::tileSize), ($jj * self::tileSize)));
+            for ($j = $box['tiles']['start']->getWidth(); $j < $box['tiles']['stop']->getWidth(); $j++) {
+                $this->addTile($this->tiles->getTile($j, $i), new \Imagine\Image\Point(($ii * self::tileSize), ($jj * self::tileSize)));
                 $ii++;
             }
             $jj++;
         }
-
-        $this->createBaseImage($this->size);
-        $this->crop($box['crop'], $this->size);
+        
+        $this->resultImage->crop(new \Imagine\Image\Point($box['crop']->getWidth(), $box['crop']->getHeight()), $this->size);
 
         foreach ($this->blips as $blip) {
             $this->drawBlip($blip);
         }
+        
+        return $this->resultImage;
     }
-
-    public function addCenterBlip()
+    
+    /**
+     * Add a blip to the center of the image
+     * 
+     * @param string $image
+     */
+    public function addCenterBlip($image = null)
     {
-        $imageSize = getimagesize(__DIR__ . DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png');
-        $this->addBlip(new \StaticMap\Size((($this->size->getWidth() - $imageSize[0]) / 2), (($this->size->getHeight() - $imageSize[1]) / 2)), __DIR__ . DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png');
+        if (is_null($image)) {
+            $image = __DIR__ . DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
+        }
+        $imageSize = getimagesize($image);
+        $this->addBlip(
+            new \Imagine\Image\Point((($this->size->getWidth() - $imageSize[0]) / 2), (($this->size->getHeight() - $imageSize[1]) / 2)),
+            $image
+        );
     }
-
-    public function addBlip($position, $image)
+    
+    /**
+     * Add a blip the collection of blips to be drawn
+     * 
+     * @param \Imagine\Image\Point $position
+     * @param string $image
+     */
+    public function addBlip(\Imagine\Image\Point $position, $image)
     {
         $this->blips[] = array(
             'position' => $position,
             'image' => $image,
-            'imageSize' => getimagesize($image),
         );
+    }
+    
+    /**
+     * Add a tile to the base image
+     * 
+     * @param string $tileFileName
+     * @param \Imagine\Image\Point $point
+     * @todo Get rid of the try catch
+     */
+    protected function addTile($tileFileName, \Imagine\Image\Point $point)
+    {
+        try {
+            $this->resultImage->paste(
+                $this->imagine->open($tileFileName),
+                $point
+            );
+        } catch(\Exception $e) {}
+    }
+    
+    /**
+     * Draw a blip on the image
+     * 
+     * @param array $blip
+     * @todo Get rid of the try catch
+     */
+    protected function drawBlip($blip)
+    {
+        try {
+            $this->resultImage->paste(
+                $this->imagine->open($blip['image']),
+                $blip['position']
+            );
+        } catch(\Exception $e) {}
     }
 
     /**
