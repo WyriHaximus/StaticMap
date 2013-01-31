@@ -29,6 +29,13 @@ class RendererTest extends \PHPUnit_Framework_TestCase
     {
         $this->removeDir($this->tmpDir);
     }
+    
+    public function imagineProvider()
+    {
+        return array(
+            array(new \Imagine\Gd\Imagine()),
+        );
+    }
 
     public function testCalculateBox()
     {
@@ -59,10 +66,13 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(768, $box['base']->getHeight());
     }
 
-    public function testSmallRender()
+    /**
+     * @dataProvider imagineProvider
+     */
+    public function testSmallRender($Imagine)
     {
         $Renderer = new \StaticMap\Renderer(
-            new \Imagine\Gd\Imagine(),
+            $Imagine,
             1,
             new \Imagine\Image\Box(25, 25),
             new \StaticMap\LatLng(0, 0),
@@ -74,10 +84,13 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $this->compareImages(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderSmallTest.png', $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderSmallTest.png', 25);
     }
 
-    public function testMediumRender()
+    /**
+     * @dataProvider imagineProvider
+     */
+    public function testMediumRender($Imagine)
     {
         $Renderer = new \StaticMap\Renderer(
-            new \Imagine\Gd\Imagine(),
+            $Imagine,
             1,
             new \Imagine\Image\Box(256, 256),
             new \StaticMap\LatLng(13, 13),
@@ -89,10 +102,13 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $this->compareImages(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderMediumTest.png', $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderMediumTest.png', 256);
     }
 
-    public function testBigRender()
+    /**
+     * @dataProvider imagineProvider
+     */
+    public function testBigRender($Imagine)
     {
         $Renderer = new \StaticMap\Renderer(
-            new \Imagine\Gd\Imagine(),
+            $Imagine,
             1,
             new \Imagine\Image\Box(345, 345),
             new \StaticMap\LatLng(-55, 65),
@@ -104,10 +120,13 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $this->compareImages(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderBigTest.png', $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderBigTest.png', 345);
     }
     
-    public function testCenterBlip()
+    /**
+     * @dataProvider imagineProvider
+     */
+    public function testCenterBlip($Imagine)
     {
         $Renderer = new \StaticMap\Renderer(
-            new \Imagine\Gd\Imagine(),
+            $Imagine,
             1,
             new \Imagine\Image\Box(256, 256),
             new \StaticMap\LatLng(13, 13),
