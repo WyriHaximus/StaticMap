@@ -17,7 +17,7 @@ namespace StaticMap;
  * @package StaticMap
  * @author  Cees-Jan Kiewiet <ceesjank@gmail.com>
  */
-final class Renderer
+class Renderer
 {
     const tileSize = 256;
 
