@@ -10,7 +10,7 @@ branches:
 before_script:
   - composer self-update
   - composer install
-script: phpunit -c phpunit.xml.travisci --coverage-text
+script: phpunit --coverage-text
 notifications:
   irc: "irc.freenode.org#wyrihaximus"
   webhooks:
