@@ -6,7 +6,7 @@ class TilesTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetTile()
     {
-        $tileDirectory = __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR;
+        $tileDirectory = __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'Simple' . DIRECTORY_SEPARATOR;
         $Tiles = new \StaticMap\Tiles($tileDirectory . '{x}/{y}.png', 'fallback.img');
 
         $this->assertSame($tileDirectory . '0/0.png', $Tiles->getTile(0, 0));
