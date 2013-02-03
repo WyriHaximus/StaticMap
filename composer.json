@@ -1,7 +1,7 @@
 {
     "name": "wyrihaximus/staticmap",
     "description": "PHP implementation of the Google Maps Static API",
-    "homepage": "http://wyrihaximus.net/projects/php/staticmap",
+    "homepage": "http://wyrihaximus.net/projects/php/staticmap.html",
     "license": "MIT",
     "keywords": [
         "maps",
