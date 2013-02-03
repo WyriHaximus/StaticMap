@@ -49,17 +49,17 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
         $box = $Renderer->calculateBox();
 
-        $this->assertTrue($box['tiles']['start'] instanceof \StaticMap\Size);
-        $this->assertEquals(5, $box['tiles']['start']->getWidth());
-        $this->assertEquals(0, $box['tiles']['start']->getHeight());
+        $this->assertTrue($box['tiles']['start'] instanceof \Imagine\Image\Point);
+        $this->assertEquals(6, $box['tiles']['start']->getX());
+        $this->assertEquals(1, $box['tiles']['start']->getY());
 
-        $this->assertTrue($box['tiles']['stop'] instanceof \StaticMap\Size);
-        $this->assertEquals(9, $box['tiles']['stop']->getWidth());
-        $this->assertEquals(4, $box['tiles']['stop']->getHeight());
+        $this->assertTrue($box['tiles']['stop'] instanceof \Imagine\Image\Point);
+        $this->assertEquals(9, $box['tiles']['stop']->getX());
+        $this->assertEquals(4, $box['tiles']['stop']->getY());
 
-        $this->assertTrue($box['crop'] instanceof \StaticMap\Size);
-        $this->assertEquals(363, $box['crop']->getWidth());
-        $this->assertEquals(429, $box['crop']->getHeight());
+        $this->assertTrue($box['crop'] instanceof \Imagine\Image\Point);
+        $this->assertEquals(363, $box['crop']->getX());
+        $this->assertEquals(429, $box['crop']->getY());
 
         $this->assertTrue($box['base'] instanceof \Imagine\Image\Box);
         $this->assertEquals(768, $box['base']->getWidth());

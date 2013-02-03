@@ -42,7 +42,7 @@ class Renderer
 
     /**
      * Image size
-     * @var \StaticMap\Size
+     * @var \Imagine\Image\Box
      */
     private $size;
 
@@ -77,6 +77,7 @@ class Renderer
      * Generate the static map image and add blips to it if any are found
      * 
      * @return \Imagine\Image\ImageInterface The resulting image
+     * @todo I dislike the way \Imagine\Image\Point is used
      */
     public function generate()
     {
@@ -84,16 +85,16 @@ class Renderer
         
         $this->resultImage = $this->imagine->create($box['base']);
         $jj = 0;
-        for ($i = $box['tiles']['start']->getHeight(); $i < $box['tiles']['stop']->getHeight(); $i++) {
+        for ($i = ($box['tiles']['start']->getY() - 1); $i < $box['tiles']['stop']->getY(); $i++) {
             $ii = 0;
-            for ($j = $box['tiles']['start']->getWidth(); $j < $box['tiles']['stop']->getWidth(); $j++) {
+            for ($j = ($box['tiles']['start']->getX() - 1); $j < $box['tiles']['stop']->getX(); $j++) {
                 $this->addTile($this->tiles->getTile($j, $i), new \Imagine\Image\Point(($ii * self::tileSize), ($jj * self::tileSize)));
                 $ii++;
             }
             $jj++;
         }
         
-        $this->resultImage->crop(new \Imagine\Image\Point($box['crop']->getWidth(), $box['crop']->getHeight()), $this->size);
+        $this->resultImage->crop($box['crop'], $this->size);
 
         foreach ($this->blips as $blip) {
             $this->drawBlip($blip);
@@ -197,10 +198,10 @@ class Renderer
 
         return array(
             'tiles' => array(
-                'start' => new \StaticMap\Size($tile_width_start - 1, $tile_height_start - 1),
-                'stop' => new \StaticMap\Size($tile_width_stop, $tile_height_stop),
+                'start' => new \Imagine\Image\Point($tile_width_start, $tile_height_start),
+                'stop' => new \Imagine\Image\Point($tile_width_stop, $tile_height_stop),
             ),
-            'crop' => new \StaticMap\Size($upper_x + self::tileSize, $upper_y + self::tileSize),
+            'crop' => new \Imagine\Image\Point(round($upper_x + self::tileSize), round($upper_y + self::tileSize)),
             'base' => new \Imagine\Image\Box((($max_width_count + 2) * self::tileSize), (($max_height_count + 2) * self::tileSize)),
         );
     }
