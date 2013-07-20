@@ -21,7 +21,9 @@
         "imagine/Imagine": "0.4.*"
     },
     "require-dev": {
-        "satooshi/php-coveralls": "~0.6"
+        "satooshi/php-coveralls": "~0.6",
+        "ext-gd": "*",
+        "ext-imagick": "*"
     },
     "autoload": {
         "psr-0": {
