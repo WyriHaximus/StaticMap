@@ -22,8 +22,7 @@
     },
     "require-dev": {
         "satooshi/php-coveralls": "~0.6",
-        "ext-gd": "*",
-        "ext-imagick": "*"
+        "ext-gd": "*"
     },
     "autoload": {
         "psr-0": {

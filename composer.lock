@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "e1b86eef9bebc7546f3c1a7dd5058368",
+    "hash": "24ef7b5eab2aca990a538cca8e33b451",
     "packages": [
         {
             "name": "imagine/imagine",
@@ -560,7 +560,6 @@
         "php": ">=5.3"
     },
     "platform-dev": {
-        "ext-gd": "*",
-        "ext-imagick": "*"
+        "ext-gd": "*"
     }
 }
