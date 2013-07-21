@@ -12,7 +12,7 @@
 namespace StaticMap;
 
 /**
- * Abstract renderer providing a based for Gd and Convert renderers.
+ * Renderer using given Imagine instance.
  *
  * @package StaticMap
  * @author  Cees-Jan Kiewiet <ceesjank@gmail.com>
@@ -20,7 +20,7 @@ namespace StaticMap;
 class Renderer
 {
     const tileSize = 256;
-
+    
     /**
      * Imagine instance
      * @var \Imagine\Image\ImagineInterface
@@ -33,37 +33,37 @@ class Renderer
      * @var \Imagine\Image\ImageInterface 
      */
     private $resultImage;
-
+    
     /**
      * Value for the zoom
      * @var int
      */
     private $zoom;
-
+    
     /**
      * Image size
      * @var \Imagine\Image\Box
      */
     private $size;
-
+    
     /**
      * LatLng center
      * @var \StaticMap\LatLng
      */
     private $center;
-
+    
     /**
      * Tile image resolver
      * @var \StaticMap\Tiles
      */
     private $tiles;
-
+    
     /**
      * Array with blips (points of interest)
      * @var array
      */
     private $blips = array();
-
+    
     public function __construct(\Imagine\Image\ImagineInterface $imagine, $zoom, \Imagine\Image\Box $size, \StaticMap\LatLng $center, \StaticMap\Tiles $tiles)
     {
         $this->imagine = $imagine;
@@ -95,7 +95,7 @@ class Renderer
         }
         
         $this->resultImage->crop($box['crop'], $this->size);
-
+        
         foreach ($this->blips as $blip) {
             $this->drawBlip($blip);
         }
@@ -166,7 +166,7 @@ class Renderer
             );
         } catch(\Exception $e) {}
     }
-
+    
     /**
      *
      * @return array
@@ -176,26 +176,26 @@ class Renderer
     {
         $max_height_count = ceil($this->size->getHeight() / self::tileSize);
         $max_width_count = ceil($this->size->getWidth() / self::tileSize);
-
+        
         $tile_count = pow(2, $this->zoom);
         $pixel_count = $tile_count * self::tileSize;
-
+        
         $x = ($pixel_count * (180 + $this->center->getLng()) / 360) % $pixel_count;
-
+        
         $lat = ($this->center->getLat() * M_PI) / 180;
-
+        
         $y = log(tan(($lat / 2) + M_PI_4));
         $y = ($pixel_count / 2) - ($pixel_count * $y / (2 * M_PI));
-
+        
         $tile_height_start = floor($y / self::tileSize) - floor($max_height_count / 2);
         $tile_width_start = floor($x / self::tileSize) - floor($max_width_count / 2);
-
+        
         $tile_height_stop = $tile_height_start + $max_height_count + 2;
         $tile_width_stop = $tile_width_start + $max_width_count + 2;
-
+        
         $upper_y = $y - floor($this->size->getHeight() / 2) - ($tile_height_start * self::tileSize);
         $upper_x = $x - floor($this->size->getWidth() / 2) - ($tile_width_start * self::tileSize);
-
+        
         return array(
             'tiles' => array(
                 'start' => new \Imagine\Image\Point($tile_width_start, $tile_height_start),
@@ -205,5 +205,5 @@ class Renderer
             'base' => new \Imagine\Image\Box((($max_width_count + 2) * self::tileSize), (($max_height_count + 2) * self::tileSize)),
         );
     }
-
+    
 }
