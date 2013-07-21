@@ -34,7 +34,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             new \Imagine\Gd\Imagine(),
-            new \Imagine\Imagick\Imagine(),
+            //new \Imagine\Imagick\Imagine(), // Disabled for now
         );
     }
 
