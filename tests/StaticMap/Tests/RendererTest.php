@@ -33,7 +33,8 @@ class RendererTest extends \PHPUnit_Framework_TestCase
     public function imagineProvider()
     {
         return array(
-            array(new \Imagine\Gd\Imagine()),
+            new \Imagine\Gd\Imagine(),
+            new \Imagine\Imagick\Imagine(),
         );
     }
 
@@ -66,10 +67,22 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(768, $box['base']->getHeight());
     }
 
+    public function testSmallRenderProvider() {
+        $return = array();
+        $imagines = $this->imagineProvider();
+        foreach ($imagines as $imagine) {
+            $return[] = array(
+                json_decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderSmallTest.json')),
+                $imagine,
+            );
+        }
+        return $return;
+    }
+    
     /**
-     * @dataProvider imagineProvider
+     * @dataProvider testSmallRenderProvider
      */
-    public function testSmallRender($Imagine)
+    public function testSmallRender($checkPoints, $Imagine)
     {
         $Renderer = new \StaticMap\Renderer(
             $Imagine,
@@ -81,13 +94,25 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
         $Renderer->generate()->save($this->tmpDir . DIRECTORY_SEPARATOR . 'RenderSmallTest.png');
 
-        $this->compareImages(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderSmallTest.png', $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderSmallTest.png', 25);
+        $this->compareImages($checkPoints, $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderSmallTest.png', 25);
+    }
+
+    public function testMediumRenderProvider() {
+        $return = array();
+        $imagines = $this->imagineProvider();
+        foreach ($imagines as $imagine) {
+            $return[] = array(
+                json_decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderMediumTest.json')),
+                $imagine,
+            );
+        }
+        return $return;
     }
 
     /**
-     * @dataProvider imagineProvider
+     * @dataProvider testMediumRenderProvider
      */
-    public function testMediumRender($Imagine)
+    public function testMediumRender($checkPoints, $Imagine)
     {
         $Renderer = new \StaticMap\Renderer(
             $Imagine,
@@ -99,13 +124,25 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
         $Renderer->generate()->save($this->tmpDir . DIRECTORY_SEPARATOR . 'RenderMediumTest.png');
 
-        $this->compareImages(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderMediumTest.png', $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderMediumTest.png', 256);
+        $this->compareImages($checkPoints, $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderMediumTest.png', 256);
+    }
+
+    public function testBigRenderProvider() {
+        $return = array();
+        $imagines = $this->imagineProvider();
+        foreach ($imagines as $imagine) {
+            $return[] = array(
+                json_decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderBigTest.json')),
+                $imagine,
+            );
+        }
+        return $return;
     }
 
     /**
-     * @dataProvider imagineProvider
+     * @dataProvider testBigRenderProvider
      */
-    public function testBigRender($Imagine)
+    public function testBigRender($checkPoints, $Imagine)
     {
         $Renderer = new \StaticMap\Renderer(
             $Imagine,
@@ -117,13 +154,25 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
         $Renderer->generate()->save($this->tmpDir . DIRECTORY_SEPARATOR . 'RenderBigTest.png');
 
-        $this->compareImages(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderBigTest.png', $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderBigTest.png', 345);
+        $this->compareImages($checkPoints, $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderBigTest.png', 345);
     }
-    
+
+    public function testCenterBlipProvider() {
+        $return = array();
+        $imagines = $this->imagineProvider();
+        foreach ($imagines as $imagine) {
+            $return[] = array(
+                json_decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderCenterBlipTest.json')),
+                $imagine,
+            );
+        }
+        return $return;
+    }
+
     /**
-     * @dataProvider imagineProvider
+     * @dataProvider testCenterBlipProvider
      */
-    public function testCenterBlip($Imagine)
+    public function testCenterBlip($checkPoints, $Imagine)
     {
         $Renderer = new \StaticMap\Renderer(
             $Imagine,
@@ -137,16 +186,13 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
         $Renderer->generate()->save($this->tmpDir . DIRECTORY_SEPARATOR . 'RenderCenterBlipTest.png');
 
-        $this->compareImages(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderCenterBlipTest.png', $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderCenterBlipTest.png', 256);
+        $this->compareImages($checkPoints, $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderCenterBlipTest.png', 256);
     }
 
-    public function _testSmallJpegRender()
-    {
-    }
-
+    /*
     public function _testOutputRender()
     {
-    }
+    }*/
 
     private function removeDir($target)
     {
@@ -166,32 +212,24 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         rmdir($target);
     }
 
-    private function compareImages($fileGood, $fileResult, $size)
+    private function compareImages($checkPoints, $fileResult, $size)
     {
         $imSizeResult = getimagesize($fileResult);
-        
         $this->assertEquals($size, $imSizeResult[0]);
         $this->assertEquals($size, $imSizeResult[1]);
         
-        $imGood = imagecreatefrompng($fileGood);
         $imResult = imagecreatefrompng($fileResult);
 
-        for ($i = 0; $i < $size; $i++) {
-            for ($j = 0; $j < $size; $j++) {
-                $rgbGood = @imagecolorat($imGood, $i, $j);
-                $colorsGood = imagecolorsforindex($imGood, $rgbGood);
+        foreach ($checkPoints as $checkPoint) {
+            $rgbResult = @imagecolorat($imResult, $checkPoint->point->x, $checkPoint->point->y);
+            $colorsResult = imagecolorsforindex($imResult, $rgbResult);
 
-                $rgbResult = @imagecolorat($imResult, $i, $j);
-                $colorsResult = imagecolorsforindex($imResult, $rgbResult);
-
-                $this->assertEquals($colorsGood['red'], $colorsResult['red']);
-                $this->assertEquals($colorsGood['green'], $colorsResult['green']);
-                $this->assertEquals($colorsGood['blue'], $colorsResult['blue']);
-                $this->assertEquals($colorsGood['alpha'], $colorsResult['alpha']);
-            }
+            $this->assertEquals($checkPoint->colors->red, $colorsResult['red']);
+            $this->assertEquals($checkPoint->colors->green, $colorsResult['green']);
+            $this->assertEquals($checkPoint->colors->blue, $colorsResult['blue']);
+            $this->assertEquals($checkPoint->colors->alpha, $colorsResult['alpha']);
         }
 
-        imagedestroy($imGood);
         imagedestroy($imResult);
     }
 
