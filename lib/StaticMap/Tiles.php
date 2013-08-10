@@ -16,7 +16,7 @@ final class Tiles
     private $location;
     private $fallbackImage;
 
-    public function __construct($location, $fallbackImage)
+    public function __construct($location, $fallbackImage = '')
     {
         $this->location = $location;
         $this->fallbackImage = $fallbackImage;
@@ -32,7 +32,7 @@ final class Tiles
             $y,
         ), $this->location);
 
-        if (file_exists($fileName)) {
+        if (empty($this->fallbackImage) || file_exists($fileName)) {
             return $fileName;
         } else {
             return $this->fallbackImage;

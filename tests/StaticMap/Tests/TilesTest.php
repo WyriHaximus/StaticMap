@@ -20,5 +20,11 @@ class TilesTest extends \PHPUnit_Framework_TestCase
         $Tiles = new \StaticMap\Tiles('{x}/{y}', 'fallback.img');
         $this->assertSame('fallback.img', $Tiles->getTile(3, 4));
     }
+    
+    public function testNoFallback()
+    {
+        $Tiles = new \StaticMap\Tiles('{x}/{y}.png');
+        $this->assertSame('0/0.png', $Tiles->getTile(0, 0));
+    }
 
 }
