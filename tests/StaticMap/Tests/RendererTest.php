@@ -15,7 +15,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->tmpDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'StaticMapTests';
+        $this->tmpDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'StaticMapTests_' . md5(time() . uniqid());
         if (!file_exists($this->tmpDir)) {
             @mkdir($this->tmpDir, 0777, true);
         }
