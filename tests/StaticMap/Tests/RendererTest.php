@@ -50,15 +50,15 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
         $box = $Renderer->calculateBox();
 
-        $this->assertTrue($box['tiles']['start'] instanceof \Imagine\Image\Point);
+        $this->assertTrue($box['tiles']['start'] instanceof \StaticMap\Point);
         $this->assertEquals(6, $box['tiles']['start']->getX());
         $this->assertEquals(1, $box['tiles']['start']->getY());
 
-        $this->assertTrue($box['tiles']['stop'] instanceof \Imagine\Image\Point);
+        $this->assertTrue($box['tiles']['stop'] instanceof \StaticMap\Point);
         $this->assertEquals(9, $box['tiles']['stop']->getX());
         $this->assertEquals(4, $box['tiles']['stop']->getY());
 
-        $this->assertTrue($box['crop'] instanceof \Imagine\Image\Point);
+        $this->assertTrue($box['crop'] instanceof \StaticMap\Point);
         $this->assertEquals(363, $box['crop']->getX());
         $this->assertEquals(429, $box['crop']->getY());
 

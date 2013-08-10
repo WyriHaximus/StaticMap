@@ -77,7 +77,7 @@ class Renderer
      * Generate the static map image and add blips to it if any are found
      * 
      * @return \Imagine\Image\ImageInterface The resulting image
-     * @todo I dislike the way \Imagine\Image\Point is used
+     * @todo I dislike the way Point is used
      */
     public function generate()
     {
@@ -88,7 +88,7 @@ class Renderer
         for ($i = ($box['tiles']['start']->getY() - 1); $i < $box['tiles']['stop']->getY(); $i++) {
             $ii = 0;
             for ($j = ($box['tiles']['start']->getX() - 1); $j < $box['tiles']['stop']->getX(); $j++) {
-                $this->addTile($this->tiles->getTile($j, $i), new \Imagine\Image\Point(($ii * self::tileSize), ($jj * self::tileSize)));
+                $this->addTile($this->tiles->getTile($j, $i), new Point(($ii * self::tileSize), ($jj * self::tileSize)));
                 $ii++;
             }
             $jj++;
@@ -115,7 +115,7 @@ class Renderer
         }
         $imageSize = getimagesize($image);
         $this->addBlip(
-            new \Imagine\Image\Point((($this->size->getWidth() - $imageSize[0]) / 2), (($this->size->getHeight() - $imageSize[1]) / 2)),
+            new Point((($this->size->getWidth() - $imageSize[0]) / 2), (($this->size->getHeight() - $imageSize[1]) / 2)),
             $image
         );
     }
@@ -123,10 +123,10 @@ class Renderer
     /**
      * Add a blip the collection of blips to be drawn
      * 
-     * @param \Imagine\Image\Point $position
+     * @param Point $position
      * @param string $image
      */
-    public function addBlip(\Imagine\Image\Point $position, $image)
+    public function addBlip(Point $position, $image)
     {
         $this->blips[] = array(
             'position' => $position,
@@ -138,10 +138,10 @@ class Renderer
      * Add a tile to the base image
      * 
      * @param string $tileFileName
-     * @param \Imagine\Image\Point $point
+     * @param Point $point
      * @todo Get rid of the try catch
      */
-    protected function addTile($tileFileName, \Imagine\Image\Point $point)
+    protected function addTile($tileFileName, Point $point)
     {
         try {
             $this->resultImage->paste(
@@ -198,10 +198,10 @@ class Renderer
         
         return array(
             'tiles' => array(
-                'start' => new \Imagine\Image\Point($tile_width_start, $tile_height_start),
-                'stop' => new \Imagine\Image\Point($tile_width_stop, $tile_height_stop),
+                'start' => new Point($tile_width_start, $tile_height_start),
+                'stop' => new Point($tile_width_stop, $tile_height_stop),
             ),
-            'crop' => new \Imagine\Image\Point(round($upper_x + self::tileSize), round($upper_y + self::tileSize)),
+            'crop' => new Point(round($upper_x + self::tileSize), round($upper_y + self::tileSize)),
             'base' => new \Imagine\Image\Box((($max_width_count + 2) * self::tileSize), (($max_height_count + 2) * self::tileSize)),
         );
     }
