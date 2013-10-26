@@ -18,7 +18,7 @@ use \Imagine\Image\BoxInterface;
 /**
  * The point class
  */
-final class Point implements PointInterface
+class Point implements PointInterface
 {
     /**
      * @var integer
