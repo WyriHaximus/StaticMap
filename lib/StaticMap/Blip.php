@@ -6,20 +6,22 @@ class Blip {
 
 	protected $latLng;
 	protected $image;
+	protected $imageSize;
 
-    public static function create(LatLng $latlng, $image = null) {
+    public static function create(LatLng $latLng, $image = null) {
 		if (is_null($image) || !file_exists($image)) {
 			$image = __DIR__ . DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
 		}
 
-        $instance = new self($latlng, $image);
+        $instance = new self($latLng, $image);
         
         return $instance;
     }
 
-	public function __construct(LatLng $latlng, $image) {
-		$this->latLng = $latlng;
+	public function __construct(LatLng $latLng, $image) {
+		$this->latLng = $latLng;
 		$this->image = $image;
+		$this->imageSize = getimagesize($image);
 	}
 
 	public function getLatLng() {
@@ -27,6 +29,19 @@ class Blip {
 	}
 	public function getImage() {
 		return $this->image;
+	}
+
+	public function calculatePosition(Point $center, \Imagine\Image\Box $size, $zoom) {
+		$topLeft = new Point(
+			$center->getX() - ($size->getWidth() / 2),
+			$center->getY() - ($size->getHeight() / 2)
+		);
+		$blipPoint = \StaticMap\Geo::calculatePoint($this->latLng, $zoom);
+
+		return new Point(
+			$blipPoint->getX() - $topLeft->getX() - ($this->imageSize[0] / 2),
+			$blipPoint->getY() - $topLeft->getY() - ($this->imageSize[1] / 2)
+		);
 	}
     
 }

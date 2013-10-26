@@ -84,4 +84,23 @@ class BlipTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($latLng, $resultBlip->getLatLng());
 	}
 
+	public function testCalculatePositionProvider() {
+		return array(
+			array(
+				new \StaticMap\Point(1097, 949.40161077744),
+				3,
+				new \StaticMap\LatLng(13, 13),
+				new \Imagine\Image\Box(12, 12),
+				new \StaticMap\Point(0.5, 0.5),
+			),
+		);
+	}
+	/**
+	 * @dataProvider testCalculatePositionProvider
+	 */
+	public function testCalculatePosition(\StaticMap\Point $center, $zoom, \StaticMap\LatLng $latLngBlip, \Imagine\Image\Box $size, \StaticMap\Point $blipPoint) {
+		$resultBlip = \StaticMap\Blip::create($latLngBlip);
+		$this->assertEquals($blipPoint, $resultBlip->calculatePosition($center, $size, $zoom));
+	}
+
 }
