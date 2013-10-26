@@ -11,7 +11,6 @@
 
 namespace StaticMap;
 
-
 use \Imagine\Image\PointInterface;
 use \Imagine\Image\BoxInterface;
 
