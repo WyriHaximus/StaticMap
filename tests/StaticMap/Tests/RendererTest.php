@@ -9,11 +9,6 @@ class LookIntoRenderer extends \StaticMap\Renderer
         return parent::calculateBox();
     }
 
-	public function calculatePoint(\StaticMap\LatLng $latLon)
-    {
-        return parent::calculatePoint($latLon);
-    }
-
 }
 
 class RendererTest extends \PHPUnit_Framework_TestCase
@@ -42,73 +37,6 @@ class RendererTest extends \PHPUnit_Framework_TestCase
             //new \Imagine\Imagick\Imagine(), // Disabled for now
         );
     }
-
-    public function testCalculateBox()
-    {
-        $Renderer = new LookIntoRenderer(
-            new \Imagine\Gd\Imagine(),
-            3,
-            new \Imagine\Image\Box(25, 25),
-            new \StaticMap\LatLng(71, 111),
-            new \StaticMap\Tiles(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'Simple' . DIRECTORY_SEPARATOR . '{x}/{y}.png', __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg')
-        );
-
-        $box = $Renderer->calculateBox();
-
-        $this->assertTrue($box['tiles']['start'] instanceof \StaticMap\Point);
-        $this->assertEquals(6, $box['tiles']['start']->getX());
-        $this->assertEquals(1, $box['tiles']['start']->getY());
-
-        $this->assertTrue($box['tiles']['stop'] instanceof \StaticMap\Point);
-        $this->assertEquals(9, $box['tiles']['stop']->getX());
-        $this->assertEquals(4, $box['tiles']['stop']->getY());
-
-        $this->assertTrue($box['crop'] instanceof \StaticMap\Point);
-        $this->assertEquals(363, $box['crop']->getX());
-        $this->assertEquals(429, $box['crop']->getY());
-
-        $this->assertTrue($box['base'] instanceof \Imagine\Image\Box);
-        $this->assertEquals(768, $box['base']->getWidth());
-        $this->assertEquals(768, $box['base']->getHeight());
-    }
-
-	public function testCalculatePointProvider() {
-		return array(
-			// #1
-			array(
-				new \StaticMap\LatLng(71, 111),
-				3,
-				new \StaticMap\Point(1655, 441.29647761708),
-			),
-			// #2
-			array(
-				new \StaticMap\LatLng(-50, 66),
-				1,
-				new \StaticMap\Point(349, 338.35787539394),
-			),
-			// #3
-			array(
-				new \StaticMap\LatLng(-189, 53),
-				7,
-				new \StaticMap\Point(21208, 16384),
-			),
-		);
-	}
-	/**
-	 * @dataProvider testCalculatePointProvider
-	 */
-	public function testCalculatePoint(\StaticMap\LatLng $latLon, $zoom, \StaticMap\Point $point) {
-		$Renderer = new LookIntoRenderer(
-			new \Imagine\Gd\Imagine(),
-			$zoom,
-			new \Imagine\Image\Box(25, 25),
-			new \StaticMap\LatLng(71, 111),
-			new \StaticMap\Tiles(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'Simple' . DIRECTORY_SEPARATOR . '{x}/{y}.png', __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg')
-		);
-
-		$resultPoint = $Renderer->calculatePoint($latLon);
-		$this->assertEquals($point, $resultPoint);
-	}
 
     public function testSmallRenderProvider() {
         $return = array();
