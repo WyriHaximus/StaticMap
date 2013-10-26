@@ -64,12 +64,13 @@ class Renderer
      */
     private $blips = array();
     
-    public function __construct(\Imagine\Image\ImagineInterface $imagine, $zoom, \Imagine\Image\Box $size, \StaticMap\LatLng $center, \StaticMap\Tiles $tiles)
+    public function __construct(\Imagine\Image\ImagineInterface $imagine, $zoom, \Imagine\Image\Box $size, LatLng $center, Tiles $tiles)
     {
         $this->imagine = $imagine;
         $this->zoom = $zoom;
         $this->size = $size;
         $this->center = $center;
+        $this->centerPoint = $this->calculatePoint($this->center);
         $this->tiles = $tiles;
     }
     
@@ -110,12 +111,8 @@ class Renderer
      */
     public function addCenterBlip($image = null)
     {
-        if (is_null($image)) {
-            $image = __DIR__ . DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
-        }
-        $imageSize = getimagesize($image);
         $this->addBlip(
-            new Point((($this->size->getWidth() - $imageSize[0]) / 2), (($this->size->getHeight() - $imageSize[1]) / 2)),
+            $this->center,
             $image
         );
     }
@@ -126,8 +123,12 @@ class Renderer
      * @param Point $position
      * @param string $image
      */
-    public function addBlip(Point $position, $image)
+    public function addBlip(LatLng $position, $image = null)
     {
+        if (is_null($image)) {
+            $image = __DIR__ . DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
+        }
+
         $this->blips[] = array(
             'position' => $position,
             'image' => $image,
@@ -160,8 +161,11 @@ class Renderer
     protected function drawBlip($blip)
     {
         try {
+            $imageSize  = getimagesize($blip['image']);
             $this->resultImage->paste(
                 $this->imagine->open($blip['image']),
+                //new Point((($this->size->getWidth() - $imageSize[0]) / 2), (($this->size->getHeight() - $imageSize[1]) / 2)),
+                new Point((($this->size->getWidth() - $imageSize[0]) / 2), (($this->size->getHeight() - $imageSize[1]) / 2)),
                 $blip['position']
             );
         } catch(\Exception $e) {}
@@ -177,25 +181,15 @@ class Renderer
         $max_height_count = ceil($this->size->getHeight() / self::tileSize);
         $max_width_count = ceil($this->size->getWidth() / self::tileSize);
         
-        $tile_count = pow(2, $this->zoom);
-        $pixel_count = $tile_count * self::tileSize;
-        
-        $x = ($pixel_count * (180 + $this->center->getLng()) / 360) % $pixel_count;
-        
-        $lat = ($this->center->getLat() * M_PI) / 180;
-        
-        $y = log(tan(($lat / 2) + M_PI_4));
-        $y = ($pixel_count / 2) - ($pixel_count * $y / (2 * M_PI));
-        
-        $tile_height_start = floor($y / self::tileSize) - floor($max_height_count / 2);
-        $tile_width_start = floor($x / self::tileSize) - floor($max_width_count / 2);
+        $tile_height_start = floor($this->centerPoint->getY() / self::tileSize) - floor($max_height_count / 2);
+        $tile_width_start = floor($this->centerPoint->getX() / self::tileSize) - floor($max_width_count / 2);
         
         $tile_height_stop = $tile_height_start + $max_height_count + 2;
         $tile_width_stop = $tile_width_start + $max_width_count + 2;
         
-        $upper_y = $y - floor($this->size->getHeight() / 2) - ($tile_height_start * self::tileSize);
-        $upper_x = $x - floor($this->size->getWidth() / 2) - ($tile_width_start * self::tileSize);
-        
+        $upper_y = $this->centerPoint->getY() - floor($this->size->getHeight() / 2) - ($tile_height_start * self::tileSize);
+        $upper_x = $this->centerPoint->getX() - floor($this->size->getWidth() / 2) - ($tile_width_start * self::tileSize);
+
         return array(
             'tiles' => array(
                 'start' => new Point($tile_width_start, $tile_height_start),
@@ -204,6 +198,17 @@ class Renderer
             'crop' => new Point(round($upper_x + self::tileSize), round($upper_y + self::tileSize)),
             'base' => new \Imagine\Image\Box((($max_width_count + 2) * self::tileSize), (($max_height_count + 2) * self::tileSize)),
         );
+    }
+
+    protected function calculatePoint(LatLng $latLon) {
+        $tile_count = pow(2, $this->zoom);
+        $pixel_count = $tile_count * self::tileSize;
+
+        $x = ($pixel_count * (180 + $latLon->getLng()) / 360) % $pixel_count;
+        $lat = ($latLon->getLat() * M_PI) / 180;
+        $y = log(tan(($lat / 2) + M_PI_4));
+        $y = ($pixel_count / 2) - ($pixel_count * $y / (2 * M_PI));
+        return new Point($x, $y);
     }
     
 }
