@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace StaticMap;
+namespace WyriHaximus\StaticMap;
 
 /**
  * Renderer using given Imagine instance.
@@ -48,13 +48,13 @@ class Renderer
     
     /**
      * LatLng center
-     * @var \StaticMap\LatLng
+     * @var \WyriHaximus\StaticMap\LatLng
      */
     private $center;
     
     /**
      * Tile image resolver
-     * @var \StaticMap\Tiles
+     * @var \WyriHaximus\StaticMap\Tiles
      */
     private $tiles;
     

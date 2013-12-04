@@ -1,6 +1,6 @@
 <?php
 
-namespace StaticMap;
+namespace WyriHaximus\StaticMap;
 
 class Blip {
 
@@ -36,7 +36,7 @@ class Blip {
 			$center->getX() - ($size->getWidth() / 2),
 			$center->getY() - ($size->getHeight() / 2)
 		);
-		$blipPoint = \StaticMap\Geo::calculatePoint($this->latLng, $zoom);
+		$blipPoint = \WyriHaximus\StaticMap\Geo::calculatePoint($this->latLng, $zoom);
 
 		return new Point(
 			$blipPoint->getX() - $topLeft->getX() - ($this->imageSize[0] / 2),

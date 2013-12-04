@@ -2,12 +2,12 @@
 <phpunit bootstrap="tests/bootstrap.php" colors="true">
     <testsuites>
         <testsuite name="StaticMap Test Suite">
-            <directory>tests/StaticMap/</directory>
+            <directory>tests/WyriHaximus/StaticMap/</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
-            <directory suffix=".php">lib/StaticMap/</directory>
+            <directory suffix=".php">src/WyriHaximus/StaticMap/</directory>
         </whitelist>
     </filter>
 </phpunit>

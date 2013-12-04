@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace StaticMap;
+namespace WyriHaximus\StaticMap;
 
 /**
  * Storage for lat, lng pair values.
