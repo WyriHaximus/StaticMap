@@ -22,10 +22,13 @@ class Geo
 	const tileSize = 256;
 
 	/**
+	 * Calculate the box variables by the given size and center
 	 *
+	 * @param \Imagine\Image\Box $size
+	 * @param Point $center
 	 * @return array
 	 */
-	public static function calculateBox($size, $center)
+	public static function calculateBox(\Imagine\Image\Box $size, Point $center)
 	{
 		$max_height_count = ceil($size->getHeight() / self::tileSize);
 		$max_width_count = ceil($size->getWidth() / self::tileSize);
@@ -49,6 +52,13 @@ class Geo
 		);
 	}
 
+	/**
+	 * Calculate the pixel point for the given latitude and longitude
+	 *
+	 * @param LatLng $latLon
+	 * @param $zoom
+	 * @return Point
+	 */
 	public static function calculatePoint(LatLng $latLon, $zoom) {
 		$tile_count = pow(2, $zoom);
 		$pixel_count = $tile_count * self::tileSize;

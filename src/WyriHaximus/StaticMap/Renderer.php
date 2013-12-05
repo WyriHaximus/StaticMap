@@ -150,10 +150,10 @@ class Renderer
     /**
      * Draw a blip on the image
      * 
-     * @param array $blip
+     * @param \WyriHaximus\StaticMap\Blip $blip
      * @todo Get rid of the try catch
      */
-    protected function drawBlip($blip)
+    protected function drawBlip(Blip $blip)
     {
         try {
             $this->resultImage->paste(
