@@ -135,7 +135,6 @@ class Renderer
      * 
      * @param string $tileFileName
      * @param Point $point
-     * @todo Get rid of the try catch
      */
     protected function addTile($tileFileName, Point $point)
     {
@@ -151,7 +150,6 @@ class Renderer
      * Draw a blip on the image
      * 
      * @param \WyriHaximus\StaticMap\Blip $blip
-     * @todo Get rid of the try catch
      */
     protected function drawBlip(Blip $blip)
     {
