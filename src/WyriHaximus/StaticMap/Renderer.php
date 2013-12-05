@@ -85,9 +85,15 @@ class Renderer
         
         $this->resultImage = $this->imagine->create($box['base']);
         $jj = 0;
-        for ($i = ($box['tiles']['start']->getY() - 1); $i < $box['tiles']['stop']->getY(); $i++) {
+
+		$xStart = $box['tiles']['start']->getX();
+		$xStop = $box['tiles']['stop']->getX();
+		$yStart = $box['tiles']['start']->getY();
+		$yStop = $box['tiles']['stop']->getY();
+
+        for ($i = ($yStart - 1); $i < $yStop; $i++) {
             $ii = 0;
-            for ($j = ($box['tiles']['start']->getX() - 1); $j < $box['tiles']['stop']->getX(); $j++) {
+            for ($j = ($xStart - 1); $j < $xStop; $j++) {
                 $this->addTile($this->tiles->getTile($j, $i), new Point(($ii * self::tileSize), ($jj * self::tileSize)));
                 $ii++;
             }
