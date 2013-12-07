@@ -9,3 +9,20 @@ StaticMap
 
 Static Google Maps clone in PHP
 
+## Getting started ##
+
+#### 1. Requirements ####
+
+This plugin depends on the following plugins and libraries and are pulled in by composer later on:
+
+- `ext-gd`
+
+#### 2. Composer ####
+
+Make sure you have [composer](http://getcomposer.org/) installed.
+
+```json
+"wyrihaximus/staticmap": "dev-master"
+```
+
+When you've set everything up, run `composer install`.
