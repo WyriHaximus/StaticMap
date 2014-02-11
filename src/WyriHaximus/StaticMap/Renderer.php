@@ -19,8 +19,6 @@ namespace WyriHaximus\StaticMap;
  */
 class Renderer
 {
-    const tileSize = 256;
-    
     /**
      * Imagine instance
      * @var \Imagine\Image\ImagineInterface
@@ -94,7 +92,7 @@ class Renderer
         for ($i = ($yStart - 1); $i < $yStop; $i++) {
             $ii = 0;
             for ($j = ($xStart - 1); $j < $xStop; $j++) {
-                $this->addTile($this->tiles->getTile($j, $i), new Point(($ii * self::tileSize), ($jj * self::tileSize)));
+                $this->addTile($this->tiles->getTile($j, $i), new Point(($ii * Geo::TILE_SIZE), ($jj * Geo::TILE_SIZE)));
                 $ii++;
             }
             $jj++;
