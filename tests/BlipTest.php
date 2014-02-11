@@ -5,7 +5,7 @@ namespace WyriHaximus\WyriHaximus\StaticMap\Tests;
 class BlipTest extends \PHPUnit_Framework_TestCase {
 
 	public function testCreateProvider() {
-		$defaultImage = dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'WyriHaximus' . DIRECTORY_SEPARATOR . 'StaticMap' . DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
+		$defaultImage = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
 		return array(
 			array(
 				new \WyriHaximus\StaticMap\LatLng(71, 111),
@@ -30,7 +30,7 @@ class BlipTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testGetImageProvider() {
-		$defaultImage = dirname(dirname(dirname(dirname(dirname(__FILE__))))) . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'WyriHaximus' . DIRECTORY_SEPARATOR . 'StaticMap' . DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
+		$defaultImage = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
 
 		return array(
 			array(
