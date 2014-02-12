@@ -8,9 +8,9 @@ use WyriHaximus\StaticMap\Point;
 
 class PointTest extends \PHPUnit_Framework_TestCase {
 	/**
-	 * @covers Imagine\Image\Point::getX
-	 * @covers Imagine\Image\Point::getY
-	 * @covers Imagine\Image\Point::in
+	 * @covers WyriHaximus\StaticMap\Point::getX
+	 * @covers WyriHaximus\StaticMap\Point::getY
+	 * @covers WyriHaximus\StaticMap\Point::in
 	 *
 	 * @dataProvider getCoordinates
 	 *
@@ -46,9 +46,9 @@ class PointTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Imagine\Image\Point::getX
-	 * @covers Imagine\Image\Point::getY
-	 * @covers Imagine\Image\Point::move
+	 * @covers WyriHaximus\StaticMap\Point::getX
+	 * @covers WyriHaximus\StaticMap\Point::getY
+	 * @covers WyriHaximus\StaticMap\Point::move
 	 *
 	 * @dataProvider getMoves
 	 *
@@ -78,7 +78,7 @@ class PointTest extends \PHPUnit_Framework_TestCase {
 	}
 
 	/**
-	 * @covers Imagine\Image\Point::__toString
+	 * @covers WyriHaximus\StaticMap\Point::__toString
 	 */
 	public function testToString()
 	{
