@@ -63,6 +63,7 @@ class PointTest extends \PHPUnit_Framework_TestCase {
 		$point = new Point($x, $y);
 		$shift = $point->move($move);
 
+		$this->assertInstanceOf('\WyriHaximus\StaticMap\Point', $shift);
 		$this->assertEquals($x1, $shift->getX());
 		$this->assertEquals($y1, $shift->getY());
 	}
