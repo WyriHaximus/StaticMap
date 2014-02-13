@@ -19,7 +19,7 @@ This plugin depends on the following plugins and libraries and are pulled in by 
 
 #### 2. Composer ####
 
-Make sure you have [composer](http://getcomposer.org/) installed.
+Make sure you have [composer](http://getcomposer.org/) installed and add the following to your require section.
 
 ```json
 "wyrihaximus/staticmap": "dev-master"
