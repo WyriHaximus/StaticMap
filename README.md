@@ -17,12 +17,14 @@ This plugin depends on the following plugins and libraries and are pulled in by 
 
 - `ext-gd`
 
-#### 2. Composer ####
+### 2. Installation ###
 
-Make sure you have [composer](http://getcomposer.org/) installed and add the following to your require section.
+Installation is easy with [composer](http://getcomposer.org/) just add StaticMap to your composer.json.
 
 ```json
-"wyrihaximus/staticmap": "dev-master"
+{
+	"require": {
+		"wyrihaximus/staticmap": "dev-master"
+	}
+}
 ```
-
-When you've set everything up, run `composer install`.
