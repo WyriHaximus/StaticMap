@@ -26,7 +26,11 @@
     },
     "autoload": {
         "psr-4": {
-            "WyriHaximus\\StaticMap\\": "src/",
+            "WyriHaximus\\StaticMap\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "WyriHaximus\\StaticMap\\Tests\\": "tests/"
         }
     }
