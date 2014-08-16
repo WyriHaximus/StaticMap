@@ -147,7 +147,9 @@ class Renderer
                 $this->imagine->open($tileFileName),
                 $point
             );
-        } catch(\Exception $e) {}
+        } catch(\Exception $e) {
+            // Most likely an exception about a out of bounds past, we'll just ignore that
+        }
     }
     
     /**
@@ -162,7 +164,9 @@ class Renderer
                 $this->imagine->open($blip->getImage()),
 				$blip->calculatePosition($this->centerPoint, $this->size, $this->zoom)
             );
-        } catch(\Exception $e) {}
+        } catch(\Exception $e) {
+            // Most likely an exception about a out of bounds past, we'll just ignore that
+        }
     }
     
 }
