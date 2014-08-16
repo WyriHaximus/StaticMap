@@ -10,18 +10,40 @@
  */
 
 namespace WyriHaximus\StaticMap;
-
+/**
+ * Renderer using given Imagine instance.
+ *
+ * @package StaticMap
+ * @author  Cees-Jan Kiewiet <ceesjank@gmail.com>
+ */
 final class Tiles
 {
+    /**
+     * @var string
+     */
     private $location;
+
+    /**
+     * @var string
+     */
     private $fallbackImage;
 
+    /**
+     * @param string $location
+     * @param string $fallbackImage
+     */
     public function __construct($location, $fallbackImage = '')
     {
         $this->location = $location;
         $this->fallbackImage = $fallbackImage;
     }
 
+    /**
+     * @param string $x
+     * @param string $y
+     *
+     * @return string
+     */
     public function getTile($x, $y)
     {
         $fileName = str_replace(array(

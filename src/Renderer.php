@@ -127,7 +127,6 @@ class Renderer
      * Add a blip the collection of blips to be drawn
      * 
      * @param Blip $blip
-     * @param string $image
      */
     public function addBlip(Blip $blip)
     {

@@ -93,14 +93,14 @@ final class LatLng
      * @param  int $value      Value to be sanitized
      * @param  int $rangeBegin Begin of the range
      * @param  int $rangeEnd   End of the range
-     * @return int Sanitized and correctly forced value
+     * @return int|bool
      */
-    private function sanitized($int, $rangeBegin, $rangeEnd)
+    private function sanitized($value, $rangeBegin, $rangeEnd)
     {
-        $int = floatval($int);
+        $value = floatval($value);
 
-        if ($int >= $rangeBegin && $rangeEnd >= $int) {
-            return $int;
+        if ($value >= $rangeBegin && $rangeEnd >= $value) {
+            return $value;
         } else {
             return false;
         }

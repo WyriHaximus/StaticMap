@@ -35,7 +35,7 @@ class Blip {
 
     /**
      * @param LatLng $latLng
-     * @param null $image
+     * @param string|null $image
      *
      * @return Blip
      */
@@ -67,7 +67,7 @@ class Blip {
 	}
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getImage() {
 		return $this->image;
@@ -76,7 +76,7 @@ class Blip {
     /**
      * @param Point $center
      * @param \Imagine\Image\Box $size
-     * @param $zoom
+     * @param int $zoom
      *
      * @return Point
      */
