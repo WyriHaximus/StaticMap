@@ -49,6 +49,12 @@ class Renderer
      * @var \WyriHaximus\StaticMap\LatLng
      */
     private $center;
+
+    /**
+     * LatLng center Point
+     * @var Point
+     */
+    private $centerPoint;
     
     /**
      * Tile image resolver
