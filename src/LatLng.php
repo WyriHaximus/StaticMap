@@ -47,7 +47,7 @@ final class LatLng
 
     /**
      * Set the value for the lat and returns the stored value
-     * @param  type $lat
+     * @param  int $lat
      * @return int
      */
     public function setLat($lat)
@@ -68,7 +68,7 @@ final class LatLng
 
     /**
      * Set the value for the lng and returns the stored value
-     * @param  type $lng
+     * @param  int $lng
      * @return int
      */
     public function setLng($lng)
