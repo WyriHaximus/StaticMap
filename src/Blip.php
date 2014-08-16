@@ -51,7 +51,7 @@ class Blip {
 
     /**
      * @param LatLng $latLng
-     * @param $image
+     * @param string $image
      */
     public function __construct(LatLng $latLng, $image) {
 		$this->latLng = $latLng;
