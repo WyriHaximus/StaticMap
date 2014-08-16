@@ -21,13 +21,13 @@ final class LatLng
 {
     /**
      * Value for the lat
-     * @var int
+     * @var double
      */
     private $lat;
 
     /**
      * Value for the lng
-     * @var int
+     * @var double
      */
     private $lng;
 
@@ -36,8 +36,8 @@ final class LatLng
      *
      * All value's will be sanitized and forced in a certain range.
      *
-     * @param int $lat lat
-     * @param int $lng lng
+     * @param double $lat lat
+     * @param double $lng lng
      */
     public function __construct($lat, $lng)
     {
@@ -47,8 +47,8 @@ final class LatLng
 
     /**
      * Set the value for the lat and returns the stored value
-     * @param  int $lat
-     * @return int
+     * @param  double $lat
+     * @return double
      */
     public function setLat($lat)
     {
@@ -59,7 +59,7 @@ final class LatLng
 
     /**
      * Returns the value for the lat
-     * @return int
+     * @return double
      */
     public function getLat()
     {
@@ -68,8 +68,8 @@ final class LatLng
 
     /**
      * Set the value for the lng and returns the stored value
-     * @param  int $lng
-     * @return int
+     * @param  double $lng
+     * @return double
      */
     public function setLng($lng)
     {
@@ -80,7 +80,7 @@ final class LatLng
 
     /**
      * Returns the value for the lng
-     * @return int
+     * @return double
      */
     public function getLng()
     {
@@ -90,11 +90,11 @@ final class LatLng
     /**
      * Sanitize value to be int and between $rangeBegin and $rangeend.
      *
-     * @param  int $value      Value to be sanitized
-     * @param  int $rangeBegin Begin of the range
-     * @param  int $rangeEnd   End of the range
-     * @param  int $default    Value to use incase $value is invalid
-     * @return int
+     * @param  double $value      Value to be sanitized
+     * @param  double $rangeBegin Begin of the range
+     * @param  double $rangeEnd   End of the range
+     * @param  double $default    Value to use incase $value is invalid
+     * @return double
      */
     private function sanitized($value, $rangeBegin, $rangeEnd, $default)
     {
