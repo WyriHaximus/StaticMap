@@ -116,7 +116,7 @@ class Renderer
     /**
      * Add a blip to the center of the image
      * 
-     * @param string $image
+     * @param string|null $image
      */
     public function addCenterBlip($image = null)
     {
