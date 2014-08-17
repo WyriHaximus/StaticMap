@@ -11,6 +11,9 @@
 
 namespace WyriHaximus\StaticMap;
 
+use Imagine\Image\Box;
+use Imagine\Image\ImagineInterface;
+
 /**
  * Renderer using given Imagine instance.
  *
@@ -68,7 +71,7 @@ class Renderer
      */
     private $blips = array();
     
-    public function __construct(\Imagine\Image\ImagineInterface $imagine, $zoom, \Imagine\Image\Box $size, LatLng $center, Tiles $tiles)
+    public function __construct(ImagineInterface $imagine, $zoom, Box $size, LatLng $center, Tiles $tiles)
     {
         $this->imagine = $imagine;
         $this->zoom = $zoom;

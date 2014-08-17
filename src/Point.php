@@ -11,8 +11,8 @@
 
 namespace WyriHaximus\StaticMap;
 
-use \Imagine\Image\PointInterface;
-use \Imagine\Image\BoxInterface;
+use Imagine\Image\PointInterface;
+use Imagine\Image\BoxInterface;
 
 /**
  * The point class
