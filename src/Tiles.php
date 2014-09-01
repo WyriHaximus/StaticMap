@@ -48,8 +48,8 @@ final class Tiles
     }
 
     /**
-     * @param $x
-     * @param $y
+     * @param integer $x
+     * @param integer $y
      *
      * @return \React\Promise\Promise
      */
