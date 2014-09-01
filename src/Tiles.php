@@ -10,6 +10,10 @@
  */
 
 namespace WyriHaximus\StaticMap;
+
+use React\Promise\Deferred;
+use WyriHaximus\StaticMap\Loader\LoaderInterface;
+
 /**
  * Renderer using given Imagine instance.
  *
@@ -29,6 +33,11 @@ final class Tiles
     private $fallbackImage;
 
     /**
+     * @var LoaderInterface
+     */
+    private $loader;
+
+    /**
      * @param string $location
      * @param string $fallbackImage
      */
@@ -39,10 +48,10 @@ final class Tiles
     }
 
     /**
-     * @param string $x
-     * @param string $y
+     * @param $x
+     * @param $y
      *
-     * @return string
+     * @return \React\Promise\Promise
      */
     public function getTile($x, $y)
     {
@@ -54,11 +63,23 @@ final class Tiles
             $y,
         ), $this->location);
 
-        if (empty($this->fallbackImage) || file_exists($fileName)) {
-            return $fileName;
-        } else {
-            return $this->fallbackImage;
-        }
+        $deferred = new Deferred();
+
+        $this->loader->imageExists($fileName)->then(function() use($deferred, $fileName) {
+            $deferred->resolve($fileName);
+        }, function() use($deferred, $fileName) {
+            if (empty($this->fallbackImage)) {
+                $deferred->resolve($fileName);
+            } else {
+                $deferred->resolve($this->fallbackImage);
+            }
+        });
+
+        return $deferred->promise();
+    }
+
+    public function setLoader(LoaderInterface $loader) {
+        $this->loader = $loader;
     }
 
 }

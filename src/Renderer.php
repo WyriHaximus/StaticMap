@@ -13,6 +13,9 @@ namespace WyriHaximus\StaticMap;
 
 use Imagine\Image\Box;
 use Imagine\Image\ImagineInterface;
+use React\Promise\Promise;
+use WyriHaximus\StaticMap\Loader\LoaderInterface;
+use WyriHaximus\StaticMap\Loader\Simple;
 
 /**
  * Renderer using given Imagine instance.
@@ -70,8 +73,13 @@ class Renderer
      * @var array
      */
     private $blips = array();
+
+    /**
+     * @var LoaderInterface
+     */
+    private $loader;
     
-    public function __construct(ImagineInterface $imagine, $zoom, Box $size, LatLng $center, Tiles $tiles)
+    public function __construct(ImagineInterface $imagine, $zoom, Box $size, LatLng $center, Tiles $tiles, LoaderInterface $loader = null)
     {
         $this->imagine = $imagine;
         $this->zoom = $zoom;
@@ -79,6 +87,13 @@ class Renderer
         $this->center = $center;
         $this->centerPoint = Geo::calculatePoint($this->center, $this->zoom);
         $this->tiles = $tiles;
+
+        if ($loader === null) {
+            $loader = new Simple();
+        }
+        $this->loader = $loader;
+
+        $this->tiles->setLoader($this->loader);
     }
     
     /**
@@ -106,12 +121,16 @@ class Renderer
             }
             $jj++;
         }
+
+        $this->loader->run();
         
         $this->resultImage->crop($box['crop'], $this->size);
         
         foreach ($this->blips as $blip) {
             $this->drawBlip($blip);
         }
+
+        $this->loader->run();
         
         return $this->resultImage;
     }
@@ -139,19 +158,16 @@ class Renderer
     /**
      * Add a tile to the base image
      * 
-     * @param string $tileFileName
+     * @param Promise $promise
      * @param Point $point
      */
-    protected function addTile($tileFileName, Point $point)
+    protected function addTile(Promise $promise, Point $point)
     {
-        try {
-            $this->resultImage->paste(
-                $this->imagine->open($tileFileName),
-                $point
-            );
-        } catch(\Exception $e) {
-            // Most likely an exception about a out of bounds past, we'll just ignore that
-        }
+        $promise->then(function($fileName) use ($point) {
+            $this->loader->addImage($fileName)->then(function($image) use ($point) {
+                $this->drawImage($image, $point);
+            });
+        });
     }
     
     /**
@@ -161,10 +177,17 @@ class Renderer
      */
     protected function drawBlip(Blip $blip)
     {
+        $this->loader->addImage($blip->getImage())->then(function($image) use ($blip) {
+            $this->drawImage($image, $blip->calculatePosition($this->centerPoint, $this->size, $this->zoom));
+        });
+    }
+
+    protected function drawImage($image, Point $point)
+    {
         try {
             $this->resultImage->paste(
-                $this->imagine->open($blip->getImage()),
-				$blip->calculatePosition($this->centerPoint, $this->size, $this->zoom)
+                $this->imagine->load($image),
+                $point
             );
         } catch(\Exception $e) {
             // Most likely an exception about a out of bounds past, we'll just ignore that

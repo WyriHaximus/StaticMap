@@ -2,6 +2,8 @@
 
 namespace WyriHaximus\WyriHaximus\StaticMap\Tests;
 
+use WyriHaximus\StaticMap\Loader\Async;
+
 class LookIntoRenderer extends \WyriHaximus\StaticMap\Renderer
 {
     public function calculateBox()
@@ -15,7 +17,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->tmpDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'StaticMapTests_' . md5(time() . uniqid());
+        $this->tmpDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'StaticMapTests_' . md5(time() . uniqid()) . md5(serialize($this->getName(true)));
         if (!file_exists($this->tmpDir)) {
             @mkdir($this->tmpDir, 0777, true);
         }
@@ -60,7 +62,8 @@ class RendererTest extends \PHPUnit_Framework_TestCase
             1,
             new \Imagine\Image\Box(25, 25),
             new \WyriHaximus\StaticMap\LatLng(0, 0),
-            new \WyriHaximus\StaticMap\Tiles(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'Simple' . DIRECTORY_SEPARATOR . '{x}/{y}.png', __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg')
+            new \WyriHaximus\StaticMap\Tiles(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'Simple' . DIRECTORY_SEPARATOR . '{x}/{y}.png', __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg'),
+            new Async()
         );
 
         $Renderer->generate()->save($this->tmpDir . DIRECTORY_SEPARATOR . 'RenderSmallTest.png');

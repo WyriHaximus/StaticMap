@@ -17,8 +17,12 @@
         }
     ],
     "require": {
-        "php": ">=5.3",
-        "imagine/Imagine": "0.4.*"
+        "php": ">=5.4",
+        "imagine/Imagine": "0.4.*",
+        "react/promise": "~2.0",
+        "react/stream": "0.4.*",
+        "react/event-loop": "0.4.*",
+        "wyrihaximus/react-guzzle": "dev-master"
     },
     "require-dev": {
         "satooshi/php-coveralls": "~0.6",
