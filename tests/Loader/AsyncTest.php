@@ -18,4 +18,8 @@ class AsyncTest extends AbstractLoaderTest {
         parent::tearDown();
     }
 
+    public function testAddRemoteImagePromise() {
+        $this->assertInstanceOf('React\Promise\PromiseInterface', $this->loader->addImage('http://example.com/black.jpg'));
+    }
+
 }
