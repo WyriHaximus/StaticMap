@@ -26,12 +26,15 @@ interface LoaderInterface {
     public function addImage($url);
 
     /**
-     * @param $url
+     * @param string $url
      *
      * @return \React\Promise\Proimise
      */
     public function imageExists($url);
 
+    /**
+     * @return void
+     */
     public function run();
 
 }
