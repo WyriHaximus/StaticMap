@@ -28,3 +28,34 @@ Installation is easy with [composer](http://getcomposer.org/) just add StaticMap
 	}
 }
 ```
+
+### 3. Example ###
+
+```php
+<?php
+
+use Imagine\Gd\Imagine;
+use Imagine\Image\Box;
+use WyriHaximus\StaticMap;
+
+require 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+
+$width = 256;
+$height = 256;
+$zoom = 7;
+$latitude = 0;
+$longitude = 0;
+
+$renderer = new StaticMap\Renderer(
+    new Imagine(),
+    $zoom,
+    new Box($width, $height),
+    new StaticMap\LatLng($latitude, $longitude),
+    new StaticMap\Tiles('http://example.com/tiles/' . $zoom . '/{x}/{y}.png')
+);
+
+header('Content-Type: image/png');
+echo $renderer->generate()->get('png, array(
+    'quality' => 9,
+));
+```
