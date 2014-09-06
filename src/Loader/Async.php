@@ -26,8 +26,8 @@ use WyriHaximus\React\Guzzle\HttpClientAdapter;
  *
  * @package WyriHaximus\StaticMap\Loader
  */
-class Async implements LoaderInterface {
-
+class Async implements LoaderInterface
+{
     /**
      * @var \React\EventLoop\LoopInterface
      */
@@ -36,7 +36,8 @@ class Async implements LoaderInterface {
     /**
      * @param LoopInterface $loop
      */
-    public function __construct(LoopInterface $loop = null) {
+    public function __construct(LoopInterface $loop = null)
+    {
         if ($loop === null) {
             $loop = Factory::create();
         }
@@ -49,7 +50,8 @@ class Async implements LoaderInterface {
      *
      * @return \React\Promise\Proimise|\React\Promise\Promise
      */
-    public function addImage($url) {
+    public function addImage($url)
+    {
         if(filter_var($url, FILTER_VALIDATE_URL)) {
             return $this->readRemoteFile($url);
         }
@@ -61,12 +63,13 @@ class Async implements LoaderInterface {
      *
      * @return \React\Promise\Promise
      */
-    protected function readRemoteFile($url) {
+    protected function readRemoteFile($url)
+    {
         $deferred = new Deferred();
         $client = new Client([
             'adapter' => new HttpClientAdapter($this->loop),
         ]);
-        $client->get($url)->then(function(Response $response) use ($deferred) {
+        $client->get($url)->then(function (Response $response) use ($deferred) {
             $deferred->resolve($response->getBody()->getContents());
         });
         return $deferred->promise();
@@ -77,7 +80,8 @@ class Async implements LoaderInterface {
      *
      * @return \React\Promise\Promise
      */
-    protected function readLocalFile($url) {
+    protected function readLocalFile($url)
+    {
         $deferred = new Deferred();
 
         $readStream = fopen($url, 'r');
@@ -85,10 +89,10 @@ class Async implements LoaderInterface {
 
         $buffer = '';
         $read = new Stream($readStream, $this->loop);
-        $read->on('data', function($data) use (&$buffer) {
+        $read->on('data', function ($data) use (&$buffer) {
             $buffer .= $data;
         });
-        $read->on('end', function() use ($deferred, &$buffer) {
+        $read->on('end', function () use ($deferred, &$buffer) {
             $deferred->resolve($buffer);
         });
 
@@ -100,7 +104,8 @@ class Async implements LoaderInterface {
      *
      * @return FulfilledPromise|\React\Promise\Proimise|RejectedPromise
      */
-    public function imageExists($url) {
+    public function imageExists($url)
+    {
         if (file_exists($url)) {
             return new FulfilledPromise();
         }
@@ -108,7 +113,8 @@ class Async implements LoaderInterface {
         return new RejectedPromise();
     }
 
-    public function run() {
+    public function run()
+    {
         $this->loop->run();
     }
 

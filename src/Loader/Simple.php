@@ -19,14 +19,15 @@ use React\Promise\RejectedPromise;
  *
  * @package WyriHaximus\StaticMap\Loader
  */
-class Simple implements LoaderInterface {
-
+class Simple implements LoaderInterface
+{
     /**
      * @param string $url
      *
      * @return FulfilledPromise
      */
-    public function addImage($url) {
+    public function addImage($url)
+    {
         return new FulfilledPromise(file_get_contents($url));
     }
 
@@ -35,7 +36,8 @@ class Simple implements LoaderInterface {
      *
      * @return FulfilledPromise|RejectedPromise
      */
-    public function imageExists($url) {
+    public function imageExists($url)
+    {
         if (file_exists($url)) {
             return new FulfilledPromise();
         }
@@ -43,8 +45,8 @@ class Simple implements LoaderInterface {
         return new RejectedPromise();
     }
 
-    public function run() {
-
+    public function run()
+    {
     }
 
 }
