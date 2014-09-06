@@ -5,6 +5,7 @@ tools:
     php_analyzer: true
     php_hhvm: true
     php_sim: true
+    sensiolabs_security_checker: true
     php_code_sniffer:
         extensions:
             - php
