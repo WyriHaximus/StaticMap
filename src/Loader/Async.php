@@ -35,13 +35,20 @@ class Async implements LoaderInterface {
 
     /**
      * @param LoopInterface $loop
+     * @param Client $client
      */
-    public function __construct(LoopInterface $loop = null) {
+    public function __construct(LoopInterface $loop = null, Client $client = null) {
         if ($loop === null) {
             $loop = Factory::create();
         }
-
         $this->loop = $loop;
+
+        if ($client === null) {
+            $client = new Client([
+                'adapter' => new HttpClientAdapter($this->loop),
+            ]);
+        }
+        $this->client = $client;
     }
 
     /**
@@ -62,14 +69,9 @@ class Async implements LoaderInterface {
      * @return \React\Promise\Promise
      */
     protected function readRemoteFile($url) {
-        $deferred = new Deferred();
-        $client = new Client([
-            'adapter' => new HttpClientAdapter($this->loop),
-        ]);
-        $client->get($url)->then(function(Response $response) use ($deferred) {
-            $deferred->resolve($response->getBody()->getContents());
+        return $this->client->get($url)->then(function(Response $response) {
+            return $response->getBody()->getContents();
         });
-        return $deferred->promise();
     }
 
     /**
