@@ -2,46 +2,52 @@
 
 namespace WyriHaximus\StaticMap;
 
-class Blip {
+class Blip
+{
 
-	protected $latLng;
-	protected $image;
-	protected $imageSize;
+    protected $latLng;
+    protected $image;
+    protected $imageSize;
 
-    public static function create(LatLng $latLng, $image = null) {
-		if (is_null($image) || !file_exists($image)) {
-			$image = __DIR__ . DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
-		}
+    public static function create(LatLng $latLng, $image = null)
+    {
+        if (is_null($image) || !file_exists($image)) {
+            $image = __DIR__ . DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
+        }
 
         $instance = new self($latLng, $image);
-        
+
         return $instance;
     }
 
-	public function __construct(LatLng $latLng, $image) {
-		$this->latLng = $latLng;
-		$this->image = $image;
-		$this->imageSize = getimagesize($image);
-	}
+    public function __construct(LatLng $latLng, $image)
+    {
+        $this->latLng = $latLng;
+        $this->image = $image;
+        $this->imageSize = getimagesize($image);
+    }
 
-	public function getLatLng() {
-		return $this->latLng;
-	}
-	public function getImage() {
-		return $this->image;
-	}
+    public function getLatLng()
+    {
+        return $this->latLng;
+    }
 
-	public function calculatePosition(Point $center, \Imagine\Image\Box $size, $zoom) {
-		$topLeft = new Point(
-			$center->getX() - ($size->getWidth() / 2),
-			$center->getY() - ($size->getHeight() / 2)
-		);
-		$blipPoint = \WyriHaximus\StaticMap\Geo::calculatePoint($this->latLng, $zoom);
+    public function getImage()
+    {
+        return $this->image;
+    }
 
-		return new Point(
-			$blipPoint->getX() - $topLeft->getX() - ($this->imageSize[0] / 2),
-			$blipPoint->getY() - $topLeft->getY() - ($this->imageSize[1] / 2)
-		);
-	}
-    
+    public function calculatePosition(Point $center, \Imagine\Image\Box $size, $zoom)
+    {
+        $topLeft = new Point(
+            $center->getX() - ($size->getWidth() / 2),
+            $center->getY() - ($size->getHeight() / 2)
+        );
+        $blipPoint = \WyriHaximus\StaticMap\Geo::calculatePoint($this->latLng, $zoom);
+
+        return new Point(
+            $blipPoint->getX() - $topLeft->getX() - ($this->imageSize[0] / 2),
+            $blipPoint->getY() - $topLeft->getY() - ($this->imageSize[1] / 2)
+        );
+    }
 }

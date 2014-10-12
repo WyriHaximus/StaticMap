@@ -25,11 +25,11 @@ final class Tiles
     public function getTile($x, $y)
     {
         $fileName = str_replace(array(
-            '{x}',
-            '{y}',
+        '{x}',
+        '{y}',
         ), array(
-            $x,
-            $y,
+        $x,
+        $y,
         ), $this->location);
 
         if (empty($this->fallbackImage) || file_exists($fileName)) {
@@ -38,5 +38,4 @@ final class Tiles
             return $this->fallbackImage;
         }
     }
-
 }

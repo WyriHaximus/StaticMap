@@ -90,9 +90,9 @@ final class LatLng
     /**
      * Sanitize value to be int and between $rangeBegin and $rangeend.
      *
-     * @param  int $value      Value to be sanitized
+     * @param  int $value Value to be sanitized
      * @param  int $rangeBegin Begin of the range
-     * @param  int $rangeEnd   End of the range
+     * @param  int $rangeEnd End of the range
      * @return int Sanitized and correctly forced value
      */
     private function sanitized($int, $rangeBegin, $rangeEnd)
@@ -105,5 +105,4 @@ final class LatLng
             return false;
         }
     }
-
 }
