@@ -34,6 +34,11 @@ class Async implements LoaderInterface
     protected $loop;
 
     /**
+     * @var Client
+     */
+    protected $client;
+
+    /**
      * @param LoopInterface $loop
      * @param Client $client
      */
