@@ -79,8 +79,14 @@ class Renderer
      */
     private $loader;
 
-    public function __construct(ImagineInterface $imagine, $zoom, Box $size, LatLng $center, Tiles $tiles, LoaderInterface $loader = null)
-    {
+    public function __construct(
+        ImagineInterface $imagine,
+        $zoom,
+        Box $size,
+        LatLng $center,
+        Tiles $tiles,
+        LoaderInterface $loader = null
+    ) {
         $this->imagine = $imagine;
         $this->zoom = $zoom;
         $this->size = $size;
@@ -192,9 +198,8 @@ class Renderer
                 $this->imagine->load($image),
                 $point
             );
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             // Most likely an exception about a out of bounds past, we'll just ignore that
         }
     }
-
 }

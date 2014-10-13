@@ -52,7 +52,7 @@ class Async implements LoaderInterface
      */
     public function addImage($url)
     {
-        if(filter_var($url, FILTER_VALIDATE_URL)) {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
             return $this->readRemoteFile($url);
         }
         return $this->readLocalFile($url);
@@ -117,5 +117,4 @@ class Async implements LoaderInterface
     {
         $this->loop->run();
     }
-
 }

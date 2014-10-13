@@ -36,5 +36,4 @@ interface LoaderInterface
      * @return void
      */
     public function run();
-
 }

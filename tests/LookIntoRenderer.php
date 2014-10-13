@@ -2,7 +2,9 @@
 
 namespace WyriHaximus\StaticMap\Tests;
 
-class LookIntoRenderer extends \WyriHaximus\StaticMap\Renderer
+use WyriHaximus\StaticMap\Renderer;
+
+class LookIntoRenderer extends Renderer
 {
     public function calculateBox()
     {

@@ -106,5 +106,4 @@ final class LatLng
             return $default;
         }
     }
-
 }

@@ -82,5 +82,4 @@ final class Tiles
     {
         $this->loader = $loader;
     }
-
 }

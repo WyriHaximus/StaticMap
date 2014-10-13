@@ -48,5 +48,4 @@ class Simple implements LoaderInterface
     public function run()
     {
     }
-
 }

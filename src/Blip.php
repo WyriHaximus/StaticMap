@@ -99,5 +99,4 @@ class Blip
             $blipPoint->getY() - $topLeft->getY() - ($this->imageSize[1] / 2)
         );
     }
-
 }

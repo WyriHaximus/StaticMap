@@ -4,8 +4,6 @@ namespace WyriHaximus\StaticMap\Tests;
 
 use WyriHaximus\StaticMap\LatLng;
 
-use WyriHaximus\StaticMap\LatLng;
-
 class LatLngTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()
