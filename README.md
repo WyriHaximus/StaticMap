@@ -24,13 +24,6 @@ To install via [Composer](http://getcomposer.org/), use the command below, it wi
 ```
 composer require wyrihaximus/staticmap 
 ```
-```json
-{
-	"require": {
-		"wyrihaximus/staticmap": "dev-master"
-	}
-}
-```
 
 ### 3. Example ###
 
