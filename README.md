@@ -19,12 +19,8 @@ This plugin depends on the following plugins and libraries and are pulled in by 
 
 ### 2. Installation ###
 
-Installation is easy with [composer](http://getcomposer.org/) just add StaticMap to your composer.json.
+To install via [Composer](http://getcomposer.org/), use the command below, it will automatically detect the latest version and bind it with `~`.
 
-```json
-{
-	"require": {
-		"wyrihaximus/staticmap": "dev-master"
-	}
-}
+```
+composer require wyrihaximus/staticmap 
 ```
