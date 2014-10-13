@@ -65,9 +65,9 @@ final class Tiles
 
         $deferred = new Deferred();
 
-        $this->loader->imageExists($fileName)->then(function() use($deferred, $fileName) {
+        $this->loader->imageExists($fileName)->then(function () use ($deferred, $fileName) {
             $deferred->resolve($fileName);
-        }, function() use($deferred, $fileName) {
+        }, function () use ($deferred, $fileName) {
             if (empty($this->fallbackImage)) {
                 $deferred->resolve($fileName);
             } else {
@@ -78,8 +78,8 @@ final class Tiles
         return $deferred->promise();
     }
 
-    public function setLoader(LoaderInterface $loader) {
+    public function setLoader(LoaderInterface $loader)
+    {
         $this->loader = $loader;
     }
-
 }

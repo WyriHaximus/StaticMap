@@ -1,146 +1,146 @@
 [
-   {
-      "point":{
-         "x":0,
-         "y":0
-      },
-      "colors":{
-         "red":42,
-         "green":0,
-         "blue":255,
-         "alpha":0
-      }
-   },
-   {
-      "point":{
-         "x":79,
-         "y":77
-      },
-      "colors":{
-         "red":42,
-         "green":0,
-         "blue":255,
-         "alpha":0
-      }
-   },
-   {
-      "point":{
-         "x":80,
-         "y":77
-      },
-      "colors":{
-         "red":255,
-         "green":255,
-         "blue":255,
-         "alpha":0
-      }
-   },
-   {
-      "point":{
-         "x":335,
-         "y":0
-      },
-      "colors":{
-         "red":255,
-         "green":255,
-         "blue":255,
-         "alpha":0
-      }
-   },
-   {
-      "point":{
-         "x":0,
-         "y":333
-      },
-      "colors":{
-         "red":0,
-         "green":255,
-         "blue":114,
-         "alpha":0
-      }
-   },
-   {
-      "point":{
-         "x":79,
-         "y":78
-      },
-      "colors":{
-         "red":0,
-         "green":255,
-         "blue":114,
-         "alpha":0
-      }
-   },
-   {
-      "point":{
-         "x":80,
-         "y":78
-      },
-      "colors":{
-         "red":255,
-         "green":0,
-         "blue":0,
-         "alpha":0
-      }
-   },
-   {
-      "point":{
-         "x":335,
-         "y":333
-      },
-      "colors":{
-         "red":255,
-         "green":0,
-         "blue":0,
-         "alpha":0
-      }
-   },
-   {
-      "point":{
-         "x":336,
-         "y":334
-      },
-      "colors":{
-         "red":0,
-         "green":0,
-         "blue":0,
-         "alpha":0
-      }
-   },
-   {
-      "point":{
-         "x":344,
-         "y":344
-      },
-      "colors":{
-         "red":0,
-         "green":0,
-         "blue":0,
-         "alpha":0
-      }
-   },
-   {
-      "point":{
-         "x":0,
-         "y":344
-      },
-      "colors":{
-         "red":0,
-         "green":0,
-         "blue":0,
-         "alpha":0
-      }
-   },
-   {
-      "point":{
-         "x":344,
-         "y":0
-      },
-      "colors":{
-         "red":0,
-         "green":0,
-         "blue":0,
-         "alpha":0
-      }
-   }
+    {
+        "point": {
+            "x": 0,
+            "y": 0
+        },
+        "colors": {
+            "red": 42,
+            "green": 0,
+            "blue": 255,
+            "alpha": 0
+        }
+    },
+    {
+        "point": {
+            "x": 79,
+            "y": 77
+        },
+        "colors": {
+            "red": 42,
+            "green": 0,
+            "blue": 255,
+            "alpha": 0
+        }
+    },
+    {
+        "point": {
+            "x": 80,
+            "y": 77
+        },
+        "colors": {
+            "red": 255,
+            "green": 255,
+            "blue": 255,
+            "alpha": 0
+        }
+    },
+    {
+        "point": {
+            "x": 335,
+            "y": 0
+        },
+        "colors": {
+            "red": 255,
+            "green": 255,
+            "blue": 255,
+            "alpha": 0
+        }
+    },
+    {
+        "point": {
+            "x": 0,
+            "y": 333
+        },
+        "colors": {
+            "red": 0,
+            "green": 255,
+            "blue": 114,
+            "alpha": 0
+        }
+    },
+    {
+        "point": {
+            "x": 79,
+            "y": 78
+        },
+        "colors": {
+            "red": 0,
+            "green": 255,
+            "blue": 114,
+            "alpha": 0
+        }
+    },
+    {
+        "point": {
+            "x": 80,
+            "y": 78
+        },
+        "colors": {
+            "red": 255,
+            "green": 0,
+            "blue": 0,
+            "alpha": 0
+        }
+    },
+    {
+        "point": {
+            "x": 335,
+            "y": 333
+        },
+        "colors": {
+            "red": 255,
+            "green": 0,
+            "blue": 0,
+            "alpha": 0
+        }
+    },
+    {
+        "point": {
+            "x": 336,
+            "y": 334
+        },
+        "colors": {
+            "red": 0,
+            "green": 0,
+            "blue": 0,
+            "alpha": 0
+        }
+    },
+    {
+        "point": {
+            "x": 344,
+            "y": 344
+        },
+        "colors": {
+            "red": 0,
+            "green": 0,
+            "blue": 0,
+            "alpha": 0
+        }
+    },
+    {
+        "point": {
+            "x": 0,
+            "y": 344
+        },
+        "colors": {
+            "red": 0,
+            "green": 0,
+            "blue": 0,
+            "alpha": 0
+        }
+    },
+    {
+        "point": {
+            "x": 344,
+            "y": 0
+        },
+        "colors": {
+            "red": 0,
+            "green": 0,
+            "blue": 0,
+            "alpha": 0
+        }
+    }
 ]

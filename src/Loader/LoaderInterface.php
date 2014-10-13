@@ -16,8 +16,8 @@ namespace WyriHaximus\StaticMap\Loader;
  *
  * @package WyriHaximus\StaticMap\Loader
  */
-interface LoaderInterface {
-
+interface LoaderInterface
+{
     /**
      * @param $url
      *
@@ -36,5 +36,4 @@ interface LoaderInterface {
      * @return void
      */
     public function run();
-
 }

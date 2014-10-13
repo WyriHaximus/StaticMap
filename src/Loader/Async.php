@@ -26,8 +26,8 @@ use WyriHaximus\React\Guzzle\HttpClientAdapter;
  *
  * @package WyriHaximus\StaticMap\Loader
  */
-class Async implements LoaderInterface {
-
+class Async implements LoaderInterface
+{
     /**
      * @var \React\EventLoop\LoopInterface
      */
@@ -56,8 +56,9 @@ class Async implements LoaderInterface {
      *
      * @return \React\Promise\Proimise|\React\Promise\Promise
      */
-    public function addImage($url) {
-        if(filter_var($url, FILTER_VALIDATE_URL)) {
+    public function addImage($url)
+    {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
             return $this->readRemoteFile($url);
         }
         return $this->readLocalFile($url);
@@ -79,7 +80,8 @@ class Async implements LoaderInterface {
      *
      * @return \React\Promise\Promise
      */
-    protected function readLocalFile($url) {
+    protected function readLocalFile($url)
+    {
         $deferred = new Deferred();
 
         $readStream = fopen($url, 'r');
@@ -87,10 +89,10 @@ class Async implements LoaderInterface {
 
         $buffer = '';
         $read = new Stream($readStream, $this->loop);
-        $read->on('data', function($data) use (&$buffer) {
+        $read->on('data', function ($data) use (&$buffer) {
             $buffer .= $data;
         });
-        $read->on('end', function() use ($deferred, &$buffer) {
+        $read->on('end', function () use ($deferred, &$buffer) {
             $deferred->resolve($buffer);
         });
 
@@ -102,7 +104,8 @@ class Async implements LoaderInterface {
      *
      * @return FulfilledPromise|\React\Promise\Proimise|RejectedPromise
      */
-    public function imageExists($url) {
+    public function imageExists($url)
+    {
         if (file_exists($url)) {
             return new FulfilledPromise();
         }
@@ -110,8 +113,8 @@ class Async implements LoaderInterface {
         return new RejectedPromise();
     }
 
-    public function run() {
+    public function run()
+    {
         $this->loop->run();
     }
-
 }

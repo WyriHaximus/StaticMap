@@ -3,21 +3,14 @@
 namespace WyriHaximus\WyriHaximus\StaticMap\Tests;
 
 use WyriHaximus\StaticMap\Loader\Async;
-
-class LookIntoRenderer extends \WyriHaximus\StaticMap\Renderer
-{
-    public function calculateBox()
-    {
-        return parent::calculateBox();
-    }
-
-}
+use WyriHaximus\StaticMap\Tests\TilesTest;
 
 class RendererTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-        $this->tmpDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'StaticMapTests_' . md5(time() . uniqid()) . md5(serialize($this->getName(true)));
+        $this->tmpDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'StaticMapTests_' .
+        md5(time() . uniqid()) . md5(serialize($this->getName(true)));
         if (!file_exists($this->tmpDir)) {
             @mkdir($this->tmpDir, 0777, true);
         }
@@ -40,12 +33,13 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testSmallRenderProvider() {
+    public function testSmallRenderProvider()
+    {
         $return = array();
         $imagines = $this->imagineProvider();
         foreach ($imagines as $imagine) {
             $return[] = array(
-                json_decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderSmallTest.json')),
+                json_decode(file_get_contents(TilesTest::getBaseTilesPath() . 'RenderSmallTest.json')),
                 $imagine,
             );
         }
@@ -62,7 +56,10 @@ class RendererTest extends \PHPUnit_Framework_TestCase
             1,
             new \Imagine\Image\Box(25, 25),
             new \WyriHaximus\StaticMap\LatLng(0, 0),
-            new \WyriHaximus\StaticMap\Tiles(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'Simple' . DIRECTORY_SEPARATOR . '{x}/{y}.png', __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg'),
+            new \WyriHaximus\StaticMap\Tiles(
+                TilesTest::getBaseTilesPath() . 'Simple' . DIRECTORY_SEPARATOR . '{x}/{y}.png',
+                TilesTest::getBaseTilesPath() . 'black.jpg'
+            ),
             new Async()
         );
 
@@ -71,12 +68,13 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $this->compareImages($checkPoints, $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderSmallTest.png', 25);
     }
 
-    public function testMediumRenderProvider() {
+    public function testMediumRenderProvider()
+    {
         $return = array();
         $imagines = $this->imagineProvider();
         foreach ($imagines as $imagine) {
             $return[] = array(
-                json_decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderMediumTest.json')),
+                json_decode(file_get_contents(TilesTest::getBaseTilesPath() . 'RenderMediumTest.json')),
                 $imagine,
             );
         }
@@ -93,7 +91,10 @@ class RendererTest extends \PHPUnit_Framework_TestCase
             1,
             new \Imagine\Image\Box(256, 256),
             new \WyriHaximus\StaticMap\LatLng(13, 13),
-            new \WyriHaximus\StaticMap\Tiles(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'Simple' . DIRECTORY_SEPARATOR . '{x}/{y}.png', __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg')
+            new \WyriHaximus\StaticMap\Tiles(
+                TilesTest::getBaseTilesPath() . 'Simple' . DIRECTORY_SEPARATOR . '{x}/{y}.png',
+                TilesTest::getBaseTilesPath() . 'black.jpg'
+            )
         );
 
         $Renderer->generate()->save($this->tmpDir . DIRECTORY_SEPARATOR . 'RenderMediumTest.png');
@@ -101,12 +102,13 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $this->compareImages($checkPoints, $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderMediumTest.png', 256);
     }
 
-    public function testBigRenderProvider() {
+    public function testBigRenderProvider()
+    {
         $return = array();
         $imagines = $this->imagineProvider();
         foreach ($imagines as $imagine) {
             $return[] = array(
-                json_decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderBigTest.json')),
+                json_decode(file_get_contents(TilesTest::getBaseTilesPath() . 'RenderBigTest.json')),
                 $imagine,
             );
         }
@@ -123,7 +125,10 @@ class RendererTest extends \PHPUnit_Framework_TestCase
             1,
             new \Imagine\Image\Box(345, 345),
             new \WyriHaximus\StaticMap\LatLng(-55, 65),
-            new \WyriHaximus\StaticMap\Tiles(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'Simple' . DIRECTORY_SEPARATOR . '{x}/{y}.png', __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg')
+            new \WyriHaximus\StaticMap\Tiles(
+                TilesTest::getBaseTilesPath() . 'Simple' . DIRECTORY_SEPARATOR . '{x}/{y}.png',
+                TilesTest::getBaseTilesPath() . 'black.jpg'
+            )
         );
 
         $Renderer->generate()->save($this->tmpDir . DIRECTORY_SEPARATOR . 'RenderBigTest.png');
@@ -131,12 +136,13 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $this->compareImages($checkPoints, $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderBigTest.png', 345);
     }
 
-    public function testCenterBlipProvider() {
+    public function testCenterBlipProvider()
+    {
         $return = array();
         $imagines = $this->imagineProvider();
         foreach ($imagines as $imagine) {
             $return[] = array(
-                json_decode(file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'RenderCenterBlipTest.json')),
+                json_decode(file_get_contents(TilesTest::getBaseTilesPath() . 'RenderCenterBlipTest.json')),
                 $imagine,
             );
         }
@@ -153,7 +159,10 @@ class RendererTest extends \PHPUnit_Framework_TestCase
             1,
             new \Imagine\Image\Box(256, 256),
             new \WyriHaximus\StaticMap\LatLng(13, 13),
-            new \WyriHaximus\StaticMap\Tiles(__DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'Simple' . DIRECTORY_SEPARATOR . '{x}/{y}.png', __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg')
+            new \WyriHaximus\StaticMap\Tiles(
+                TilesTest::getBaseTilesPath() . 'Simple' . DIRECTORY_SEPARATOR . '{x}/{y}.png',
+                TilesTest::getBaseTilesPath() . 'black.jpg'
+            )
         );
         
         $Renderer->addCenterBlip();
@@ -206,5 +215,4 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
         imagedestroy($imResult);
     }
-
 }

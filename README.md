@@ -19,14 +19,10 @@ This plugin depends on the following plugins and libraries and are pulled in by 
 
 ### 2. Installation ###
 
-Installation is easy with [composer](http://getcomposer.org/) just add StaticMap to your composer.json.
+To install via [Composer](http://getcomposer.org/), use the command below, it will automatically detect the latest version and bind it with `~`.
 
-```json
-{
-	"require": {
-		"wyrihaximus/staticmap": "dev-master"
-	}
-}
+```
+composer require wyrihaximus/staticmap 
 ```
 
 ### 3. Example ###
@@ -55,7 +51,7 @@ $renderer = new StaticMap\Renderer(
 );
 
 header('Content-Type: image/png');
-echo $renderer->generate()->get('png, array(
+echo $renderer->generate()->get('png', array(
     'quality' => 9,
 ));
 ```

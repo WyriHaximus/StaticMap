@@ -1,6 +1,6 @@
 <?php
 
-namespace WyriHaximus\WyriHaximus\StaticMap\Tests;
+namespace WyriHaximus\StaticMap\Tests;
 
 use WyriHaximus\StaticMap\LatLng;
 
@@ -83,5 +83,4 @@ class LatLngTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $LatLng->getLat());
         $this->assertEquals(0, $LatLng->getLng());
     }
-
 }
