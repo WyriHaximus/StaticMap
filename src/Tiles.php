@@ -55,25 +55,32 @@ final class Tiles
      */
     public function getTile($x, $y)
     {
-        $fileName = str_replace(array(
-            '{x}',
-            '{y}',
-        ), array(
-            $x,
-            $y,
-        ), $this->location);
+        $fileName = str_replace(
+            [
+                '{x}',
+                '{y}',
+            ],
+            [
+                $x,
+                $y,
+            ],
+            $this->location
+        );
 
         $deferred = new Deferred();
 
-        $this->loader->imageExists($fileName)->then(function () use ($deferred, $fileName) {
-            $deferred->resolve($fileName);
-        }, function () use ($deferred, $fileName) {
-            if (empty($this->fallbackImage)) {
+        $this->loader->imageExists($fileName)->then(
+            function () use ($deferred, $fileName) {
                 $deferred->resolve($fileName);
-            } else {
-                $deferred->resolve($this->fallbackImage);
+            },
+            function () use ($deferred, $fileName) {
+                if (empty($this->fallbackImage)) {
+                    $deferred->resolve($fileName);
+                } else {
+                    $deferred->resolve($this->fallbackImage);
+                }
             }
-        });
+        );
 
         return $deferred->promise();
     }

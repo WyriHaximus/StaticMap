@@ -172,11 +172,15 @@ class Renderer
      */
     protected function addTile(Promise $promise, Point $point)
     {
-        $promise->then(function ($fileName) use ($point) {
-            $this->loader->addImage($fileName)->then(function ($image) use ($point) {
+        $promise->then(
+            function ($fileName) use ($point) {
+                return $this->loader->addImage($fileName);
+            }
+        )->then(
+            function ($image) use ($point) {
                 $this->drawImage($image, $point);
-            });
-        });
+            }
+        );
     }
 
     /**
@@ -186,9 +190,11 @@ class Renderer
      */
     protected function drawBlip(Blip $blip)
     {
-        $this->loader->addImage($blip->getImage())->then(function ($image) use ($blip) {
-            $this->drawImage($image, $blip->calculatePosition($this->centerPoint, $this->size, $this->zoom));
-        });
+        $this->loader->addImage($blip->getImage())->then(
+            function ($image) use ($blip) {
+                $this->drawImage($image, $blip->calculatePosition($this->centerPoint, $this->size, $this->zoom));
+            }
+        );
     }
 
     protected function drawImage($image, Point $point)

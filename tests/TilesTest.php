@@ -33,9 +33,11 @@ class TilesTest extends \PHPUnit_Framework_TestCase
         $tilePromise = $Tiles->getTile($x, $y);
         $this->assertInstanceOf('\React\Promise\Promise', $tilePromise);
         $tile = null;
-        $tilePromise->then(function ($fileName) use (&$tile) {
-            $tile = $fileName;
-        });
+        $tilePromise->then(
+            function ($fileName) use (&$tile) {
+                $tile = $fileName;
+            }
+        );
         $this->assertSame($tileDirectory . $x . '/' . $y . '.png', $tile);
     }
 
@@ -46,9 +48,11 @@ class TilesTest extends \PHPUnit_Framework_TestCase
         $tilePromise = $Tiles->getTile(3, 4);
         $this->assertInstanceOf('\React\Promise\Promise', $tilePromise);
         $tile = null;
-        $tilePromise->then(function ($fileName) use (&$tile) {
-            $tile = $fileName;
-        });
+        $tilePromise->then(
+            function ($fileName) use (&$tile) {
+                $tile = $fileName;
+            }
+        );
         $this->assertSame('fallback.img', $tile);
     }
     
@@ -59,9 +63,11 @@ class TilesTest extends \PHPUnit_Framework_TestCase
         $tilePromise = $Tiles->getTile(0, 0);
         $this->assertInstanceOf('\React\Promise\Promise', $tilePromise);
         $tile = null;
-        $tilePromise->then(function ($fileName) use (&$tile) {
-            $tile = $fileName;
-        });
+        $tilePromise->then(
+            function ($fileName) use (&$tile) {
+                $tile = $fileName;
+            }
+        );
         $this->assertSame('0/0.png', $tile);
     }
 }
