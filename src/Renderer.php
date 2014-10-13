@@ -11,6 +11,12 @@
 
 namespace WyriHaximus\StaticMap;
 
+use Imagine\Image\Box;
+use Imagine\Image\ImagineInterface;
+use React\Promise\Promise;
+use WyriHaximus\StaticMap\Loader\LoaderInterface;
+use WyriHaximus\StaticMap\Loader\Simple;
+
 /**
  * Renderer using given Imagine instance.
  *
@@ -51,6 +57,12 @@ class Renderer
     private $center;
 
     /**
+     * LatLng center Point
+     * @var Point
+     */
+    private $centerPoint;
+
+    /**
      * Tile image resolver
      * @var \WyriHaximus\StaticMap\Tiles
      */
@@ -62,19 +74,26 @@ class Renderer
      */
     private $blips = array();
 
-    public function __construct(
-        \Imagine\Image\ImagineInterface $imagine,
-        $zoom,
-        \Imagine\Image\Box $size,
-        LatLng $center,
-        Tiles $tiles
-    ) {
+    /**
+     * @var LoaderInterface
+     */
+    private $loader;
+
+    public function __construct(ImagineInterface $imagine, $zoom, Box $size, LatLng $center, Tiles $tiles, LoaderInterface $loader = null)
+    {
         $this->imagine = $imagine;
         $this->zoom = $zoom;
         $this->size = $size;
         $this->center = $center;
         $this->centerPoint = Geo::calculatePoint($this->center, $this->zoom);
         $this->tiles = $tiles;
+
+        if ($loader === null) {
+            $loader = new Simple();
+        }
+        $this->loader = $loader;
+
+        $this->tiles->setLoader($this->loader);
     }
 
     /**
@@ -106,11 +125,15 @@ class Renderer
             $jj++;
         }
 
+        $this->loader->run();
+
         $this->resultImage->crop($box['crop'], $this->size);
 
         foreach ($this->blips as $blip) {
             $this->drawBlip($blip);
         }
+
+        $this->loader->run();
 
         return $this->resultImage;
     }
@@ -118,7 +141,7 @@ class Renderer
     /**
      * Add a blip to the center of the image
      *
-     * @param string $image
+     * @param string|null $image
      */
     public function addCenterBlip($image = null)
     {
@@ -129,7 +152,6 @@ class Renderer
      * Add a blip the collection of blips to be drawn
      *
      * @param Blip $blip
-     * @param string $image
      */
     public function addBlip(Blip $blip)
     {
@@ -139,18 +161,16 @@ class Renderer
     /**
      * Add a tile to the base image
      *
-     * @param string $tileFileName
+     * @param Promise $promise
      * @param Point $point
      */
-    protected function addTile($tileFileName, Point $point)
+    protected function addTile(Promise $promise, Point $point)
     {
-        try {
-            $this->resultImage->paste(
-                $this->imagine->open($tileFileName),
-                $point
-            );
-        } catch (\Exception $e) {
-        }
+        $promise->then(function ($fileName) use ($point) {
+            $this->loader->addImage($fileName)->then(function ($image) use ($point) {
+                $this->drawImage($image, $point);
+            });
+        });
     }
 
     /**
@@ -160,12 +180,21 @@ class Renderer
      */
     protected function drawBlip(Blip $blip)
     {
+        $this->loader->addImage($blip->getImage())->then(function ($image) use ($blip) {
+            $this->drawImage($image, $blip->calculatePosition($this->centerPoint, $this->size, $this->zoom));
+        });
+    }
+
+    protected function drawImage($image, Point $point)
+    {
         try {
             $this->resultImage->paste(
-                $this->imagine->open($blip->getImage()),
-                $blip->calculatePosition($this->centerPoint, $this->size, $this->zoom)
+                $this->imagine->load($image),
+                $point
             );
-        } catch (\Exception $e) {
+        } catch(\Exception $e) {
+            // Most likely an exception about a out of bounds past, we'll just ignore that
         }
     }
+
 }

@@ -4,6 +4,8 @@ namespace WyriHaximus\StaticMap\Tests;
 
 use WyriHaximus\StaticMap\LatLng;
 
+use WyriHaximus\StaticMap\LatLng;
+
 class LatLngTest extends \PHPUnit_Framework_TestCase
 {
     public function testConstructor()
@@ -45,24 +47,24 @@ class LatLngTest extends \PHPUnit_Framework_TestCase
         $LatLng = new LatLng(35, 45);
 
         $LatLng->setLat(-90.1);
-        $this->assertEquals(false, $LatLng->getLat());
+        $this->assertEquals(35, $LatLng->getLat());
         $LatLng->setLat(-91);
-        $this->assertEquals(false, $LatLng->getLat());
+        $this->assertEquals(35, $LatLng->getLat());
 
         $LatLng->setLat(90.1);
-        $this->assertEquals(false, $LatLng->getLat());
+        $this->assertEquals(35, $LatLng->getLat());
         $LatLng->setLat(91);
-        $this->assertEquals(false, $LatLng->getLat());
+        $this->assertEquals(35, $LatLng->getLat());
 
         $LatLng->setLat(-180.1);
-        $this->assertEquals(false, $LatLng->getLat());
+        $this->assertEquals(35, $LatLng->getLat());
         $LatLng->setLat(-181);
-        $this->assertEquals(false, $LatLng->getLat());
+        $this->assertEquals(35, $LatLng->getLat());
 
         $LatLng->setLat(190.1);
-        $this->assertEquals(false, $LatLng->getLat());
+        $this->assertEquals(35, $LatLng->getLat());
         $LatLng->setLat(181);
-        $this->assertEquals(false, $LatLng->getLat());
+        $this->assertEquals(35, $LatLng->getLat());
     }
 
     public function testNonInt()

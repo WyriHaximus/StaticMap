@@ -1,16 +1,46 @@
 <?php
 
+/*
+ * This file is part of StaticMap.
+ *
+ * (c) 2013 - 2014 Cees-Jan Kiewiet
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace WyriHaximus\StaticMap;
 
 use Imagine\Image\Box;
 
+/**
+ * Class Blip
+ *
+ * @package WyriHaximus\StaticMap
+ */
 class Blip
 {
-
+    /**
+     * @var LatLng
+     */
     protected $latLng;
+
+    /**
+     * @var
+     */
     protected $image;
+
+    /**
+     * @var array
+     */
     protected $imageSize;
 
+    /**
+     * @param LatLng $latLng
+     * @param string|null $image
+     *
+     * @return Blip
+     */
     public static function create(LatLng $latLng, $image = null)
     {
         if (is_null($image) || !file_exists($image)) {
@@ -22,6 +52,10 @@ class Blip
         return $instance;
     }
 
+    /**
+     * @param LatLng $latLng
+     * @param string $image
+     */
     public function __construct(LatLng $latLng, $image)
     {
         $this->latLng = $latLng;
@@ -29,16 +63,29 @@ class Blip
         $this->imageSize = getimagesize($image);
     }
 
+    /**
+     * @return LatLng
+     */
     public function getLatLng()
     {
         return $this->latLng;
     }
 
+    /**
+     * @return string
+     */
     public function getImage()
     {
         return $this->image;
     }
 
+    /**
+     * @param Point $center
+     * @param \Imagine\Image\Box $size
+     * @param int $zoom
+     *
+     * @return Point
+     */
     public function calculatePosition(Point $center, Box $size, $zoom)
     {
         $topLeft = new Point(
@@ -52,4 +99,5 @@ class Blip
             $blipPoint->getY() - $topLeft->getY() - ($this->imageSize[1] / 2)
         );
     }
+
 }
