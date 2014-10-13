@@ -62,7 +62,7 @@ class Async implements LoaderInterface
     /**
      * @param string $url
      *
-     * @return \React\Promise\Proimise|\React\Promise\Promise
+     * @return \React\Promise\Proimise
      */
     public function addImage($url)
     {
