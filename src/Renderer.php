@@ -72,7 +72,7 @@ class Renderer
      * Array with blips (points of interest)
      * @var array
      */
-    private $blips = array();
+    private $blips = [];
 
     /**
      * @var LoaderInterface

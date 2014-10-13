@@ -45,10 +45,10 @@ class Geo
         $upper_x = $center->getX() - floor($size->getWidth() / 2) - ($tile_width_start * self::TILE_SIZE);
 
         return array(
-            'tiles' => array(
+            'tiles' => [
                 'start' => new Point($tile_width_start, $tile_height_start),
                 'stop' => new Point($tile_width_stop, $tile_height_stop),
-            ),
+            ],
             'crop' => new Point(round($upper_x + self::TILE_SIZE), round($upper_y + self::TILE_SIZE)),
             'base' => new Box(
                 (($max_width_count + 2) * self::TILE_SIZE),
