@@ -51,7 +51,7 @@ $renderer = new StaticMap\Renderer(
 );
 
 header('Content-Type: image/png');
-echo $renderer->generate()->get('png, array(
+echo $renderer->generate()->get('png', array(
     'quality' => 9,
 ));
 ```
