@@ -2,6 +2,8 @@
 
 namespace WyriHaximus\StaticMap;
 
+use Imagine\Image\Box;
+
 class Blip
 {
 
@@ -37,13 +39,13 @@ class Blip
         return $this->image;
     }
 
-    public function calculatePosition(Point $center, \Imagine\Image\Box $size, $zoom)
+    public function calculatePosition(Point $center, Box $size, $zoom)
     {
         $topLeft = new Point(
             $center->getX() - ($size->getWidth() / 2),
             $center->getY() - ($size->getHeight() / 2)
         );
-        $blipPoint = \WyriHaximus\StaticMap\Geo::calculatePoint($this->latLng, $zoom);
+        $blipPoint = Geo::calculatePoint($this->latLng, $zoom);
 
         return new Point(
             $blipPoint->getX() - $topLeft->getX() - ($this->imageSize[0] / 2),

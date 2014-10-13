@@ -1,13 +1,20 @@
 <?php
 
-namespace WyriHaximus\WyriHaximus\StaticMap\Tests;
+namespace WyriHaximus\StaticMap\Tests;
+
+use WyriHaximus\StaticMap\Tiles;
 
 class TilesTest extends \PHPUnit_Framework_TestCase
 {
+    public static function getBaseTilesPath()
+    {
+        return __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR;
+    }
+
     public function testGetTile()
     {
-        $tileDirectory = __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'Simple' . DIRECTORY_SEPARATOR;
-        $Tiles = new \WyriHaximus\StaticMap\Tiles($tileDirectory . '{x}/{y}.png', 'fallback.img');
+        $tileDirectory = self::getBaseTilesPath() . 'Simple' . DIRECTORY_SEPARATOR;
+        $Tiles = new Tiles($tileDirectory . '{x}/{y}.png', 'fallback.img');
 
         $this->assertSame($tileDirectory . '0/0.png', $Tiles->getTile(0, 0));
         $this->assertSame($tileDirectory . '1/0.png', $Tiles->getTile(1, 0));
@@ -17,13 +24,13 @@ class TilesTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTileFallback()
     {
-        $Tiles = new \WyriHaximus\StaticMap\Tiles('{x}/{y}', 'fallback.img');
+        $Tiles = new Tiles('{x}/{y}', 'fallback.img');
         $this->assertSame('fallback.img', $Tiles->getTile(3, 4));
     }
 
     public function testNoFallback()
     {
-        $Tiles = new \WyriHaximus\StaticMap\Tiles('{x}/{y}.png');
+        $Tiles = new Tiles('{x}/{y}.png');
         $this->assertSame('0/0.png', $Tiles->getTile(0, 0));
     }
 }

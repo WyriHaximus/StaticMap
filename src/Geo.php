@@ -11,6 +11,8 @@
 
 namespace WyriHaximus\StaticMap;
 
+use Imagine\Image\Box;
+
 /**
  * Geo calculations.
  *
@@ -28,7 +30,7 @@ class Geo
      * @param Point $center
      * @return array
      */
-    public static function calculateBox(\Imagine\Image\Box $size, Point $center)
+    public static function calculateBox(Box $size, Point $center)
     {
         $max_height_count = ceil($size->getHeight() / self::TILE_SIZE);
         $max_width_count = ceil($size->getWidth() / self::TILE_SIZE);
@@ -48,7 +50,7 @@ class Geo
                 'stop' => new Point($tile_width_stop, $tile_height_stop),
             ),
             'crop' => new Point(round($upper_x + self::TILE_SIZE), round($upper_y + self::TILE_SIZE)),
-            'base' => new \Imagine\Image\Box(
+            'base' => new Box(
                 (($max_width_count + 2) * self::TILE_SIZE),
                 (($max_height_count + 2) * self::TILE_SIZE)
             ),

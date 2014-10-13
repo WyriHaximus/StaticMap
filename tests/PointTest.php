@@ -1,6 +1,6 @@
 <?php
 
-namespace WyriHaximus\WyriHaximus\StaticMap\Tests;
+namespace WyriHaximus\StaticMap\Tests;
 
 use Imagine\Image\Box;
 use Imagine\Image\BoxInterface;
@@ -37,13 +37,13 @@ class PointTest extends \PHPUnit_Framework_TestCase
      */
     public function getCoordinates()
     {
-        return array(
-        array(0, 0, new Box(5, 5), true),
-        array(5, 15, new Box(5, 5), false),
-        array(10, 23, new Box(10, 10), false),
-        array(42, 30, new Box(50, 50), true),
-        array(81, 16, new Box(50, 10), false),
-        );
+        return [
+            [0, 0, new Box(5, 5), true],
+            [5, 15, new Box(5, 5), false],
+            [10, 23, new Box(10, 10), false],
+            [42, 30, new Box(50, 50), true],
+            [81, 16, new Box(50, 10), false],
+        ];
     }
 
     /**
@@ -71,11 +71,11 @@ class PointTest extends \PHPUnit_Framework_TestCase
 
     public function getMoves()
     {
-        return array(
-        array(0, 0, 5, 5, 5),
-        array(20, 30, 5, 25, 35),
-        array(0, 2, 7, 7, 9),
-        );
+        return [
+            [0, 0, 5, 5, 5],
+            [20, 30, 5, 25, 35],
+            [0, 2, 7, 7, 9],
+        ];
     }
 
     /**

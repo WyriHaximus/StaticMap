@@ -1,6 +1,9 @@
 <?php
 
-namespace WyriHaximus\WyriHaximus\StaticMap\Tests;
+namespace WyriHaximus\StaticMap\Tests;
+
+use WyriHaximus\StaticMap\Point;
+use WyriHaximus\StaticMap\LatLng;
 
 class GeoTest extends \PHPUnit_Framework_TestCase
 {
@@ -9,7 +12,7 @@ class GeoTest extends \PHPUnit_Framework_TestCase
         $box = \WyriHaximus\StaticMap\Geo::calculateBox(
             new \Imagine\Image\Box(25, 25),
             \WyriHaximus\StaticMap\Geo::calculatePoint(
-                new \WyriHaximus\StaticMap\LatLng(71, 111),
+                new LatLng(71, 111),
                 3
             )
         );
@@ -33,26 +36,26 @@ class GeoTest extends \PHPUnit_Framework_TestCase
 
     public function testCalculatePointProvider()
     {
-        return array(
+        return [
             // #1
-            array(
-                new \WyriHaximus\StaticMap\LatLng(71, 111),
+            [
+                new LatLng(71, 111),
                 3,
-                new \WyriHaximus\StaticMap\Point(1655, 441.29647761708),
-            ),
+                new Point(1655, 441.29647761708),
+            ],
             // #2
-            array(
-                new \WyriHaximus\StaticMap\LatLng(-50, 66),
+            [
+                new LatLng(-50, 66),
                 1,
-                new \WyriHaximus\StaticMap\Point(349, 338.35787539394),
-            ),
+                new Point(349, 338.35787539394),
+            ],
             // #3
-            array(
-                new \WyriHaximus\StaticMap\LatLng(-189, 53),
+            [
+                new LatLng(-189, 53),
                 7,
-                new \WyriHaximus\StaticMap\Point(21208, 16384),
-            ),
-        );
+                new Point(21208, 16384),
+            ],
+        ];
     }
 
     /**

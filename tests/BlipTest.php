@@ -1,6 +1,10 @@
 <?php
 
-namespace WyriHaximus\WyriHaximus\StaticMap\Tests;
+namespace WyriHaximus\StaticMap\Tests;
+
+use WyriHaximus\StaticMap\Blip;
+use WyriHaximus\StaticMap\Point;
+use WyriHaximus\StaticMap\LatLng;
 
 class BlipTest extends \PHPUnit_Framework_TestCase
 {
@@ -9,20 +13,20 @@ class BlipTest extends \PHPUnit_Framework_TestCase
     {
         $defaultImage = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'src' .
         DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
-        return array(
-            array(
-                new \WyriHaximus\StaticMap\LatLng(71, 111),
-                new \WyriHaximus\StaticMap\Blip(new \WyriHaximus\StaticMap\LatLng(71, 111), $defaultImage),
-            ),
-            array(
-                new \WyriHaximus\StaticMap\LatLng(-50, 66),
-                new \WyriHaximus\StaticMap\Blip(new \WyriHaximus\StaticMap\LatLng(-50, 66), $defaultImage),
-            ),
-            array(
-                new \WyriHaximus\StaticMap\LatLng(-189, 53),
-                new \WyriHaximus\StaticMap\Blip(new \WyriHaximus\StaticMap\LatLng(-189, 53), $defaultImage),
-            ),
-        );
+        return [
+            [
+                new LatLng(71, 111),
+                new Blip(new LatLng(71, 111), $defaultImage),
+            ],
+            [
+                new LatLng(-50, 66),
+                new Blip(new LatLng(-50, 66), $defaultImage),
+            ],
+            [
+                new LatLng(-189, 53),
+                new Blip(new LatLng(-189, 53), $defaultImage),
+            ],
+        ];
     }
 
     /**
@@ -39,29 +43,28 @@ class BlipTest extends \PHPUnit_Framework_TestCase
         $defaultImage = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'src' .
         DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
 
-        return array(
-            array(
-                new \WyriHaximus\StaticMap\LatLng(71, 111),
+        return [
+            [
+                new LatLng(71, 111),
                 $defaultImage,
                 $defaultImage,
-            ),
-            array(
-                new \WyriHaximus\StaticMap\LatLng(-50, 66),
-                __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg',
-                __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR . 'black.jpg',
-            ),
-            array(
-                new \WyriHaximus\StaticMap\LatLng(-189, 53),
-                __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' .
-                DIRECTORY_SEPARATOR . 'Simple' . DIRECTORY_SEPARATOR . '1' . DIRECTORY_SEPARATOR . '2.png',
+            ],
+            [
+                new LatLng(-50, 66),
+                TilesTest::getBaseTilesPath() . 'black.jpg',
+                TilesTest::getBaseTilesPath() . 'black.jpg',
+            ],
+            [
+                new LatLng(-189, 53),
+                TilesTest::getBaseTilesPath() . 'Simple' . DIRECTORY_SEPARATOR . '1' . DIRECTORY_SEPARATOR . '2.png',
                 $defaultImage,
-            ),
-            array(
-                new \WyriHaximus\StaticMap\LatLng(-189, 53),
+            ],
+            [
+                new LatLng(-189, 53),
                 null,
                 $defaultImage,
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -75,17 +78,17 @@ class BlipTest extends \PHPUnit_Framework_TestCase
 
     public function testGetLatLngProvider()
     {
-        return array(
-            array(
-                new \WyriHaximus\StaticMap\LatLng(71, 111),
-            ),
-            array(
-                new \WyriHaximus\StaticMap\LatLng(-50, 66),
-            ),
-            array(
-                new \WyriHaximus\StaticMap\LatLng(-189, 53),
-            ),
-        );
+        return [
+            [
+                new LatLng(71, 111),
+            ],
+            [
+                new LatLng(-50, 66),
+            ],
+            [
+                new LatLng(-189, 53),
+            ],
+        ];
     }
 
     /**
@@ -99,15 +102,15 @@ class BlipTest extends \PHPUnit_Framework_TestCase
 
     public function testCalculatePositionProvider()
     {
-        return array(
-            array(
-                new \WyriHaximus\StaticMap\Point(1097, 949.40161077744),
+        return [
+            [
+                new Point(1097, 949.40161077744),
                 3,
-                new \WyriHaximus\StaticMap\LatLng(13, 13),
+                new LatLng(13, 13),
                 new \Imagine\Image\Box(12, 12),
-                new \WyriHaximus\StaticMap\Point(0.5, 0.5),
-            ),
-        );
+                new Point(0.5, 0.5),
+            ],
+        ];
     }
 
     /**
