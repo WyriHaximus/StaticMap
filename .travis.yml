@@ -16,9 +16,9 @@ branches:
 
 before_script:
   - composer self-update
-  - composer install --prefer-source --no-interaction
+  - composer install
 
-script: ./vendor/bin/phpunit --coverage-text --coverage-clover ./build/logs/clover.xml
+script: make travis
 
 notifications:
   webhooks:
