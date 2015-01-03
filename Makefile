@@ -1,5 +1,5 @@
 all: oc phpcs dunit phpunit
-travis: oc phpcs phpunit-travis
+travis: phpcs phpunit-travis
 
 init:
 	if [ ! -d vendor ]; then composer install; fi;
