@@ -36,17 +36,29 @@ class Async implements LoaderInterface
     protected $loop;
 
     /**
-     * Constructor.
-     *
-     * @param LoopInterface $loop Event loop.
+     * @var Client
      */
-    public function __construct(LoopInterface $loop = null)
+    protected $client;
+
+    /**
+     * @param LoopInterface $loop
+     * @param Client $client
+     */
+    public function __construct(LoopInterface $loop = null, Client $client = null)
     {
         if ($loop === null) {
             $loop = Factory::create();
         }
-
         $this->loop = $loop;
+
+        if ($client === null) {
+            $client = new Client(
+                [
+                    'adapter' => new HttpClientAdapter($this->loop),
+                ]
+            );
+        }
+        $this->client = $client;
     }
 
     /**
@@ -73,17 +85,11 @@ class Async implements LoaderInterface
      */
     protected function readRemoteFile($url)
     {
-        $deferred = new Deferred();
-        $client = new Client([
-            'adapter' => new HttpClientAdapter($this->loop),
-        ]);
-        $client->get($url)->then(function (Response $response) use ($deferred) {
-            $deferred->resolve($response
-                ->getBody()
-                ->getContents()
-            );
-        });
-        return $deferred->promise();
+        return $this->client->get($url)->then(
+            function (Response $response) {
+                return $response->getBody()->getContents();
+            }
+        );
     }
 
     /**
@@ -102,12 +108,18 @@ class Async implements LoaderInterface
 
         $buffer = '';
         $read = new Stream($readStream, $this->loop);
-        $read->on('data', function ($data) use (&$buffer) {
-            $buffer .= $data;
-        });
-        $read->on('end', function () use ($deferred, &$buffer) {
-            $deferred->resolve($buffer);
-        });
+        $read->on(
+            'data',
+            function ($data) use (&$buffer) {
+                $buffer .= $data;
+            }
+        );
+        $read->on(
+            'end',
+            function () use ($deferred, &$buffer) {
+                $deferred->resolve($buffer);
+            }
+        );
 
         return $deferred->promise();
     }

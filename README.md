@@ -24,13 +24,6 @@ To install via [Composer](http://getcomposer.org/), use the command below, it wi
 ```
 composer require wyrihaximus/staticmap 
 ```
-```json
-{
-	"require": {
-		"wyrihaximus/staticmap": "dev-master"
-	}
-}
-```
 
 ### 3. Example ###
 
@@ -58,7 +51,27 @@ $renderer = new StaticMap\Renderer(
 );
 
 header('Content-Type: image/png');
-echo $renderer->generate()->get('png, array(
+echo $renderer->generate()->get('png', array(
     'quality' => 9,
 ));
+```
+
+### 4. Blips ###
+
+Blips are markers on the map. Added them is simple:
+
+```php
+<?php
+use WyriHaximus\StaticMap\Blip;
+use WyriHaximus\StaticMap\LatLng;
+
+$renderer->addBlip(Blip::create(new LatLng(123, 456), 'http://static.wyrimaps.net/icons/blip.png'));
+```
+
+In case you just want one in the center this will suffice:
+
+```php
+<?php
+
+$renderer->addCenterBlip();
 ```
