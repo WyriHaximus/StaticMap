@@ -22,7 +22,9 @@ use React\Promise\RejectedPromise;
 class Simple implements LoaderInterface
 {
     /**
-     * @param string $url
+     * Load file from $url.
+     *
+     * @param string $url Image URL.
      *
      * @return FulfilledPromise
      */
@@ -32,7 +34,9 @@ class Simple implements LoaderInterface
     }
 
     /**
-     * @param string $url
+     * Check if $url exists.
+     *
+     * @param string $url Image URL.
      *
      * @return FulfilledPromise|RejectedPromise
      */
@@ -45,6 +49,11 @@ class Simple implements LoaderInterface
         return new RejectedPromise();
     }
 
+    /**
+     * Nothing to do.
+     *
+     * @return void
+     */
     public function run()
     {
     }

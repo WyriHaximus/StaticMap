@@ -23,23 +23,31 @@ use WyriHaximus\StaticMap\Loader\LoaderInterface;
 final class Tiles
 {
     /**
+     * Tiles location.
+     *
      * @var string
      */
     private $location;
 
     /**
+     * Fallback image in case no tile image can be found.
+     *
      * @var string
      */
     private $fallbackImage;
 
     /**
+     * File loader.
+     *
      * @var LoaderInterface
      */
     private $loader;
 
     /**
-     * @param string $location
-     * @param string $fallbackImage
+     * Constructor.
+     *
+     * @param string $location      Tiles location.
+     * @param string $fallbackImage Fallback image in case no tile image can be found.
      */
     public function __construct($location, $fallbackImage = '')
     {
@@ -48,36 +56,43 @@ final class Tiles
     }
 
     /**
-     * @param integer $x
-     * @param integer $y
+     * Return file name through a promise.
+     *
+     * @param integer $xAxis X coordinate.
+     * @param integer $yAxis Y coordinate.
      *
      * @return \React\Promise\Promise
      */
-    public function getTile($x, $y)
+    public function getTile($xAxis, $yAxis)
     {
-        $fileName = str_replace(array(
-            '{x}',
-            '{y}',
-        ), array(
-            $x,
-            $y,
-        ), $this->location);
+        $fileName = str_replace(['{x}', '{y}'], [$xAxis, $yAxis], $this->location);
 
         $deferred = new Deferred();
 
-        $this->loader->imageExists($fileName)->then(function () use ($deferred, $fileName) {
-            $deferred->resolve($fileName);
-        }, function () use ($deferred, $fileName) {
-            if (empty($this->fallbackImage)) {
+        $this->
+            loader->
+            imageExists($fileName)->
+            then(function () use ($deferred, $fileName) {
                 $deferred->resolve($fileName);
-            } else {
+            }, function () use ($deferred, $fileName) {
+                if (empty($this->fallbackImage)) {
+                    return $deferred->resolve($fileName);
+                }
+
                 $deferred->resolve($this->fallbackImage);
-            }
-        });
+            })
+        ;
 
         return $deferred->promise();
     }
 
+    /**
+     * Set the file loader.
+     *
+     * @param LoaderInterface $loader File loader.
+     *
+     * @return void
+     */
     public function setLoader(LoaderInterface $loader)
     {
         $this->loader = $loader;

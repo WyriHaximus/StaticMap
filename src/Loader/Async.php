@@ -29,12 +29,16 @@ use WyriHaximus\React\Guzzle\HttpClientAdapter;
 class Async implements LoaderInterface
 {
     /**
-     * @var \React\EventLoop\LoopInterface
+     * Event loop.
+     *
+     * @var LoopInterface
      */
     protected $loop;
 
     /**
-     * @param LoopInterface $loop
+     * Constructor.
+     *
+     * @param LoopInterface $loop Event loop.
      */
     public function __construct(LoopInterface $loop = null)
     {
@@ -46,7 +50,9 @@ class Async implements LoaderInterface
     }
 
     /**
-     * @param string $url
+     * Load file from $url.
+     *
+     * @param string $url Image URL.
      *
      * @return \React\Promise\Proimise|\React\Promise\Promise
      */
@@ -59,7 +65,9 @@ class Async implements LoaderInterface
     }
 
     /**
-     * @param string $url
+     * Read remote image contents.
+     *
+     * @param string $url Image URL.
      *
      * @return \React\Promise\Promise
      */
@@ -70,13 +78,18 @@ class Async implements LoaderInterface
             'adapter' => new HttpClientAdapter($this->loop),
         ]);
         $client->get($url)->then(function (Response $response) use ($deferred) {
-            $deferred->resolve($response->getBody()->getContents());
+            $deferred->resolve($response
+                ->getBody()
+                ->getContents()
+            );
         });
         return $deferred->promise();
     }
 
     /**
-     * @param string $url
+     * Read local image contents.
+     *
+     * @param string $url Image filename.
      *
      * @return \React\Promise\Promise
      */
@@ -100,7 +113,9 @@ class Async implements LoaderInterface
     }
 
     /**
-     * @param string $url
+     * Check if $url exists.
+     *
+     * @param string $url Image URL.
      *
      * @return FulfilledPromise|\React\Promise\Proimise|RejectedPromise
      */
@@ -113,6 +128,11 @@ class Async implements LoaderInterface
         return new RejectedPromise();
     }
 
+    /**
+     * Run the event loop and process the assigned operations.
+     *
+     * @return void
+     */
     public function run()
     {
         $this->loop->run();

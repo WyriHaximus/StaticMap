@@ -105,7 +105,9 @@ class Renderer
     /**
      * Generate the static map image and add blips to it if any are found
      *
-     * @return \Imagine\Image\ImageInterface The resulting image
+     * @return ImageInterface The resulting image
+     *
+     * @return void
      */
     public function generate()
     {
@@ -145,9 +147,11 @@ class Renderer
     }
 
     /**
-     * Add a blip to the center of the image
+     * Add a blip to the center of the image.
      *
-     * @param string|null $image
+     * @param string|null $image Image to use as blip.
+     *
+     * @return void
      */
     public function addCenterBlip($image = null)
     {
@@ -155,9 +159,11 @@ class Renderer
     }
 
     /**
-     * Add a blip the collection of blips to be drawn
+     * Add a blip the collection of blips to be drawn.
      *
-     * @param Blip $blip
+     * @param Blip $blip Added a Blip to the list of blips for on the map.
+     *
+     * @return void
      */
     public function addBlip(Blip $blip)
     {
@@ -165,10 +171,12 @@ class Renderer
     }
 
     /**
-     * Add a tile to the base image
+     * Add a tile to the base image.
      *
-     * @param Promise $promise
-     * @param Point $point
+     * @param Promise $promise Promise from the get tile.
+     * @param Point   $point   Point where to place the tile.
+     *
+     * @return void
      */
     protected function addTile(Promise $promise, Point $point)
     {
@@ -180,9 +188,11 @@ class Renderer
     }
 
     /**
-     * Draw a blip on the image
+     * Draw a blip on the image.
      *
-     * @param \WyriHaximus\StaticMap\Blip $blip
+     * @param Blip $blip Blip to draw on the map.
+     *
+     * @return void
      */
     protected function drawBlip(Blip $blip)
     {
@@ -191,6 +201,14 @@ class Renderer
         });
     }
 
+    /**
+     * Draw $image on $this->resultImage.
+     *
+     * @param string $image Image blob.
+     * @param Point  $point The point where to draw $image.
+     *
+     * @return void
+     */
     protected function drawImage($image, Point $point)
     {
         try {
@@ -198,7 +216,7 @@ class Renderer
                 $this->imagine->load($image),
                 $point
             );
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             // Most likely an exception about a out of bounds past, we'll just ignore that
         }
     }

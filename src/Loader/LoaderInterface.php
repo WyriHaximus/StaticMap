@@ -19,20 +19,26 @@ namespace WyriHaximus\StaticMap\Loader;
 interface LoaderInterface
 {
     /**
-     * @param $url
+     * Load file from $url.
+     *
+     * @param string $url Image URL.
      *
      * @return \React\Promise\Proimise
      */
     public function addImage($url);
 
     /**
-     * @param string $url
+     * Check if $url exists.
+     *
+     * @param string $url Image URL.
      *
      * @return \React\Promise\Proimise
      */
     public function imageExists($url);
 
     /**
+     * Do nothing or execute the operations depending on the implementation.
+     *
      * @return void
      */
     public function run();

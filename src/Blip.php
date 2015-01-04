@@ -21,23 +21,31 @@ use Imagine\Image\Box;
 class Blip
 {
     /**
+     * Latitude Longitude coordinates for this Blip.
+     *
      * @var LatLng
      */
     protected $latLng;
 
     /**
-     * @var
+     * Image filename.
+     *
+     * @var string
      */
     protected $image;
 
     /**
+     * Width height array.
+     *
      * @var array
      */
     protected $imageSize;
 
     /**
-     * @param LatLng $latLng
-     * @param string|null $image
+     * Factory method.
+     *
+     * @param LatLng      $latLng Coordinate object.
+     * @param string|null $image  Image filename or null to fallback to the default.
      *
      * @return Blip
      */
@@ -47,14 +55,14 @@ class Blip
             $image = __DIR__ . DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
         }
 
-        $instance = new self($latLng, $image);
-
-        return $instance;
+        return new self($latLng, $image);
     }
 
     /**
-     * @param LatLng $latLng
-     * @param string $image
+     * Constructor.
+     *
+     * @param LatLng $latLng Coordinate object.
+     * @param string $image  Image filename.
      */
     public function __construct(LatLng $latLng, $image)
     {
@@ -64,6 +72,8 @@ class Blip
     }
 
     /**
+     * Return the coordinate object.
+     *
      * @return LatLng
      */
     public function getLatLng()
@@ -72,6 +82,8 @@ class Blip
     }
 
     /**
+     * Return the image filename.
+     *
      * @return string
      */
     public function getImage()
@@ -80,9 +92,11 @@ class Blip
     }
 
     /**
-     * @param Point $center
-     * @param \Imagine\Image\Box $size
-     * @param int $zoom
+     * Calculate the position of the blip on the map image.
+     *
+     * @param Point   $center Point on the image.
+     * @param Box     $size   Size of the image.
+     * @param integer $zoom   Zoom level of the map.
      *
      * @return Point
      */
