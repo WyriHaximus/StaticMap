@@ -2,10 +2,11 @@
 
 namespace WyriHaximus\WyriHaximus\StaticMap\Tests;
 
+use PHPUnit\Framework\TestCase;
 use WyriHaximus\StaticMap\Loader\Async;
 use WyriHaximus\StaticMap\Tests\TilesTest;
 
-class RendererTest extends \PHPUnit_Framework_TestCase
+class RendererTest extends TestCase
 {
     public function setUp()
     {

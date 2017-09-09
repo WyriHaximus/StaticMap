@@ -2,9 +2,10 @@
 
 namespace WyriHaximus\StaticMap\Tests;
 
+use PHPUnit\Framework\TestCase;
 use WyriHaximus\StaticMap\LatLng;
 
-class LatLngTest extends \PHPUnit_Framework_TestCase
+class LatLngTest extends TestCase
 {
     public function testConstructor()
     {

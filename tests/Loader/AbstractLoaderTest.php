@@ -2,9 +2,10 @@
 
 namespace WyriHaximus\WyriHaximus\StaticMap\Tests;
 
-abstract class AbstractLoaderTest extends \PHPUnit_Framework_TestCase
-{
+use PHPUnit\Framework\TestCase;
 
+abstract class AbstractLoaderTest extends TestCase
+{
     public function testInterface()
     {
         $this->assertInstanceOf('WyriHaximus\StaticMap\Loader\LoaderInterface', $this->loader);

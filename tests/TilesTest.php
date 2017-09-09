@@ -2,10 +2,11 @@
 
 namespace WyriHaximus\StaticMap\Tests;
 
+use PHPUnit\Framework\TestCase;
 use \WyriHaximus\StaticMap\Loader\Simple;
 use WyriHaximus\StaticMap\Tiles;
 
-class TilesTest extends \PHPUnit_Framework_TestCase
+class TilesTest extends TestCase
 {
     public static function getBaseTilesPath()
     {

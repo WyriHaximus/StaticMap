@@ -2,10 +2,11 @@
 
 namespace WyriHaximus\StaticMap\Tests;
 
+use PHPUnit\Framework\TestCase;
 use WyriHaximus\StaticMap\Point;
 use WyriHaximus\StaticMap\LatLng;
 
-class GeoTest extends \PHPUnit_Framework_TestCase
+class GeoTest extends TestCase
 {
     public function testCalculateBox()
     {

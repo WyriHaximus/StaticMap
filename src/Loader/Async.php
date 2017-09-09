@@ -11,6 +11,7 @@
 
 namespace WyriHaximus\StaticMap\Loader;
 
+use Clue\React\Buzz\Browser;
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\Response;
 use React\EventLoop\Factory;
@@ -18,6 +19,7 @@ use React\EventLoop\LoopInterface;
 use React\Promise\Deferred;
 use React\Promise\FulfilledPromise;
 use React\Promise\RejectedPromise;
+use React\Stream\ReadableResourceStream;
 use React\Stream\Stream;
 use WyriHaximus\React\Guzzle\HttpClientAdapter;
 
@@ -42,9 +44,9 @@ class Async implements LoaderInterface
 
     /**
      * @param LoopInterface $loop
-     * @param Client $client
+     * @param Browser $client
      */
-    public function __construct(LoopInterface $loop = null, Client $client = null)
+    public function __construct(LoopInterface $loop = null, Browser $client = null)
     {
         if ($loop === null) {
             $loop = Factory::create();
@@ -52,11 +54,7 @@ class Async implements LoaderInterface
         $this->loop = $loop;
 
         if ($client === null) {
-            $client = new Client(
-                [
-                    'adapter' => new HttpClientAdapter($this->loop),
-                ]
-            );
+            $client = new Browser($loop);
         }
         $this->client = $client;
     }
@@ -103,11 +101,10 @@ class Async implements LoaderInterface
     {
         $deferred = new Deferred();
 
-        $readStream = fopen($url, 'r');
-        stream_set_blocking($readStream, 0);
+        $readStream = fopen($url, 'r+');
 
         $buffer = '';
-        $read = new Stream($readStream, $this->loop);
+        $read = new ReadableResourceStream($readStream, $this->loop);
         $read->on(
             'data',
             function ($data) use (&$buffer) {

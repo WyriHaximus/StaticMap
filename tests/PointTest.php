@@ -4,9 +4,10 @@ namespace WyriHaximus\StaticMap\Tests;
 
 use Imagine\Image\Box;
 use Imagine\Image\BoxInterface;
+use PHPUnit\Framework\TestCase;
 use WyriHaximus\StaticMap\Point;
 
-class PointTest extends \PHPUnit_Framework_TestCase
+class PointTest extends TestCase
 {
     /**
      * @covers       WyriHaximus\StaticMap\Point::getX

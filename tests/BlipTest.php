@@ -2,11 +2,12 @@
 
 namespace WyriHaximus\StaticMap\Tests;
 
+use PHPUnit\Framework\TestCase;
 use WyriHaximus\StaticMap\Blip;
 use WyriHaximus\StaticMap\Point;
 use WyriHaximus\StaticMap\LatLng;
 
-class BlipTest extends \PHPUnit_Framework_TestCase
+class BlipTest extends TestCase
 {
 
     public function testCreateProvider()
