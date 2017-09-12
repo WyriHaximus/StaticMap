@@ -12,16 +12,13 @@
 namespace WyriHaximus\StaticMap\Loader;
 
 use Clue\React\Buzz\Browser;
-use GuzzleHttp\Client;
-use GuzzleHttp\Message\Response;
+use Psr\Http\Message\ResponseInterface;
 use React\EventLoop\Factory;
 use React\EventLoop\LoopInterface;
 use React\Promise\Deferred;
 use React\Promise\FulfilledPromise;
 use React\Promise\RejectedPromise;
 use React\Stream\ReadableResourceStream;
-use React\Stream\Stream;
-use WyriHaximus\React\Guzzle\HttpClientAdapter;
 
 /**
  * Class Async
@@ -38,7 +35,7 @@ class Async implements LoaderInterface
     protected $loop;
 
     /**
-     * @var Client
+     * @var Browser
      */
     protected $client;
 
@@ -84,7 +81,7 @@ class Async implements LoaderInterface
     protected function readRemoteFile($url)
     {
         return $this->client->get($url)->then(
-            function (Response $response) {
+            function (ResponseInterface $response) {
                 return $response->getBody()->getContents();
             }
         );
