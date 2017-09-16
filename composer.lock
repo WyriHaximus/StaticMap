@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "44b2f71a0cbfaa468685ce9d1608d9f5",
+    "content-hash": "fbee3d739f49b938a15a62e34261095a",
     "packages": [
         {
             "name": "clue/buzz-react",
-            "version": "dev-master",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/clue/php-buzz-react.git",
-                "reference": "c0b70d8a475b527ce752c9aef0b7b8ab582801c3"
+                "reference": "c05a50b7eb43a9411c87fde5fb829e0f2961e599"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/clue/php-buzz-react/zipball/c0b70d8a475b527ce752c9aef0b7b8ab582801c3",
-                "reference": "c0b70d8a475b527ce752c9aef0b7b8ab582801c3",
+                "url": "https://api.github.com/repos/clue/php-buzz-react/zipball/c05a50b7eb43a9411c87fde5fb829e0f2961e599",
+                "reference": "c05a50b7eb43a9411c87fde5fb829e0f2961e599",
                 "shasum": ""
             },
             "require": {
@@ -62,7 +62,7 @@
                 "psr-7",
                 "reactphp"
             ],
-            "time": "2017-09-15 16:25:46"
+            "time": "2017-09-16T10:39:53+00:00"
         },
         {
             "name": "evenement/evenement",
@@ -3499,9 +3499,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "clue/buzz-react": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
