@@ -17,13 +17,13 @@
         }
     ],
     "require": {
-        "php": "^7.0",
-        "imagine/Imagine": "0.4.*",
+        "php": "^7.2",
+        "imagine/imagine": "^1.2",
         "clue/buzz-react": "^2.0"
     },
     "require-dev": {
         "ext-gd": "*",
-        "api-clients/test-utilities": "^4.1"
+        "wyrihaximus/test-utilities": "^1.2"
     },
     "autoload": {
         "psr-4": {

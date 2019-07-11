@@ -8,7 +8,7 @@ use WyriHaximus\StaticMap\Tests\TilesTest;
 
 class RendererTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->tmpDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'StaticMapTests_' .
         md5(time() . uniqid()) . md5(serialize($this->getName(true)));
@@ -21,7 +21,7 @@ class RendererTest extends TestCase
         }
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->removeDir($this->tmpDir);
     }
@@ -34,7 +34,7 @@ class RendererTest extends TestCase
         );
     }
 
-    public function testSmallRenderProvider()
+    public function smallRenderProvider()
     {
         $return = array();
         $imagines = $this->imagineProvider();
@@ -48,7 +48,7 @@ class RendererTest extends TestCase
     }
     
     /**
-     * @dataProvider testSmallRenderProvider
+     * @dataProvider smallRenderProvider
      */
     public function testSmallRender($checkPoints, $Imagine)
     {
@@ -60,8 +60,7 @@ class RendererTest extends TestCase
             new \WyriHaximus\StaticMap\Tiles(
                 TilesTest::getBaseTilesPath() . 'Simple' . DIRECTORY_SEPARATOR . '{x}/{y}.png',
                 TilesTest::getBaseTilesPath() . 'black.jpg'
-            ),
-            new Async()
+            )
         );
 
         $Renderer->generate()->save($this->tmpDir . DIRECTORY_SEPARATOR . 'RenderSmallTest.png');
@@ -69,7 +68,7 @@ class RendererTest extends TestCase
         $this->compareImages($checkPoints, $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderSmallTest.png', 25);
     }
 
-    public function testMediumRenderProvider()
+    public function mediumRenderProvider()
     {
         $return = array();
         $imagines = $this->imagineProvider();
@@ -83,7 +82,7 @@ class RendererTest extends TestCase
     }
 
     /**
-     * @dataProvider testMediumRenderProvider
+     * @dataProvider mediumRenderProvider
      */
     public function testMediumRender($checkPoints, $Imagine)
     {
@@ -103,7 +102,7 @@ class RendererTest extends TestCase
         $this->compareImages($checkPoints, $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderMediumTest.png', 256);
     }
 
-    public function testBigRenderProvider()
+    public function bigRenderProvider()
     {
         $return = array();
         $imagines = $this->imagineProvider();
@@ -117,7 +116,7 @@ class RendererTest extends TestCase
     }
 
     /**
-     * @dataProvider testBigRenderProvider
+     * @dataProvider bigRenderProvider
      */
     public function testBigRender($checkPoints, $Imagine)
     {
@@ -137,7 +136,7 @@ class RendererTest extends TestCase
         $this->compareImages($checkPoints, $this->tmpDir . DIRECTORY_SEPARATOR . 'RenderBigTest.png', 345);
     }
 
-    public function testCenterBlipProvider()
+    public function centerBlipProvider()
     {
         $return = array();
         $imagines = $this->imagineProvider();
@@ -151,7 +150,7 @@ class RendererTest extends TestCase
     }
 
     /**
-     * @dataProvider testCenterBlipProvider
+     * @dataProvider centerBlipProvider
      */
     public function testCenterBlip($checkPoints, $Imagine)
     {

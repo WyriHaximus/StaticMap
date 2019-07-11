@@ -13,7 +13,7 @@ class TilesTest extends TestCase
         return __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR;
     }
 
-    public function testGetTileProvider()
+    public function getTileProvider()
     {
         return [
             [0, 0],
@@ -24,7 +24,7 @@ class TilesTest extends TestCase
     }
 
     /**
-     * @dataProvider testGetTileProvider
+     * @dataProvider getTileProvider
      */
     public function testGetTile($x, $y)
     {

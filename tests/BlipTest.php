@@ -10,7 +10,7 @@ use WyriHaximus\StaticMap\LatLng;
 class BlipTest extends TestCase
 {
 
-    public function testCreateProvider()
+    public function createProvider()
     {
         $defaultImage = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'src' .
         DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
@@ -31,7 +31,7 @@ class BlipTest extends TestCase
     }
 
     /**
-     * @dataProvider testCreateProvider
+     * @dataProvider createProvider
      */
     public function testCreate(\WyriHaximus\StaticMap\LatLng $latLng, $result)
     {
@@ -39,7 +39,7 @@ class BlipTest extends TestCase
         $this->assertEquals($result, $resultBlip);
     }
 
-    public function testGetImageProvider()
+    public function getImageProvider()
     {
         $defaultImage = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'src' .
         DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
@@ -69,7 +69,7 @@ class BlipTest extends TestCase
     }
 
     /**
-     * @dataProvider testGetImageProvider
+     * @dataProvider getImageProvider
      */
     public function testGetImage(\WyriHaximus\StaticMap\LatLng $latLng, $image, $result)
     {
@@ -77,7 +77,7 @@ class BlipTest extends TestCase
         $this->assertEquals($result, $resultBlip->getImage());
     }
 
-    public function testGetLatLngProvider()
+    public function getLatLngProvider()
     {
         return [
             [
@@ -93,7 +93,7 @@ class BlipTest extends TestCase
     }
 
     /**
-     * @dataProvider testGetLatLngProvider
+     * @dataProvider getLatLngProvider
      */
     public function testGetLatLng(\WyriHaximus\StaticMap\LatLng $latLng)
     {
@@ -101,7 +101,7 @@ class BlipTest extends TestCase
         $this->assertEquals($latLng, $resultBlip->getLatLng());
     }
 
-    public function testCalculatePositionProvider()
+    public function calculatePositionProvider()
     {
         return [
             [
@@ -115,7 +115,7 @@ class BlipTest extends TestCase
     }
 
     /**
-     * @dataProvider testCalculatePositionProvider
+     * @dataProvider calculatePositionProvider
      */
     public function testCalculatePosition(
         \WyriHaximus\StaticMap\Point $center,

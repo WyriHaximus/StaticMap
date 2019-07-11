@@ -35,7 +35,7 @@ class GeoTest extends TestCase
         $this->assertEquals(768, $box['base']->getHeight());
     }
 
-    public function testCalculatePointProvider()
+    public function calculatePointProvider()
     {
         return [
             // #1
@@ -60,7 +60,7 @@ class GeoTest extends TestCase
     }
 
     /**
-     * @dataProvider testCalculatePointProvider
+     * @dataProvider calculatePointProvider
      */
     public function testCalculatePoint(
         \WyriHaximus\StaticMap\LatLng $latLon,

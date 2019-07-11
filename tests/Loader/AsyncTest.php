@@ -1,6 +1,6 @@
 <?php
 
-namespace WyriHaximus\WyriHaximus\StaticMap\Tests;
+namespace WyriHaximus\WyriHaximus\StaticMap\Tests\Loader;
 
 use Clue\React\Buzz\Browser;
 use React\EventLoop\LoopInterface;
@@ -11,14 +11,14 @@ use WyriHaximus\StaticMap\Loader\Async;
 class AsyncTest extends AbstractLoaderTest
 {
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->loader = new Async();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->loader);
 

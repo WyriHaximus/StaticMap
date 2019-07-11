@@ -1,20 +1,20 @@
 <?php
 
-namespace WyriHaximus\WyriHaximus\StaticMap\Tests;
+namespace WyriHaximus\WyriHaximus\StaticMap\Tests\Loader;
 
 use WyriHaximus\StaticMap\Loader\Simple;
 
 class SimpleTest extends AbstractLoaderTest
 {
 
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->loader = new Simple();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         unset($this->loader);
 

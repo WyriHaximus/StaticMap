@@ -1,6 +1,6 @@
 <?php
 
-namespace WyriHaximus\WyriHaximus\StaticMap\Tests;
+namespace WyriHaximus\WyriHaximus\StaticMap\Tests\Loader;
 
 use PHPUnit\Framework\TestCase;
 
