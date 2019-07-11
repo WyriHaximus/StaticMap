@@ -23,7 +23,7 @@
     },
     "require-dev": {
         "ext-gd": "*",
-        "api-clients/test-utilities": "^4.1"
+        "api-clients/test-utilities": "^5.5"
     },
     "autoload": {
         "psr-4": {
