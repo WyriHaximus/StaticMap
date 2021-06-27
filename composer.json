@@ -23,7 +23,7 @@
     },
     "require-dev": {
         "ext-gd": "*",
-        "wyrihaximus/test-utilities": "^1.2"
+        "wyrihaximus/test-utilities": "^2.4"
     },
     "autoload": {
         "psr-4": {
