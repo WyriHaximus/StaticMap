@@ -1,17 +1,23 @@
 <?php
 
-namespace WyriHaximus\WyriHaximus\StaticMap\Tests\Loader;
+declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
+namespace WyriHaximus\Tests\StaticMap\Loader;
+
+use WyriHaximus\TestUtilities\TestCase;
+
+use function dirname;
+
+use const DIRECTORY_SEPARATOR;
 
 abstract class AbstractLoaderTest extends TestCase
 {
-    public function testInterface()
+    public function testInterface(): void
     {
         $this->assertInstanceOf('WyriHaximus\StaticMap\Loader\LoaderInterface', $this->loader);
     }
 
-    public function testAddImagePromise()
+    public function testAddImagePromise(): void
     {
         $this->assertInstanceOf(
             'React\Promise\PromiseInterface',
@@ -21,7 +27,7 @@ abstract class AbstractLoaderTest extends TestCase
         );
     }
 
-    public function testImageExistsPromise()
+    public function testImageExistsPromise(): void
     {
         $this->assertInstanceOf(
             'React\Promise\PromiseInterface',

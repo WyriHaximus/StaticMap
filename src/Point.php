@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of StaticMap and 90% based on \Imagine\Image\Point.
  *
@@ -11,36 +13,20 @@
 
 namespace WyriHaximus\StaticMap;
 
-use Imagine\Image\PointInterface;
 use Imagine\Image\BoxInterface;
+use Imagine\Image\PointInterface;
 
-/**
- * The point class
- */
-class Point implements PointInterface
+use function sprintf;
+
+final class Point implements PointInterface
 {
-    /**
-     * @var integer
-     */
-    private $x;
-
-    /**
-     * @var integer
-     */
-    private $y;
-
     /**
      * Constructs a point of coordinates
      *
-     * @param integer $x
-     * @param integer $y
-     *
      * @throws InvalidArgumentException
      */
-    public function __construct($x, $y)
+    public function __construct(private readonly float $x, private readonly float $y)
     {
-        $this->x = $x;
-        $this->y = $y;
     }
 
     /**

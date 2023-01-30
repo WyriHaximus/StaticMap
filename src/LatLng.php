@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of StaticMap.
  *
@@ -11,35 +13,32 @@
 
 namespace WyriHaximus\StaticMap;
 
+use function floatval;
+
 /**
  * Storage for lat, lng pair values.
- *
- * @package StaticMap
- * @author  Cees-Jan Kiewiet <ceesjank@gmail.com>
  */
 final class LatLng
 {
     /**
      * Value for the lat
-     * @var double
      */
-    private $lat;
+    private int $lat;
 
     /**
      * Value for the lng
-     * @var double
      */
-    private $lng;
+    private int $lng;
 
     /**
      * Store Size value's.
      *
      * All value's will be sanitized and forced in a certain range.
      *
-     * @param double $lat lat
-     * @param double $lng lng
+     * @param int $lat lat
+     * @param int $lng lng
      */
-    public function __construct($lat, $lng)
+    public function __construct(int $lat, int $lng)
     {
         $this->setLat($lat);
         $this->setLng($lng);
@@ -47,10 +46,8 @@ final class LatLng
 
     /**
      * Set the value for the lat and returns the stored value
-     * @param  double $lat
-     * @return double
      */
-    public function setLat($lat)
+    public function setLat(int $lat): int
     {
         $this->lat = $this->sanitized($lat, -90, 90, $this->lat);
 
@@ -59,19 +56,16 @@ final class LatLng
 
     /**
      * Returns the value for the lat
-     * @return double
      */
-    public function getLat()
+    public function getLat(): int
     {
         return $this->lat;
     }
 
     /**
      * Set the value for the lng and returns the stored value
-     * @param  double $lng
-     * @return double
      */
-    public function setLng($lng)
+    public function setLng(int $lng): int
     {
         $this->lng = $this->sanitized($lng, -180, 180, $this->lng);
 
@@ -80,9 +74,8 @@ final class LatLng
 
     /**
      * Returns the value for the lng
-     * @return double
      */
-    public function getLng()
+    public function getLng(): int
     {
         return $this->lng;
     }
@@ -90,20 +83,19 @@ final class LatLng
     /**
      * Sanitize value to be int and between $rangeBegin and $rangeend.
      *
-     * @param  double $value      Value to be sanitized
-     * @param  double $rangeBegin Begin of the range
-     * @param  double $rangeEnd   End of the range
-     * @param  double $default    Value to use incase $value is invalid
-     * @return double
+     * @param  int $value      Value to be sanitized
+     * @param  int $rangeBegin Begin of the range
+     * @param  int $rangeEnd   End of the range
+     * @param  int $default    Value to use incase $value is invalid
      */
-    private function sanitized($value, $rangeBegin, $rangeEnd, $default)
+    private function sanitized(int $value, int $rangeBegin, int $rangeEnd, int $default): int
     {
         $value = floatval($value);
 
         if ($value >= $rangeBegin && $rangeEnd >= $value) {
             return $value;
-        } else {
-            return $default;
         }
+
+        return $default;
     }
 }

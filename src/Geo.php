@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of StaticMap.
  *
@@ -12,67 +14,70 @@
 namespace WyriHaximus\StaticMap;
 
 use Imagine\Image\Box;
+use Imagine\Image\PointInterface;
+
+use function ceil;
+use function floor;
+use function log;
+use function pow;
+use function round;
+use function tan;
+
+use const M_PI;
+use const M_PI_4;
 
 /**
  * Geo calculations.
- *
- * @package StaticMap
- * @author  Cees-Jan Kiewiet <ceesjank@gmail.com>
  */
-class Geo
+final class Geo
 {
-    const TILE_SIZE = 256;
+    public const TILE_SIZE = 256;
 
     /**
      * Calculate the box variables by the given size and center
      *
-     * @param \Imagine\Image\Box $size
-     * @param Point $center
-     * @return array
+     * @return array<mixed>
      */
-    public static function calculateBox(Box $size, Point $center)
+    public static function calculateBox(Box $size, PointInterface $center): array
     {
-        $max_height_count = ceil($size->getHeight() / self::TILE_SIZE);
-        $max_width_count = ceil($size->getWidth() / self::TILE_SIZE);
+        $maxHeightCount = ceil($size->getHeight() / self::TILE_SIZE);
+        $maxWidthCount  = ceil($size->getWidth() / self::TILE_SIZE);
 
-        $tile_height_start = floor($center->getY() / self::TILE_SIZE) - floor($max_height_count / 2);
-        $tile_width_start = floor($center->getX() / self::TILE_SIZE) - floor($max_width_count / 2);
+        $tileHeightStart = floor($center->getY() / self::TILE_SIZE) - floor($maxHeightCount / 2);
+        $tileWidthStart  = floor($center->getX() / self::TILE_SIZE) - floor($maxWidthCount / 2);
 
-        $tile_height_stop = $tile_height_start + $max_height_count + 2;
-        $tile_width_stop = $tile_width_start + $max_width_count + 2;
+        $tileHeightStop = $tileHeightStart + $maxHeightCount + 2;
+        $tileWidthStop  = $tileWidthStart + $maxWidthCount + 2;
 
-        $upper_y = $center->getY() - floor($size->getHeight() / 2) - ($tile_height_start * self::TILE_SIZE);
-        $upper_x = $center->getX() - floor($size->getWidth() / 2) - ($tile_width_start * self::TILE_SIZE);
+        $upperY = $center->getY() - floor($size->getHeight() / 2) - ($tileHeightStart * self::TILE_SIZE);
+        $upperX = $center->getX() - floor($size->getWidth() / 2) - ($tileWidthStart * self::TILE_SIZE);
 
-        return array(
+        return [
             'tiles' => [
-                'start' => new Point($tile_width_start, $tile_height_start),
-                'stop' => new Point($tile_width_stop, $tile_height_stop),
+                'start' => new Point($tileWidthStart, $tileHeightStart),
+                'stop' => new Point($tileWidthStop, $tileHeightStop),
             ],
-            'crop' => new Point(round($upper_x + self::TILE_SIZE), round($upper_y + self::TILE_SIZE)),
+            'crop' => new Point(round($upperX + self::TILE_SIZE), round($upperY + self::TILE_SIZE)),
             'base' => new Box(
-                (($max_width_count + 2) * self::TILE_SIZE),
-                (($max_height_count + 2) * self::TILE_SIZE)
+                ($maxWidthCount + 2) * self::TILE_SIZE,
+                ($maxHeightCount + 2) * self::TILE_SIZE
             ),
-        );
+        ];
     }
 
     /**
      * Calculate the pixel point for the given latitude and longitude
-     *
-     * @param LatLng $latLon
-     * @param $zoom
-     * @return Point
      */
-    public static function calculatePoint(LatLng $latLon, $zoom)
+    public static function calculatePoint(LatLng $latLon, int $zoom): PointInterface
     {
-        $tile_count = pow(2, $zoom);
-        $pixel_count = $tile_count * self::TILE_SIZE;
+        $tileCount  = pow(2, $zoom);
+        $pixelCount = $tileCount * self::TILE_SIZE;
 
-        $x = ($pixel_count * (180 + $latLon->getLng()) / 360) % $pixel_count;
-        $lat = ($latLon->getLat() * M_PI) / 180;
-        $y = log(tan(($lat / 2) + M_PI_4));
-        $y = ($pixel_count / 2) - ($pixel_count * $y / (2 * M_PI));
+        $x   = ($pixelCount * (180 + $latLon->getLng()) / 360) % $pixelCount;
+        $lat = $latLon->getLat() * M_PI / 180;
+        $y   = log(tan(($lat / 2) + M_PI_4));
+        $y   = ($pixelCount / 2) - ($pixelCount * $y / (2 * M_PI));
+
         return new Point($x, $y);
     }
 }

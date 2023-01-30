@@ -1,16 +1,17 @@
 <?php
 
-namespace WyriHaximus\WyriHaximus\StaticMap\Tests\Loader;
+declare(strict_types=1);
+
+namespace WyriHaximus\Tests\StaticMap\Loader;
 
 use Clue\React\Buzz\Browser;
 use React\EventLoop\LoopInterface;
-use function React\Promise\resolve;
-use WyriHaximus\React\Guzzle\HttpClientAdapter;
 use WyriHaximus\StaticMap\Loader\Async;
 
-class AsyncTest extends AbstractLoaderTest
-{
+use function React\Promise\resolve;
 
+final class AsyncTest extends AbstractLoaderTest
+{
     public function setUp(): void
     {
         parent::setUp();
@@ -25,7 +26,7 @@ class AsyncTest extends AbstractLoaderTest
         parent::tearDown();
     }
 
-    public function testAddRemoteImagePromise()
+    public function testAddRemoteImagePromise(): void
     {
         $this->assertInstanceOf(
             'React\Promise\PromiseInterface',
@@ -33,11 +34,11 @@ class AsyncTest extends AbstractLoaderTest
         );
     }
 
-    public function testClient()
+    public function testClient(): void
     {
         $url = 'http://example.com/black.jpg';
 
-        $loop = $this->prophesize(LoopInterface::class);
+        $loop   = $this->prophesize(LoopInterface::class);
         $client = $this->prophesize(Browser::class);
         $client->get($url)->shouldBeCalled()->willReturn(resolve('foo:bar'));
 

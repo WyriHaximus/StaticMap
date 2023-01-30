@@ -1,27 +1,23 @@
 <?php
 
-namespace WyriHaximus\StaticMap\Tests;
+declare(strict_types=1);
+
+namespace WyriHaximus\Tests\StaticMap;
 
 use Imagine\Image\Box;
 use Imagine\Image\BoxInterface;
-use PHPUnit\Framework\TestCase;
 use WyriHaximus\StaticMap\Point;
+use WyriHaximus\TestUtilities\TestCase;
 
-class PointTest extends TestCase
+final class PointTest extends TestCase
 {
     /**
      * @covers       WyriHaximus\StaticMap\Point::getX
      * @covers       WyriHaximus\StaticMap\Point::getY
      * @covers       WyriHaximus\StaticMap\Point::in
-     *
      * @dataProvider getCoordinates
-     *
-     * @param integer $x
-     * @param integer $y
-     * @param BoxInterface $box
-     * @param Boolean $expected
      */
-    public function testShouldAssignXYCoordinates($x, $y, BoxInterface $box, $expected)
+    public function testShouldAssignXYCoordinates(int $x, int $y, BoxInterface $box, bool $expected): void
     {
         $coordinate = new Point($x, $y);
 
@@ -34,9 +30,9 @@ class PointTest extends TestCase
     /**
      * Data provider for testShouldAssignXYCoordinates
      *
-     * @return array
+     * @return array<array<int, Box, bool>>
      */
-    public function getCoordinates()
+    public function getCoordinates(): array
     {
         return [
             [0, 0, new Box(5, 5), true],
@@ -51,16 +47,9 @@ class PointTest extends TestCase
      * @covers       WyriHaximus\StaticMap\Point::getX
      * @covers       WyriHaximus\StaticMap\Point::getY
      * @covers       WyriHaximus\StaticMap\Point::move
-     *
      * @dataProvider getMoves
-     *
-     * @param integer $x
-     * @param integer $y
-     * @param integer $move
-     * @param integer $x1
-     * @param integer $y1
      */
-    public function testShouldMoveByGivenAmount($x, $y, $move, $x1, $y1)
+    public function testShouldMoveByGivenAmount(int $x, int $y, int $move, int $x1, int $y1): void
     {
         $point = new Point($x, $y);
         $shift = $point->move($move);
@@ -70,7 +59,10 @@ class PointTest extends TestCase
         $this->assertEquals($y1, $shift->getY());
     }
 
-    public function getMoves()
+    /**
+     * @return array<array<int>>
+     */
+    public function getMoves(): array
     {
         return [
             [0, 0, 5, 5, 5],
@@ -82,8 +74,8 @@ class PointTest extends TestCase
     /**
      * @covers WyriHaximus\StaticMap\Point::__toString
      */
-    public function testToString()
+    public function testToString(): void
     {
-        $this->assertEquals('(50, 50)', (string)new Point(50, 50));
+        $this->assertEquals('(50, 50)', (string) new Point(50, 50));
     }
 }

@@ -1,87 +1,89 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WyriHaximus\StaticMap\Tests;
 
-use PHPUnit\Framework\TestCase;
 use WyriHaximus\StaticMap\LatLng;
+use WyriHaximus\TestUtilities\TestCase;
 
-class LatLngTest extends TestCase
+final class LatLngTest extends TestCase
 {
-    public function testConstructor()
+    public function testConstructor(): void
     {
-        $LatLng = new LatLng(35, 45);
+        $latLng = new LatLng(35, 45);
 
-        $this->assertEquals(35, $LatLng->getLat());
-        $this->assertEquals(45, $LatLng->getLng());
+        $this->assertEquals(35, $latLng->getLat());
+        $this->assertEquals(45, $latLng->getLng());
     }
 
-    public function testSetters()
+    public function testSetters(): void
     {
-        $LatLng = new LatLng(35, 45);
+        $latLng = new LatLng(35, 45);
 
-        $LatLng->setLat(55);
-        $LatLng->setLng(65);
+        $latLng->setLat(55);
+        $latLng->setLng(65);
 
-        $this->assertEquals(55, $LatLng->getLat());
-        $this->assertEquals(65, $LatLng->getLng());
+        $this->assertEquals(55, $latLng->getLat());
+        $this->assertEquals(65, $latLng->getLng());
     }
 
-    public function testInRange()
+    public function testInRange(): void
     {
-        $LatLng = new LatLng(35, 45);
+        $latLng = new LatLng(35, 45);
 
         for ($i = -90; $i <= 90; $i++) {
-            $LatLng->setLat($i);
-            $this->assertEquals($i, $LatLng->getLat());
+            $latLng->setLat($i);
+            $this->assertEquals($i, $latLng->getLat());
         }
 
         for ($i = -180; $i <= 180; $i++) {
-            $LatLng->setLng($i);
-            $this->assertEquals($i, $LatLng->getLng());
+            $latLng->setLng($i);
+            $this->assertEquals($i, $latLng->getLng());
         }
     }
 
-    public function testOutRange()
+    public function testOutRange(): void
     {
-        $LatLng = new LatLng(35, 45);
+        $latLng = new LatLng(35, 45);
 
-        $LatLng->setLat(-90.1);
-        $this->assertEquals(35, $LatLng->getLat());
-        $LatLng->setLat(-91);
-        $this->assertEquals(35, $LatLng->getLat());
+        $latLng->setLat(-90.1);
+        $this->assertEquals(35, $latLng->getLat());
+        $latLng->setLat(-91);
+        $this->assertEquals(35, $latLng->getLat());
 
-        $LatLng->setLat(90.1);
-        $this->assertEquals(35, $LatLng->getLat());
-        $LatLng->setLat(91);
-        $this->assertEquals(35, $LatLng->getLat());
+        $latLng->setLat(90.1);
+        $this->assertEquals(35, $latLng->getLat());
+        $latLng->setLat(91);
+        $this->assertEquals(35, $latLng->getLat());
 
-        $LatLng->setLat(-180.1);
-        $this->assertEquals(35, $LatLng->getLat());
-        $LatLng->setLat(-181);
-        $this->assertEquals(35, $LatLng->getLat());
+        $latLng->setLat(-180.1);
+        $this->assertEquals(35, $latLng->getLat());
+        $latLng->setLat(-181);
+        $this->assertEquals(35, $latLng->getLat());
 
-        $LatLng->setLat(190.1);
-        $this->assertEquals(35, $LatLng->getLat());
-        $LatLng->setLat(181);
-        $this->assertEquals(35, $LatLng->getLat());
+        $latLng->setLat(190.1);
+        $this->assertEquals(35, $latLng->getLat());
+        $latLng->setLat(181);
+        $this->assertEquals(35, $latLng->getLat());
     }
 
-    public function testNonInt()
+    public function testNonInt(): void
     {
-        $LatLng = new LatLng('a', 'b');
+        $latLng = new LatLng('a', 'b');
 
-        $this->assertEquals(0, $LatLng->getLat());
-        $this->assertEquals(0, $LatLng->getLng());
+        $this->assertEquals(0, $latLng->getLat());
+        $this->assertEquals(0, $latLng->getLng());
     }
 
-    public function testNonIntGetter()
+    public function testNonIntGetter(): void
     {
-        $LatLng = new LatLng('a', 'b');
+        $latLng = new LatLng('a', 'b');
 
-        $LatLng->setLat('c');
-        $LatLng->setLng('d');
+        $latLng->setLat('c');
+        $latLng->setLng('d');
 
-        $this->assertEquals(0, $LatLng->getLat());
-        $this->assertEquals(0, $LatLng->getLng());
+        $this->assertEquals(0, $latLng->getLat());
+        $this->assertEquals(0, $latLng->getLng());
     }
 }

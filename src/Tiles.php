@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of StaticMap.
  *
@@ -12,58 +14,45 @@
 namespace WyriHaximus\StaticMap;
 
 use React\Promise\Deferred;
+use React\Promise\Promise;
 use WyriHaximus\StaticMap\Loader\LoaderInterface;
 
-/**
- * Renderer using given Imagine instance.
- *
- * @package StaticMap
- * @author  Cees-Jan Kiewiet <ceesjank@gmail.com>
- */
+use function str_replace;
+
 final class Tiles
 {
     /**
      * Tiles location.
-     *
-     * @var string
      */
-    private $location;
+    private string $location;
 
     /**
      * Fallback image in case no tile image can be found.
-     *
-     * @var string
      */
-    private $fallbackImage;
+    private string $fallbackImage;
 
     /**
      * File loader.
-     *
-     * @var LoaderInterface
      */
-    private $loader;
+    private LoaderInterface $loader;
 
     /**
-     * Constructor.
-     *
      * @param string $location      Tiles location.
      * @param string $fallbackImage Fallback image in case no tile image can be found.
      */
-    public function __construct($location, $fallbackImage = '')
+    public function __construct(string $location, string $fallbackImage = '')
     {
-        $this->location = $location;
+        $this->location      = $location;
         $this->fallbackImage = $fallbackImage;
     }
 
     /**
      * Return file name through a promise.
      *
-     * @param integer $xAxis X coordinate.
-     * @param integer $yAxis Y coordinate.
-     *
-     * @return \React\Promise\Promise
+     * @param int $xAxis X coordinate.
+     * @param int $yAxis Y coordinate.
      */
-    public function getTile($xAxis, $yAxis)
+    public function getTile(int $xAxis, int $yAxis): Promise
     {
         $fileName = str_replace(['{x}', '{y}'], [$xAxis, $yAxis], $this->location);
 
@@ -72,7 +61,7 @@ final class Tiles
         $this->
             loader->
             imageExists($fileName)->
-            then(function () use ($deferred, $fileName) {
+            then(static function () use ($deferred, $fileName): void {
                 $deferred->resolve($fileName);
             }, function () use ($deferred, $fileName) {
                 if (empty($this->fallbackImage)) {
@@ -80,8 +69,7 @@ final class Tiles
                 }
 
                 $deferred->resolve($this->fallbackImage);
-            })
-        ;
+            });
 
         return $deferred->promise();
     }
@@ -90,10 +78,8 @@ final class Tiles
      * Set the file loader.
      *
      * @param LoaderInterface $loader File loader.
-     *
-     * @return void
      */
-    public function setLoader(LoaderInterface $loader)
+    public function setLoader(LoaderInterface $loader): void
     {
         $this->loader = $loader;
     }

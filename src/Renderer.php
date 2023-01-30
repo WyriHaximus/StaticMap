@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of StaticMap.
  *
@@ -12,91 +14,82 @@
 namespace WyriHaximus\StaticMap;
 
 use Imagine\Image\Box;
+use Imagine\Image\ImageInterface;
 use Imagine\Image\ImagineInterface;
+use Imagine\Image\PointInterface;
 use React\Promise\Promise;
+use Throwable;
 use WyriHaximus\StaticMap\Loader\LoaderInterface;
 use WyriHaximus\StaticMap\Loader\Simple;
 
 /**
  * Renderer using given Imagine instance.
- *
- * @package StaticMap
- * @author  Cees-Jan Kiewiet <ceesjank@gmail.com>
  */
-class Renderer
+final class Renderer
 {
     /**
      * Imagine instance
-     * @var \Imagine\Image\ImagineInterface
      */
-    private $imagine;
+    private ImagineInterface $imagine;
 
     /**
      * Property containing the image under construction
-     *
-     * @var \Imagine\Image\ImageInterface
      */
-    private $resultImage;
+    private ImageInterface $resultImage;
 
     /**
      * Value for the zoom
-     * @var int
      */
-    private $zoom;
+    private int $zoom;
 
     /**
      * Image size
-     * @var \Imagine\Image\Box
      */
-    private $size;
+    private Box $size;
 
     /**
      * LatLng center
-     * @var \WyriHaximus\StaticMap\LatLng
      */
-    private $center;
+    private LatLng $center;
 
     /**
      * LatLng center Point
-     * @var Point
      */
-    private $centerPoint;
+    private PointInterface $centerPoint;
 
     /**
      * Tile image resolver
-     * @var \WyriHaximus\StaticMap\Tiles
      */
-    private $tiles;
+    private Tiles $tiles;
 
     /**
      * Array with blips (points of interest)
-     * @var array
+     *
+     * @var array<Blip>
      */
-    private $blips = [];
+    private array $blips = [];
 
-    /**
-     * @var LoaderInterface
-     */
-    private $loader;
+    private LoaderInterface $loader;
 
     public function __construct(
         ImagineInterface $imagine,
-        $zoom,
+        int $zoom,
         Box $size,
         LatLng $center,
         Tiles $tiles,
-        LoaderInterface $loader = null
+        ?LoaderInterface $loader = null
     ) {
-        $this->imagine = $imagine;
-        $this->zoom = $zoom;
-        $this->size = $size;
-        $this->center = $center;
+        $this->imagine     = $imagine;
+        $this->zoom        = $zoom;
+        $this->size        = $size;
+        $this->center      = $center;
         $this->centerPoint = Geo::calculatePoint($this->center, $this->zoom);
-        $this->tiles = $tiles;
+        $this->tiles       = $tiles;
 
         if ($loader === null) {
             $loader = new Simple();
         }
+
         $this->loader = $loader;
 
         $this->tiles->setLoader($this->loader);
@@ -104,32 +97,29 @@ class Renderer
 
     /**
      * Generate the static map image and add blips to it if any are found
-     *
-     * @return ImageInterface The resulting image
-     *
-     * @return void
      */
-    public function generate()
+    public function generate(): ImageInterface
     {
         $box = Geo::calculateBox($this->size, $this->centerPoint);
 
         $this->resultImage = $this->imagine->create($box['base']);
-        $jj = 0;
+        $jj                = 0;
 
         $xStart = $box['tiles']['start']->getX();
-        $xStop = $box['tiles']['stop']->getX();
+        $xStop  = $box['tiles']['stop']->getX();
         $yStart = $box['tiles']['start']->getY();
-        $yStop = $box['tiles']['stop']->getY();
+        $yStop  = $box['tiles']['stop']->getY();
 
-        for ($i = ($yStart - 1); $i < $yStop; $i++) {
+        for ($i = $yStart - 1; $i < $yStop; $i++) {
             $ii = 0;
-            for ($j = ($xStart - 1); $j < $xStop; $j++) {
+            for ($j = $xStart - 1; $j < $xStop; $j++) {
                 $this->addTile(
                     $this->tiles->getTile($j, $i),
-                    new Point(($ii * Geo::TILE_SIZE), ($jj * Geo::TILE_SIZE))
+                    new Point($ii * Geo::TILE_SIZE, $jj * Geo::TILE_SIZE)
                 );
                 $ii++;
             }
+
             $jj++;
         }
 
@@ -150,10 +140,8 @@ class Renderer
      * Add a blip to the center of the image.
      *
      * @param string|null $image Image to use as blip.
-     *
-     * @return void
      */
-    public function addCenterBlip($image = null)
+    public function addCenterBlip(?string $image = null): void
     {
         $this->addBlip(Blip::create($this->center, $image));
     }
@@ -162,10 +150,8 @@ class Renderer
      * Add a blip the collection of blips to be drawn.
      *
      * @param Blip $blip Added a Blip to the list of blips for on the map.
-     *
-     * @return void
      */
-    public function addBlip(Blip $blip)
+    public function addBlip(Blip $blip): void
     {
         $this->blips[] = $blip;
     }
@@ -175,17 +161,15 @@ class Renderer
      *
      * @param Promise $promise Promise from the get tile.
      * @param Point   $point   Point where to place the tile.
-     *
-     * @return void
      */
-    protected function addTile(Promise $promise, Point $point)
+    protected function addTile(Promise $promise, Point $point): void
     {
         $promise->then(
-            function ($fileName) use ($point) {
+            function ($fileName) {
                 return $this->loader->addImage($fileName);
             }
         )->then(
-            function ($image) use ($point) {
+            function ($image) use ($point): void {
                 $this->drawImage($image, $point);
             }
         );
@@ -195,13 +179,11 @@ class Renderer
      * Draw a blip on the image.
      *
      * @param Blip $blip Blip to draw on the map.
-     *
-     * @return void
      */
-    protected function drawBlip(Blip $blip)
+    protected function drawBlip(Blip $blip): void
     {
         $this->loader->addImage($blip->getImage())->then(
-            function ($image) use ($blip) {
+            function ($image) use ($blip): void {
                 $this->drawImage($image, $blip->calculatePosition($this->centerPoint, $this->size, $this->zoom));
             }
         );
@@ -212,17 +194,15 @@ class Renderer
      *
      * @param string $image Image blob.
      * @param Point  $point The point where to draw $image.
-     *
-     * @return void
      */
-    protected function drawImage($image, Point $point)
+    protected function drawImage(string $image, Point $point): void
     {
         try {
             $this->resultImage->paste(
                 $this->imagine->load($image),
                 $point
             );
-        } catch (\Exception $exception) {
+        } catch (Throwable $exception) {
             // Most likely an exception about a out of bounds past, we'll just ignore that
         }
     }

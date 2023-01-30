@@ -1,41 +1,48 @@
 <?php
 
-namespace WyriHaximus\StaticMap\Tests;
+declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
-use WyriHaximus\StaticMap\Point;
+namespace WyriHaximus\Tests\StaticMap;
+
+use Imagine\Image\Box;
+use WyriHaximus\StaticMap\Geo;
 use WyriHaximus\StaticMap\LatLng;
+use WyriHaximus\StaticMap\Point;
+use WyriHaximus\TestUtilities\TestCase;
 
-class GeoTest extends TestCase
+final class GeoTest extends TestCase
 {
-    public function testCalculateBox()
+    public function testCalculateBox(): void
     {
-        $box = \WyriHaximus\StaticMap\Geo::calculateBox(
-            new \Imagine\Image\Box(25, 25),
-            \WyriHaximus\StaticMap\Geo::calculatePoint(
+        $box = Geo::calculateBox(
+            new Box(25, 25),
+            Geo::calculatePoint(
                 new LatLng(71, 111),
                 3
             )
         );
 
-        $this->assertTrue($box['tiles']['start'] instanceof \WyriHaximus\StaticMap\Point);
+        $this->assertTrue($box['tiles']['start'] instanceof Point);
         $this->assertEquals(6, $box['tiles']['start']->getX());
         $this->assertEquals(1, $box['tiles']['start']->getY());
 
-        $this->assertTrue($box['tiles']['stop'] instanceof \WyriHaximus\StaticMap\Point);
+        $this->assertTrue($box['tiles']['stop'] instanceof Point);
         $this->assertEquals(9, $box['tiles']['stop']->getX());
         $this->assertEquals(4, $box['tiles']['stop']->getY());
 
-        $this->assertTrue($box['crop'] instanceof \WyriHaximus\StaticMap\Point);
+        $this->assertTrue($box['crop'] instanceof Point);
         $this->assertEquals(363, $box['crop']->getX());
         $this->assertEquals(429, $box['crop']->getY());
 
-        $this->assertTrue($box['base'] instanceof \Imagine\Image\Box);
+        $this->assertTrue($box['base'] instanceof Box);
         $this->assertEquals(768, $box['base']->getWidth());
         $this->assertEquals(768, $box['base']->getHeight());
     }
 
-    public function calculatePointProvider()
+    /**
+     * @return array<array<LatLng, int, Point>>
+     */
+    public function calculatePointProvider(): array
     {
         return [
             // #1
@@ -63,11 +70,11 @@ class GeoTest extends TestCase
      * @dataProvider calculatePointProvider
      */
     public function testCalculatePoint(
-        \WyriHaximus\StaticMap\LatLng $latLon,
-        $zoom,
-        \WyriHaximus\StaticMap\Point $point
-    ) {
-        $resultPoint = \WyriHaximus\StaticMap\Geo::calculatePoint($latLon, $zoom);
+        LatLng $latLon,
+        int $zoom,
+        Point $point
+    ): void {
+        $resultPoint = Geo::calculatePoint($latLon, $zoom);
         $this->assertEquals($point, $resultPoint);
     }
 }

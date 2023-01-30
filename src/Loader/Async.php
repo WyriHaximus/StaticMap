@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of StaticMap and 90% based on \Imagine\Image\Point.
  *
@@ -11,48 +13,43 @@
 
 namespace WyriHaximus\StaticMap\Loader;
 
-use Clue\React\Buzz\Browser;
 use Psr\Http\Message\ResponseInterface;
 use React\EventLoop\Factory;
 use React\EventLoop\LoopInterface;
+use React\Http\Browser;
 use React\Promise\Deferred;
 use React\Promise\FulfilledPromise;
+use React\Promise\PromiseInterface;
 use React\Promise\RejectedPromise;
 use React\Stream\ReadableResourceStream;
 
-/**
- * Class Async
- *
- * @package WyriHaximus\StaticMap\Loader
- */
-class Async implements LoaderInterface
+use function file_exists;
+use function filter_var;
+use function fopen;
+
+use const FILTER_VALIDATE_URL;
+
+final class Async implements LoaderInterface
 {
     /**
      * Event loop.
-     *
-     * @var LoopInterface
      */
-    protected $loop;
+    protected LoopInterface $loop;
 
-    /**
-     * @var Browser
-     */
-    protected $client;
+    protected Browser $client;
 
-    /**
-     * @param LoopInterface $loop
-     * @param Browser $client
-     */
-    public function __construct(LoopInterface $loop = null, Browser $client = null)
+    public function __construct(?LoopInterface $loop = null, ?Browser $client = null)
     {
         if ($loop === null) {
             $loop = Factory::create();
         }
+
         $this->loop = $loop;
 
         if ($client === null) {
             $client = new Browser($loop);
         }
+
         $this->client = $client;
     }
 
@@ -60,14 +57,13 @@ class Async implements LoaderInterface
      * Load file from $url.
      *
      * @param string $url Image URL.
-     *
-     * @return \React\Promise\Proimise|\React\Promise\Promise
      */
-    public function addImage($url)
+    public function addImage(string $url): PromiseInterface
     {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
             return $this->readRemoteFile($url);
         }
+
         return $this->readLocalFile($url);
     }
 
@@ -75,13 +71,11 @@ class Async implements LoaderInterface
      * Read remote image contents.
      *
      * @param string $url Image URL.
-     *
-     * @return \React\Promise\Promise
      */
-    protected function readRemoteFile($url)
+    protected function readRemoteFile(string $url): PromiseInterface
     {
         return $this->client->get($url)->then(
-            function (ResponseInterface $response) {
+            static function (ResponseInterface $response) {
                 return $response->getBody()->getContents();
             }
         );
@@ -91,26 +85,24 @@ class Async implements LoaderInterface
      * Read local image contents.
      *
      * @param string $url Image filename.
-     *
-     * @return \React\Promise\Promise
      */
-    protected function readLocalFile($url)
+    protected function readLocalFile(string $url): PromiseInterface
     {
         $deferred = new Deferred();
 
         $readStream = fopen($url, 'r+');
 
         $buffer = '';
-        $read = new ReadableResourceStream($readStream, $this->loop);
+        $read   = new ReadableResourceStream($readStream, $this->loop);
         $read->on(
             'data',
-            function ($data) use (&$buffer) {
+            static function ($data) use (&$buffer): void {
                 $buffer .= $data;
             }
         );
         $read->on(
             'end',
-            function () use ($deferred, &$buffer) {
+            static function () use ($deferred, &$buffer): void {
                 $deferred->resolve($buffer);
             }
         );
@@ -122,10 +114,8 @@ class Async implements LoaderInterface
      * Check if $url exists.
      *
      * @param string $url Image URL.
-     *
-     * @return FulfilledPromise|\React\Promise\Proimise|RejectedPromise
      */
-    public function imageExists($url)
+    public function imageExists(string $url): PromiseInterface
     {
         if (file_exists($url)) {
             return new FulfilledPromise();
@@ -136,10 +126,8 @@ class Async implements LoaderInterface
 
     /**
      * Run the event loop and process the assigned operations.
-     *
-     * @return void
      */
-    public function run()
+    public function run(): void
     {
         $this->loop->run();
     }

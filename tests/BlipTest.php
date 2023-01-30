@@ -1,45 +1,58 @@
 <?php
 
-namespace WyriHaximus\StaticMap\Tests;
+declare(strict_types=1);
 
-use PHPUnit\Framework\TestCase;
+namespace WyriHaximus\Tests\StaticMap;
+
+use Imagine\Image\Box;
 use WyriHaximus\StaticMap\Blip;
-use WyriHaximus\StaticMap\Point;
 use WyriHaximus\StaticMap\LatLng;
+use WyriHaximus\StaticMap\Point;
+use WyriHaximus\TestUtilities\TestCase;
 
-class BlipTest extends TestCase
+use function dirname;
+
+use const DIRECTORY_SEPARATOR;
+
+final class BlipTest extends TestCase
 {
-
-    public function createProvider()
+    /**
+     * @return iterable<array<LatLng, Blip>>
+     */
+    public function createProvider(): iterable
     {
         $defaultImage = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'src' .
         DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
-        return [
-            [
+
+            yield [
                 new LatLng(71, 111),
                 new Blip(new LatLng(71, 111), $defaultImage),
-            ],
-            [
+            ];
+
+            yield [
                 new LatLng(-50, 66),
                 new Blip(new LatLng(-50, 66), $defaultImage),
-            ],
-            [
+            ];
+
+            yield [
                 new LatLng(-189, 53),
                 new Blip(new LatLng(-189, 53), $defaultImage),
-            ],
-        ];
+            ];
     }
 
     /**
      * @dataProvider createProvider
      */
-    public function testCreate(\WyriHaximus\StaticMap\LatLng $latLng, $result)
+    public function testCreate(LatLng $latLng, Blip $result): void
     {
-        $resultBlip = \WyriHaximus\StaticMap\Blip::create($latLng);
+        $resultBlip = Blip::create($latLng);
         $this->assertEquals($result, $resultBlip);
     }
 
-    public function getImageProvider()
+    /**
+     * @return iterable<array<LatLng, string>>
+     */
+    public function getImageProvider(): iterable
     {
         $defaultImage = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'src' .
         DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
@@ -71,60 +84,64 @@ class BlipTest extends TestCase
     /**
      * @dataProvider getImageProvider
      */
-    public function testGetImage(\WyriHaximus\StaticMap\LatLng $latLng, $image, $result)
+    public function testGetImage(LatLng $latLng, string $image, Blip $result): void
     {
-        $resultBlip = \WyriHaximus\StaticMap\Blip::create($latLng, $image);
+        $resultBlip = Blip::create($latLng, $image);
         $this->assertEquals($result, $resultBlip->getImage());
     }
 
-    public function getLatLngProvider()
+    /**
+     * @return iterable<array<LatLng>>
+     */
+    public function getLatLngProvider(): iterable
     {
-        return [
-            [
-                new LatLng(71, 111),
-            ],
-            [
-                new LatLng(-50, 66),
-            ],
-            [
-                new LatLng(-189, 53),
-            ],
+        yield            [
+            new LatLng(71, 111),
         ];
+
+            yield [
+                new LatLng(-50, 66),
+            ];
+
+            yield [
+                new LatLng(-189, 53),
+            ];
     }
 
     /**
      * @dataProvider getLatLngProvider
      */
-    public function testGetLatLng(\WyriHaximus\StaticMap\LatLng $latLng)
+    public function testGetLatLng(LatLng $latLng): void
     {
-        $resultBlip = \WyriHaximus\StaticMap\Blip::create($latLng);
+        $resultBlip = Blip::create($latLng);
         $this->assertEquals($latLng, $resultBlip->getLatLng());
     }
 
-    public function calculatePositionProvider()
+    /**
+     * @return iterable<array<Point, int, LatLng, Box>>
+     */
+    public function calculatePositionProvider(): iterable
     {
-        return [
-            [
+            yield [
                 new Point(1097, 949.40161077744),
                 3,
                 new LatLng(13, 13),
-                new \Imagine\Image\Box(12, 12),
+                new Box(12, 12),
                 new Point(0.5, 0.5),
-            ],
-        ];
+            ];
     }
 
     /**
      * @dataProvider calculatePositionProvider
      */
     public function testCalculatePosition(
-        \WyriHaximus\StaticMap\Point $center,
-        $zoom,
-        \WyriHaximus\StaticMap\LatLng $latLngBlip,
-        \Imagine\Image\Box $size,
-        \WyriHaximus\StaticMap\Point $blipPoint
-    ) {
-        $resultBlip = \WyriHaximus\StaticMap\Blip::create($latLngBlip);
+        Point $center,
+        int $zoom,
+        LatLng $latLngBlip,
+        Box $size,
+        Point $blipPoint
+    ): void {
+        $resultBlip = Blip::create($latLngBlip);
         $this->assertEquals($blipPoint, $resultBlip->calculatePosition($center, $size, $zoom));
     }
 }
