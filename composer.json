@@ -1,7 +1,6 @@
 {
     "name": "wyrihaximus/staticmap",
     "description": "PHP implementation of the Google Maps Static API",
-    "homepage": "http://wyrihaximus.net/projects/php/staticmap.html",
     "license": "MIT",
     "keywords": [
         "maps",
@@ -16,14 +15,19 @@
             "homepage": "http://wyrihaximus.net/"
         }
     ],
+    "homepage": "http://wyrihaximus.net/projects/php/staticmap.html",
     "require": {
-        "php": "^7.2",
-        "imagine/imagine": "^1.2",
-        "clue/buzz-react": "^2.0"
+        "php": "^8.2",
+        "ext-filter": "*",
+        "ext-gd": "*",
+        "imagine/imagine": "^1.5.0",
+        "react/event-loop": "^1.5",
+        "react/http": "^1.11",
+        "react/promise": "^3.2",
+        "react/stream": "^1.4"
     },
     "require-dev": {
-        "ext-gd": "*",
-        "wyrihaximus/test-utilities": "^2.4"
+        "wyrihaximus/async-test-utilities": "^8.0.5"
     },
     "autoload": {
         "psr-4": {
@@ -34,5 +38,31 @@
         "psr-4": {
             "WyriHaximus\\StaticMap\\Tests\\": "tests/"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "drupol/composer-packages": true,
+            "ergebnis/composer-normalize": true,
+            "icanhazstring/composer-unused": true,
+            "infection/extension-installer": true,
+            "mindplay/composer-locator": true,
+            "wyrihaximus/broadcast": true
+        },
+        "platform": {
+            "php": "8.2.13"
+        },
+        "sort-packages": true
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "composer normalize",
+            "composer update --lock --no-scripts"
+        ],
+        "post-update-cmd": [
+            "composer normalize",
+            "composer update --lock --no-scripts"
+        ]
     }
 }

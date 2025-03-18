@@ -1,0 +1,49 @@
+parameters:
+	ignoreErrors:
+		- '#thecodingmachine\/safe#'
+		- '#react\/filesystem#'
+		-
+			message: '#Method WyriHaximus\\StaticMap\\Blip::create\(\) has parameter \$image with a nullable type declaration.#'
+			path: ../../src/Blip.php
+		-
+			message: '#Method WyriHaximus\\StaticMap\\Blip::create\(\) has parameter \$image with null as default value.#'
+			path: ../../src/Blip.php
+		-
+			message: '#Constructor in WyriHaximus\\StaticMap\\Loader\\Async has parameter \$client with default value.#'
+			path: ../../src/Loader/Async.php
+		-
+			message: '#Method WyriHaximus\\StaticMap\\Loader\\Async::__construct\(\) has parameter \$client with a nullable type declaration.#'
+			path: ../../src/Loader/Async.php
+		-
+			message: '#Method WyriHaximus\\StaticMap\\Loader\\Async::__construct\(\) has parameter \$client with null as default value.#'
+			path: ../../src/Loader/Async.php
+		-
+			message: '#Method WyriHaximus\\StaticMap\\Loader\\Simple::addImage\(\) should return React\\Promise\\PromiseInterface\<string\> but returns React\\Promise\\PromiseInterface\<string\|false\>.#'
+			path: ../../src/Loader/Simple.php
+		-
+			message: '#Constructor in WyriHaximus\\StaticMap\\Renderer has parameter \$loader with default value.#'
+			path: ../../src/Renderer.php
+		-
+			message: '#Method WyriHaximus\\StaticMap\\Renderer::__construct\(\) has parameter \$loader with a nullable type declaration.#'
+			path: ../../src/Renderer.php
+		-
+			message: '#Method WyriHaximus\\StaticMap\\Renderer::__construct\(\) has parameter \$loader with null as default value.#'
+			path: ../../src/Renderer.php
+		-
+			message: '#Method WyriHaximus\\StaticMap\\Renderer::addCenterBlip\(\) has parameter \$image with a nullable type declaration.#'
+			path: ../../src/Renderer.php
+		-
+			message: '#Method WyriHaximus\\StaticMap\\Renderer::addCenterBlip\(\) has parameter \$image with null as default value.#'
+			path: ../../src/Renderer.php
+		-
+			message: '#Constructor in WyriHaximus\\StaticMap\\Tiles has parameter \$fallbackImage with default value.#'
+			path: ../../src/Tiles.php
+		-
+			message: '#Call to function in_array\(\) requires parameter \#3 to be true.#'
+			path: ../../tests/LatLngTest.php
+		-
+			message: '#Method WyriHaximus\\StaticMap\\Tests\\BlipTest::getImage\(\) has parameter \$image with a nullable type declaration.#'
+			path: ../../tests/BlipTest.php
+
+includes:
+	- ../../vendor/wyrihaximus/async-test-utilities/rules.neon

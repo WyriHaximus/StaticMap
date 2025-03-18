@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of StaticMap.
  *
@@ -12,46 +14,40 @@
 namespace WyriHaximus\StaticMap;
 
 use Imagine\Image\Box;
+use RuntimeException;
+use WyriHaximus\StaticMap\Blip\ImageSize;
 
-/**
- * Class Blip
- *
- * @package WyriHaximus\StaticMap
- */
-class Blip
+use function file_exists;
+use function getimagesize;
+
+use const DIRECTORY_SEPARATOR;
+
+final class Blip
 {
     /**
      * Latitude Longitude coordinates for this Blip.
-     *
-     * @var LatLng
      */
-    protected $latLng;
+    protected LatLng $latLng;
 
     /**
      * Image filename.
-     *
-     * @var string
      */
-    protected $image;
+    protected string $image;
 
     /**
      * Width height array.
-     *
-     * @var array
      */
-    protected $imageSize;
+    protected ImageSize $imageSize;
 
     /**
      * Factory method.
      *
      * @param LatLng      $latLng Coordinate object.
      * @param string|null $image  Image filename or null to fallback to the default.
-     *
-     * @return Blip
      */
-    public static function create(LatLng $latLng, $image = null)
+    public static function create(LatLng $latLng, string|null $image = null): Blip
     {
-        if (is_null($image) || !file_exists($image)) {
+        if ($image === null || ! file_exists($image)) {
             $image = __DIR__ . DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
         }
 
@@ -59,34 +55,33 @@ class Blip
     }
 
     /**
-     * Constructor.
-     *
      * @param LatLng $latLng Coordinate object.
      * @param string $image  Image filename.
      */
-    public function __construct(LatLng $latLng, $image)
+    public function __construct(LatLng $latLng, string $image)
     {
         $this->latLng = $latLng;
-        $this->image = $image;
-        $this->imageSize = getimagesize($image);
+        $this->image  = $image;
+        $imageSize    = getimagesize($image);
+        if ($imageSize === false) {
+            throw new RuntimeException('Unable to get image size');
+        }
+
+        $this->imageSize = new ImageSize($imageSize[0], $imageSize[1]);
     }
 
     /**
      * Return the coordinate object.
-     *
-     * @return LatLng
      */
-    public function getLatLng()
+    public function getLatLng(): LatLng
     {
         return $this->latLng;
     }
 
     /**
      * Return the image filename.
-     *
-     * @return string
      */
-    public function getImage()
+    public function getImage(): string
     {
         return $this->image;
     }
@@ -94,23 +89,21 @@ class Blip
     /**
      * Calculate the position of the blip on the map image.
      *
-     * @param Point   $center Point on the image.
-     * @param Box     $size   Size of the image.
-     * @param integer $zoom   Zoom level of the map.
-     *
-     * @return Point
+     * @param Point $center Point on the image.
+     * @param Box   $size   Size of the image.
+     * @param int   $zoom   Zoom level of the map.
      */
-    public function calculatePosition(Point $center, Box $size, $zoom)
+    public function calculatePosition(Point $center, Box $size, int $zoom): Point
     {
-        $topLeft = new Point(
+        $topLeft   = new Point(
             $center->getX() - ($size->getWidth() / 2),
-            $center->getY() - ($size->getHeight() / 2)
+            $center->getY() - ($size->getHeight() / 2),
         );
         $blipPoint = Geo::calculatePoint($this->latLng, $zoom);
 
         return new Point(
-            $blipPoint->getX() - $topLeft->getX() - ($this->imageSize[0] / 2),
-            $blipPoint->getY() - $topLeft->getY() - ($this->imageSize[1] / 2)
+            (int) ($blipPoint->getX() - $topLeft->getX() - ($this->imageSize->x / 2)),
+            (int) ($blipPoint->getY() - $topLeft->getY() - ($this->imageSize->y / 2)),
         );
     }
 }

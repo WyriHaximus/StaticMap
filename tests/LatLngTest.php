@@ -1,87 +1,76 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WyriHaximus\StaticMap\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use WyriHaximus\StaticMap\LatLng;
 
-class LatLngTest extends TestCase
+use function in_array;
+
+final class LatLngTest extends TestCase
 {
-    public function testConstructor()
+    #[Test]
+    public function testConstructor(): void
     {
-        $LatLng = new LatLng(35, 45);
+        $latLng = new LatLng(35, 45);
 
-        $this->assertEquals(35, $LatLng->getLat());
-        $this->assertEquals(45, $LatLng->getLng());
+        static::assertEquals(35, $latLng->lat);
+        static::assertEquals(45, $latLng->lng);
     }
 
-    public function testSetters()
+    /** @return iterable<array<float>> */
+    public static function inRangeProvider(): iterable
     {
-        $LatLng = new LatLng(35, 45);
-
-        $LatLng->setLat(55);
-        $LatLng->setLng(65);
-
-        $this->assertEquals(55, $LatLng->getLat());
-        $this->assertEquals(65, $LatLng->getLng());
-    }
-
-    public function testInRange()
-    {
-        $LatLng = new LatLng(35, 45);
-
-        for ($i = -90; $i <= 90; $i++) {
-            $LatLng->setLat($i);
-            $this->assertEquals($i, $LatLng->getLat());
-        }
-
-        for ($i = -180; $i <= 180; $i++) {
-            $LatLng->setLng($i);
-            $this->assertEquals($i, $LatLng->getLng());
+        for ($lat = -90; $lat <= 90; $lat++) {
+            for ($lng = -180; $lng <= 180; $lng++) {
+                yield [$lat, $lng];
+            }
         }
     }
 
-    public function testOutRange()
+    #[Test]
+    #[DataProvider('inRangeProvider')]
+    public function inRange(float $lat, float $lng): void
     {
-        $LatLng = new LatLng(35, 45);
+        $ll = new LatLng($lat, $lng);
 
-        $LatLng->setLat(-90.1);
-        $this->assertEquals(35, $LatLng->getLat());
-        $LatLng->setLat(-91);
-        $this->assertEquals(35, $LatLng->getLat());
-
-        $LatLng->setLat(90.1);
-        $this->assertEquals(35, $LatLng->getLat());
-        $LatLng->setLat(91);
-        $this->assertEquals(35, $LatLng->getLat());
-
-        $LatLng->setLat(-180.1);
-        $this->assertEquals(35, $LatLng->getLat());
-        $LatLng->setLat(-181);
-        $this->assertEquals(35, $LatLng->getLat());
-
-        $LatLng->setLat(190.1);
-        $this->assertEquals(35, $LatLng->getLat());
-        $LatLng->setLat(181);
-        $this->assertEquals(35, $LatLng->getLat());
+        self::assertSame($lat, $ll->lat);
+        self::assertSame($lng, $ll->lng);
     }
 
-    public function testNonInt()
+    /** @return iterable<array<float>> */
+    public static function outRangeProvider(): iterable
     {
-        $LatLng = new LatLng('a', 'b');
-
-        $this->assertEquals(0, $LatLng->getLat());
-        $this->assertEquals(0, $LatLng->getLng());
+        foreach (
+            [
+                -90.1,
+                -91,
+                90.1,
+                91,
+            ] as $lat
+        ) {
+            foreach (
+                [
+                    -180.1,
+                    -181,
+                    180.1,
+                    181,
+                ] as $lng
+            ) {
+                yield [$lat, $lng];
+            }
+        }
     }
 
-    public function testNonIntGetter()
+    public function outRange(float $lat, float $lng): void
     {
-        $LatLng = new LatLng('a', 'b');
+        $latLng = new LatLng($lat, $lng);
 
-        $LatLng->setLat('c');
-        $LatLng->setLng('d');
-
-        $this->assertEquals(0, $LatLng->getLat());
-        $this->assertEquals(0, $LatLng->getLng());
+        self::assertTrue(in_array($latLng->lat, [-180, 180], false));
+        self::assertTrue(in_array($latLng->lng, [-90, 90], false));
     }
 }
