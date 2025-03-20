@@ -1,4 +1,5 @@
-/nbproject/
-/vendor/
-/coverageHtml/
-/composer.phar
+var/*
+!var/.gitkeep
+vendor/
+etc/qa/.phpunit.cache
+etc/qa/.phpunit.result.cache

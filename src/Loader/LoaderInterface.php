@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * This file is part of StaticMap and 90% based on \Imagine\Image\Point.
  *
@@ -11,11 +13,8 @@
 
 namespace WyriHaximus\StaticMap\Loader;
 
-/**
- * Interface LoaderInterface
- *
- * @package WyriHaximus\StaticMap\Loader
- */
+use React\Promise\PromiseInterface;
+
 interface LoaderInterface
 {
     /**
@@ -23,23 +22,21 @@ interface LoaderInterface
      *
      * @param string $url Image URL.
      *
-     * @return \React\Promise\Proimise
+     * @return PromiseInterface<string>
      */
-    public function addImage($url);
+    public function addImage(string $url): PromiseInterface;
 
     /**
      * Check if $url exists.
      *
      * @param string $url Image URL.
      *
-     * @return \React\Promise\Proimise
+     * @return PromiseInterface<bool>
      */
-    public function imageExists($url);
+    public function imageExists(string $url): PromiseInterface;
 
     /**
      * Do nothing or execute the operations depending on the implementation.
-     *
-     * @return void
      */
-    public function run();
+    public function run(): void;
 }

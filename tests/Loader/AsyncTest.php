@@ -1,46 +1,30 @@
 <?php
 
-namespace WyriHaximus\WyriHaximus\StaticMap\Tests\Loader;
+declare(strict_types=1);
 
-use Clue\React\Buzz\Browser;
-use React\EventLoop\LoopInterface;
-use function React\Promise\resolve;
-use WyriHaximus\React\Guzzle\HttpClientAdapter;
+namespace WyriHaximus\StaticMap\Tests\Loader;
+
+use Mockery;
+use PHPUnit\Framework\Attributes\Test;
+use React\Http\Browser;
+use React\Http\Message\Response;
+use WyriHaximus\AsyncTestUtilities\AsyncTestCase;
 use WyriHaximus\StaticMap\Loader\Async;
 
-class AsyncTest extends AbstractLoaderTest
+use function React\Async\await;
+use function React\Promise\resolve;
+
+final class AsyncTest extends AsyncTestCase
 {
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->loader = new Async();
-    }
-
-    public function tearDown(): void
-    {
-        unset($this->loader);
-
-        parent::tearDown();
-    }
-
-    public function testAddRemoteImagePromise()
-    {
-        $this->assertInstanceOf(
-            'React\Promise\PromiseInterface',
-            $this->loader->addImage('http://example.com/black.jpg')
-        );
-    }
-
-    public function testClient()
+    #[Test]
+    public function client(): void
     {
         $url = 'http://example.com/black.jpg';
 
-        $loop = $this->prophesize(LoopInterface::class);
-        $client = $this->prophesize(Browser::class);
-        $client->get($url)->shouldBeCalled()->willReturn(resolve('foo:bar'));
+        $client = Mockery::mock(Browser::class);
+        $client->shouldReceive('get')->with($url)->andReturn(resolve(new Response(body: 'foo:bar')));
 
-        (new Async($loop->reveal(), $client->reveal()))->addImage($url);
+        $image = await((new Async($client))->addImage($url));
+        self::assertSame('foo:bar', $image);
     }
 }

@@ -1,74 +1,68 @@
 <?php
 
+declare(strict_types=1);
+
 namespace WyriHaximus\StaticMap\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
-use \WyriHaximus\StaticMap\Loader\Simple;
+use WyriHaximus\StaticMap\Loader\Simple;
 use WyriHaximus\StaticMap\Tiles;
 
-class TilesTest extends TestCase
+use function React\Async\await;
+
+use const DIRECTORY_SEPARATOR;
+
+final class TilesTest extends TestCase
 {
-    public static function getBaseTilesPath()
+    public static function getBaseTilesPath(): string
     {
         return __DIR__ . DIRECTORY_SEPARATOR . 'Tiles' . DIRECTORY_SEPARATOR;
     }
 
-    public function getTileProvider()
+    /** @return iterable<array<int>> */
+    public static function getTileProvider(): iterable
     {
-        return [
-            [0, 0],
-            [1, 0],
-            [0, 1],
-            [1, 1],
-        ];
+        yield [0, 0];
+        yield [1, 0];
+        yield [0, 1];
+        yield [1, 1];
     }
 
-    /**
-     * @dataProvider getTileProvider
-     */
-    public function testGetTile($x, $y)
+    #[Test]
+    #[DataProvider('getTileProvider')]
+    public function getTile(int $x, int $y): void
     {
         $tileDirectory = self::getBaseTilesPath() . 'Simple' . DIRECTORY_SEPARATOR;
-        $Tiles = new Tiles($tileDirectory . '{x}/{y}.png', 'fallback.img');
-        $Tiles->setLoader(new Simple());
-        $tilePromise = $Tiles->getTile($x, $y);
-        $this->assertInstanceOf('\React\Promise\Promise', $tilePromise);
-        $tile = null;
-        $tilePromise->then(
-            function ($fileName) use (&$tile) {
-                $tile = $fileName;
-            }
-        );
-        $this->assertSame($tileDirectory . $x . '/' . $y . '.png', $tile);
+        $tiles         = new Tiles($tileDirectory . '{x}/{y}.png', 'fallback.img');
+        $tiles->setLoader(new Simple());
+        $tile = await($tiles->getTile($x, $y));
+        static::assertSame($tileDirectory . $x . '/' . $y . '.png', $tile);
     }
 
-    public function testGetTileFallback()
+    #[Test]
+    public function getTileFallback(): void
     {
-        $Tiles = new Tiles('{x}/{y}', 'fallback.img');
-        $Tiles->setLoader(new Simple());
-        $tilePromise = $Tiles->getTile(3, 4);
-        $this->assertInstanceOf('\React\Promise\Promise', $tilePromise);
+        $tiles = new Tiles('{x}/{y}', 'fallback.img');
+        $tiles->setLoader(new Simple());
+        $tilePromise = $tiles->getTile(3, 4);
+        static::assertInstanceOf('\React\Promise\Promise', $tilePromise);
         $tile = null;
         $tilePromise->then(
-            function ($fileName) use (&$tile) {
+            static function ($fileName) use (&$tile): void {
                 $tile = $fileName;
-            }
+            },
         );
-        $this->assertSame('fallback.img', $tile);
+        static::assertSame('fallback.img', $tile);
     }
-    
-    public function testNoFallback()
+
+    #[Test]
+    public function noFallback(): void
     {
-        $Tiles = new Tiles('{x}/{y}.png');
-        $Tiles->setLoader(new Simple());
-        $tilePromise = $Tiles->getTile(0, 0);
-        $this->assertInstanceOf('\React\Promise\Promise', $tilePromise);
-        $tile = null;
-        $tilePromise->then(
-            function ($fileName) use (&$tile) {
-                $tile = $fileName;
-            }
-        );
-        $this->assertSame('0/0.png', $tile);
+        $tiles = new Tiles('{x}/{y}.png');
+        $tiles->setLoader(new Simple());
+        $tile = await($tiles->getTile(0, 0));
+        static::assertSame('0/0.png', $tile);
     }
 }
