@@ -85,7 +85,7 @@ final class Async implements LoaderInterface
         /** @var Deferred<string> $deferred */
         $deferred = new Deferred();
 
-        $readStream = fopen($url, 'r+');
+        $readStream = fopen($url, 'r');
         if ($readStream === false) {
             throw new RuntimeException('Unable to open file');
         }
