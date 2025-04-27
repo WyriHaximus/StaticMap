@@ -27,7 +27,7 @@
         "react/stream": "^1.4"
     },
     "require-dev": {
-        "wyrihaximus/async-test-utilities": "^8.0.5"
+        "wyrihaximus/async-test-utilities": "^8.0.5 || ^9.0.0"
     },
     "autoload": {
         "psr-4": {
