@@ -17,7 +17,7 @@
     ],
     "homepage": "http://wyrihaximus.net/projects/php/staticmap.html",
     "require": {
-        "php": "^8.2",
+        "php": "^8.3",
         "ext-filter": "*",
         "ext-gd": "*",
         "imagine/imagine": "^1.5.0",
@@ -27,7 +27,8 @@
         "react/stream": "^1.4"
     },
     "require-dev": {
-        "wyrihaximus/async-test-utilities": "^8.0.5"
+        "wyrihaximus/async-test-utilities": "^9.1.0",
+        "wyrihaximus/makefiles": "^0.4.2"
     },
     "autoload": {
         "psr-4": {
@@ -48,10 +49,12 @@
             "icanhazstring/composer-unused": true,
             "infection/extension-installer": true,
             "mindplay/composer-locator": true,
-            "wyrihaximus/broadcast": true
+            "phpstan/extension-installer": true,
+            "wyrihaximus/broadcast": true,
+            "wyrihaximus/makefiles": true
         },
         "platform": {
-            "php": "8.2.13"
+            "php": "8.3.13"
         },
         "sort-packages": true
     },

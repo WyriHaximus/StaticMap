@@ -9,19 +9,8 @@ use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use WyriHaximus\StaticMap\LatLng;
 
-use function in_array;
-
 final class LatLngTest extends TestCase
 {
-    #[Test]
-    public function testConstructor(): void
-    {
-        $latLng = new LatLng(35, 45);
-
-        static::assertEquals(35, $latLng->lat);
-        static::assertEquals(45, $latLng->lng);
-    }
-
     /** @return iterable<array<float>> */
     public static function inRangeProvider(): iterable
     {
@@ -66,11 +55,15 @@ final class LatLngTest extends TestCase
         }
     }
 
+    #[Test]
+    #[DataProvider('outRangeProvider')]
     public function outRange(float $lat, float $lng): void
     {
         $latLng = new LatLng($lat, $lng);
 
-        self::assertTrue(in_array($latLng->lat, [-180, 180], false));
-        self::assertTrue(in_array($latLng->lng, [-90, 90], false));
+        self::assertGreaterThanOrEqual(-180, $latLng->lng);
+        self::assertLessThanOrEqual(180, $latLng->lng);
+        self::assertGreaterThanOrEqual(-90, $latLng->lat);
+        self::assertLessThanOrEqual(90, $latLng->lat);
     }
 }

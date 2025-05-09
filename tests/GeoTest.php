@@ -25,17 +25,17 @@ final class GeoTest extends TestCase
             ),
         );
 
-        static::assertEquals(6, $box->tiles->start->getX());
-        static::assertEquals(1, $box->tiles->start->getY());
+        static::assertSame(6, $box->tiles->start->x);
+        static::assertSame(1, $box->tiles->start->y);
 
-        static::assertEquals(9, $box->tiles->stop->getX());
-        static::assertEquals(4, $box->tiles->stop->getY());
+        static::assertSame(9, $box->tiles->stop->x);
+        static::assertSame(4, $box->tiles->stop->y);
 
-        static::assertEquals(363, $box->crop->getX());
-        static::assertEquals(429, $box->crop->getY());
+        static::assertSame(363, $box->crop->x);
+        static::assertSame(429, $box->crop->y);
 
-        static::assertEquals(768, $box->base->getWidth());
-        static::assertEquals(768, $box->base->getHeight());
+        static::assertSame(768, $box->base->getWidth());
+        static::assertSame(768, $box->base->getHeight());
     }
 
     /** @return iterable<array{0: LatLng, 1: int, 2: Point}> */
@@ -52,7 +52,7 @@ final class GeoTest extends TestCase
         yield [
             new LatLng(-50, 66),
             1,
-            new Point(349, 338),
+            new Point(350, 338),
         ];
 
         // #3

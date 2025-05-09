@@ -1,6 +1,5 @@
 parameters:
 	ignoreErrors:
-		- '#thecodingmachine\/safe#'
 		- '#react\/filesystem#'
 		-
 			message: '#Method WyriHaximus\\StaticMap\\Blip::create\(\) has parameter \$image with a nullable type declaration.#'
@@ -39,11 +38,33 @@ parameters:
 			message: '#Constructor in WyriHaximus\\StaticMap\\Tiles has parameter \$fallbackImage with default value.#'
 			path: ../../src/Tiles.php
 		-
-			message: '#Call to function in_array\(\) requires parameter \#3 to be true.#'
-			path: ../../tests/LatLngTest.php
-		-
 			message: '#Method WyriHaximus\\StaticMap\\Tests\\BlipTest::getImage\(\) has parameter \$image with a nullable type declaration.#'
 			path: ../../tests/BlipTest.php
-
-includes:
-	- ../../vendor/wyrihaximus/async-test-utilities/rules.neon
+		-
+			identifier: shipmonk.checkedExceptionInCallable
+			path: ../../src/Loader/Async.php
+			count: 1
+		-
+			identifier: throws.unusedType
+			path: ../../src/Point.php
+			count: 1
+		-
+			identifier: shipmonk.missingNativeReturnTypehint
+			path: ../../src/Point.php
+			count: 4
+		-
+			identifier: shipmonk.checkedExceptionInYieldingMethod
+			path: ../../tests/BlipTest.php
+			count: 3
+		-
+			identifier: shipmonk.checkedExceptionInYieldingMethod
+			path: ../../tests/GeoTest.php
+			count: 3
+		-
+			identifier: shipmonk.checkedExceptionInYieldingMethod
+			path: ../../tests/PointTest.php
+			count: 5
+		-
+			identifier: shipmonk.checkedExceptionInYieldingMethod
+			path: ../../tests/RendererTest.php
+			count: 4

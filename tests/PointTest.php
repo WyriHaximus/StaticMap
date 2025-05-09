@@ -6,28 +6,28 @@ namespace WyriHaximus\StaticMap\Tests;
 
 use Imagine\Image\Box;
 use Imagine\Image\BoxInterface;
+use PHPUnit\Framework\Attributes\CoversMethod;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use WyriHaximus\StaticMap\Point;
 
+#[CoversMethod(Point::class, 'getX')]
+#[CoversMethod(Point::class, 'getY')]
+#[CoversMethod(Point::class, 'in')]
+#[CoversMethod(Point::class, 'move')]
 final class PointTest extends TestCase
 {
-    /**
-     * @covers       \WyriHaximus\StaticMap\Point::getX
-     * @covers       \WyriHaximus\StaticMap\Point::getY
-     * @covers       \WyriHaximus\StaticMap\Point::in
-     */
     #[Test]
     #[DataProvider('getCoordinates')]
     public function shouldAssignXYCoordinates(int $x, int $y, BoxInterface $box, bool $expected): void
     {
         $coordinate = new Point($x, $y);
 
-        static::assertEquals($x, $coordinate->getX());
-        static::assertEquals($y, $coordinate->getY());
+        static::assertSame($x, $coordinate->x);
+        static::assertSame($y, $coordinate->y);
 
-        static::assertEquals($expected, $coordinate->in($box));
+        static::assertSame($expected, $coordinate->in($box));
     }
 
     /** @return iterable<array{0: int, 1: int, 2: Box, 3: bool}> */
@@ -40,11 +40,6 @@ final class PointTest extends TestCase
         yield [81, 16, new Box(50, 10), false];
     }
 
-    /**
-     * @covers       \WyriHaximus\StaticMap\Point::getX
-     * @covers       \WyriHaximus\StaticMap\Point::getY
-     * @covers       \WyriHaximus\StaticMap\Point::move
-     */
     #[Test]
     #[DataProvider('getMoves')]
     public function shouldMoveByGivenAmount(int $x, int $y, int $move, int $x1, int $y1): void
@@ -52,9 +47,9 @@ final class PointTest extends TestCase
         $point = new Point($x, $y);
         $shift = $point->move($move);
 
-        static::assertInstanceOf('\WyriHaximus\StaticMap\Point', $shift);
-        static::assertEquals($x1, $shift->getX());
-        static::assertEquals($y1, $shift->getY());
+        static::assertInstanceOf(Point::class, $shift);
+        static::assertSame($x1, $shift->x);
+        static::assertSame($y1, $shift->y);
     }
 
     /** @return iterable<array<int>> */
@@ -65,10 +60,9 @@ final class PointTest extends TestCase
         yield [0, 2, 7, 7, 9];
     }
 
-    /** @covers WyriHaximus\StaticMap\Point::__toString */
     #[Test]
     public function testToString(): void
     {
-        static::assertEquals('(50, 50)', (string) new Point(50, 50));
+        static::assertSame('(50, 50)', (string) new Point(50, 50));
     }
 }

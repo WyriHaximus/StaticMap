@@ -21,24 +21,27 @@ final readonly class LatLng
 
     public function __construct(float $lat, float $lng)
     {
-        $this->lat = $this->sanitized($lat, -90, 90, $lat);
-        $this->lng = $this->sanitized($lng, -180, 180, $lng);
+        $this->lat = $this->sanitized($lat, -90, 90);
+        $this->lng = $this->sanitized($lng, -180, 180);
     }
 
     /**
-     * Sanitize value to be int and between $rangeBegin and $rangeend.
+     * Sanitize value to be int and between $rangeBegin and $rangeEnd.
      *
      * @param  float $value      Value to be sanitized
      * @param  float $rangeBegin Begin of the range
      * @param  float $rangeEnd   End of the range
-     * @param  float $default    Value to use incase $value is invalid
      */
-    private function sanitized(float $value, float $rangeBegin, float $rangeEnd, float $default): float
+    private function sanitized(float $value, float $rangeBegin, float $rangeEnd): float
     {
         if ($value >= $rangeBegin && $rangeEnd >= $value) {
             return $value;
         }
 
-        return $default;
+        if ($value < $rangeBegin) {
+            return $rangeBegin;
+        }
+
+        return $rangeEnd;
     }
 }

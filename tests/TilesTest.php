@@ -7,6 +7,7 @@ namespace WyriHaximus\StaticMap\Tests;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
+use React\Promise\Promise;
 use WyriHaximus\StaticMap\Loader\Simple;
 use WyriHaximus\StaticMap\Tiles;
 
@@ -47,10 +48,12 @@ final class TilesTest extends TestCase
         $tiles = new Tiles('{x}/{y}', 'fallback.img');
         $tiles->setLoader(new Simple());
         $tilePromise = $tiles->getTile(3, 4);
-        static::assertInstanceOf('\React\Promise\Promise', $tilePromise);
+        static::assertInstanceOf(Promise::class, $tilePromise);
+        /** @var ?string $tile */
         $tile = null;
         $tilePromise->then(
-            static function ($fileName) use (&$tile): void {
+            /** @phpstan-ignore argument.type */
+            static function (string $fileName) use (&$tile): void {
                 $tile = $fileName;
             },
         );

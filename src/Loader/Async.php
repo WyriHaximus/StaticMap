@@ -28,13 +28,13 @@ use function React\Promise\resolve;
 
 use const FILTER_VALIDATE_URL;
 
-final class Async implements LoaderInterface
+final readonly class Async implements LoaderInterface
 {
     private Browser $client;
 
     public function __construct(Browser|null $client = null)
     {
-        if ($client === null) {
+        if (! $client instanceof Browser) {
             $client = new Browser();
         }
 
@@ -67,9 +67,7 @@ final class Async implements LoaderInterface
     private function readRemoteFile(string $url): PromiseInterface
     {
         return $this->client->get($url)->then(
-            static function (ResponseInterface $response): string {
-                return $response->getBody()->getContents();
-            },
+            static fn (ResponseInterface $response): string => $response->getBody()->getContents(),
         );
     }
 
@@ -94,7 +92,7 @@ final class Async implements LoaderInterface
         $read   = new ReadableResourceStream($readStream);
         $read->on(
             'data',
-            static function ($data) use (&$buffer): void {
+            static function (string $data) use (&$buffer): void {
                 $buffer .= $data;
             },
         );

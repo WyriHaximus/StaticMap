@@ -25,16 +25,6 @@ use const DIRECTORY_SEPARATOR;
 final class Blip
 {
     /**
-     * Latitude Longitude coordinates for this Blip.
-     */
-    protected LatLng $latLng;
-
-    /**
-     * Image filename.
-     */
-    protected string $image;
-
-    /**
      * Width height array.
      */
     protected ImageSize $imageSize;
@@ -58,11 +48,9 @@ final class Blip
      * @param LatLng $latLng Coordinate object.
      * @param string $image  Image filename.
      */
-    public function __construct(LatLng $latLng, string $image)
+    public function __construct(protected LatLng $latLng, protected string $image)
     {
-        $this->latLng = $latLng;
-        $this->image  = $image;
-        $imageSize    = getimagesize($image);
+        $imageSize = getimagesize($this->image);
         if ($imageSize === false) {
             throw new RuntimeException('Unable to get image size');
         }
@@ -96,14 +84,14 @@ final class Blip
     public function calculatePosition(Point $center, Box $size, int $zoom): Point
     {
         $topLeft   = new Point(
-            $center->getX() - ($size->getWidth() / 2),
-            $center->getY() - ($size->getHeight() / 2),
+            $center->x - ($size->getWidth() / 2),
+            $center->y - ($size->getHeight() / 2),
         );
         $blipPoint = Geo::calculatePoint($this->latLng, $zoom);
 
         return new Point(
-            (int) ($blipPoint->getX() - $topLeft->getX() - ($this->imageSize->x / 2)),
-            (int) ($blipPoint->getY() - $topLeft->getY() - ($this->imageSize->y / 2)),
+            (int) ($blipPoint->x - $topLeft->x - ($this->imageSize->x / 2)),
+            (int) ($blipPoint->y - $topLeft->y - ($this->imageSize->y / 2)),
         );
     }
 }
