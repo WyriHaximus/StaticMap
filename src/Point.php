@@ -29,7 +29,7 @@ final readonly class Point implements PointInterface
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(private int $x, private int $y)
+    public function __construct(public int $x, public int $y)
     {
     }
 
@@ -65,10 +65,7 @@ final readonly class Point implements PointInterface
         return new Point($this->x + $amount, $this->y + $amount);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return sprintf('(%d, %d)', $this->x, $this->y);
     }

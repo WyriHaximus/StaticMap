@@ -25,16 +25,6 @@ use function str_replace;
 final class Tiles
 {
     /**
-     * Tiles location.
-     */
-    private string $location;
-
-    /**
-     * Fallback image in case no tile image can be found.
-     */
-    private string $fallbackImage;
-
-    /**
      * File loader.
      */
     private LoaderInterface $loader;
@@ -43,10 +33,8 @@ final class Tiles
      * @param string $location      Tiles location.
      * @param string $fallbackImage Fallback image in case no tile image can be found.
      */
-    public function __construct(string $location, string $fallbackImage = '')
+    public function __construct(private readonly string $location, private readonly string $fallbackImage = '')
     {
-        $this->location      = $location;
-        $this->fallbackImage = $fallbackImage;
     }
 
     /**
@@ -59,13 +47,13 @@ final class Tiles
      */
     public function getTile(int $xAxis, int $yAxis): PromiseInterface
     {
-        $fileName = str_replace(['{x}', '{y}'], [$xAxis, $yAxis], $this->location);
+        $fileName = str_replace(['{x}', '{y}'], [(string) $xAxis, (string) $yAxis], $this->location);
 
         /** @var Deferred<string> $deferred */
         $deferred = new Deferred();
 
         $this->loader->imageExists($fileName)->then(function (bool $exists) use ($deferred, $fileName): void {
-            if ($exists === true || $this->fallbackImage === '') {
+            if ($exists || $this->fallbackImage === '') {
                 $deferred->resolve($fileName);
 
                 return;

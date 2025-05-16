@@ -33,7 +33,7 @@ final class Renderer
     /**
      * LatLng center Point
      */
-    private Point $centerPoint;
+    private readonly Point $centerPoint;
 
     /**
      * Array with blips (points of interest)
@@ -42,19 +42,19 @@ final class Renderer
      */
     private array $blips = [];
 
-    private LoaderInterface $loader;
+    private readonly LoaderInterface $loader;
 
     public function __construct(
-        private ImagineInterface $imagine,
-        private int $zoom,
-        private Box $size,
-        private LatLng $center,
-        private Tiles $tiles,
+        private readonly ImagineInterface $imagine,
+        private readonly int $zoom,
+        private readonly Box $size,
+        private readonly LatLng $center,
+        private readonly Tiles $tiles,
         LoaderInterface|null $loader = null,
     ) {
         $this->centerPoint = Geo::calculatePoint($this->center, $this->zoom);
 
-        if ($loader === null) {
+        if (! $loader instanceof LoaderInterface) {
             $loader = new Simple();
         }
 
@@ -75,10 +75,10 @@ final class Renderer
         $this->resultImage = $this->imagine->create($box->base);
         $jj                = 0;
 
-        $xStart = $box->tiles->start->getX();
-        $xStop  = $box->tiles->stop->getX();
-        $yStart = $box->tiles->start->getY();
-        $yStop  = $box->tiles->stop->getY();
+        $xStart = $box->tiles->start->x;
+        $xStop  = $box->tiles->stop->x;
+        $yStart = $box->tiles->start->y;
+        $yStop  = $box->tiles->stop->y;
 
         for ($i = $yStart - 1; $i < $yStop; $i++) {
             $ii = 0;
@@ -135,9 +135,7 @@ final class Renderer
     private function addTile(PromiseInterface $promise, Point $point): void
     {
         $promise->then(
-            function (string $fileName) {
-                return $this->loader->addImage($fileName);
-            },
+            fn (string $fileName): PromiseInterface => $this->loader->addImage($fileName),
         )->then(
             function (string $image) use ($point): void {
                 $this->drawImage($image, $point);
@@ -153,7 +151,7 @@ final class Renderer
     private function drawBlip(Blip $blip): void
     {
         $this->loader->addImage($blip->getImage())->then(
-            function ($image) use ($blip): void {
+            function (string $image) use ($blip): void {
                 $this->drawImage($image, $blip->calculatePosition($this->centerPoint, $this->size, $this->zoom));
             },
         );

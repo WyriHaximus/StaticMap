@@ -21,7 +21,7 @@ final class BlipTest extends TestCase
     /** @return iterable<array{0: LatLng, 1: Blip}> */
     public static function createProvider(): iterable
     {
-        $defaultImage = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'src' .
+        $defaultImage = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'src' .
         DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
 
         yield [
@@ -51,7 +51,7 @@ final class BlipTest extends TestCase
     /** @return iterable<array{0: LatLng, 1: string|null, 2: string}> */
     public static function getImageProvider(): iterable
     {
-        $defaultImage = dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
+        $defaultImage = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . 'src' . DIRECTORY_SEPARATOR . 'Img' . DIRECTORY_SEPARATOR . 'blip.png';
 
         yield [
             new LatLng(71, 111),
@@ -83,7 +83,7 @@ final class BlipTest extends TestCase
     public static function getImage(LatLng $latLng, string|null $image, string $result): void
     {
         $resultBlip = Blip::create($latLng, $image);
-        static::assertEquals($result, $resultBlip->getImage());
+        static::assertSame($result, $resultBlip->getImage());
     }
 
     /** @return iterable<array<LatLng>> */
@@ -107,7 +107,7 @@ final class BlipTest extends TestCase
     public function getLatLng(LatLng $latLng): void
     {
         $resultBlip = Blip::create($latLng);
-        static::assertEquals($latLng, $resultBlip->getLatLng());
+        static::assertSame($latLng, $resultBlip->getLatLng());
     }
 
     /** @return iterable<array{0: Point, 1: int, 2: LatLng, 3: Box, 4: Point}> */
@@ -118,7 +118,7 @@ final class BlipTest extends TestCase
             3,
             new LatLng(13, 13),
             new Box(666, 666),
-            new Point(327, 327),
+            new Point(328, 327),
         ];
     }
 

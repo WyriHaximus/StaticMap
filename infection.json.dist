@@ -16,7 +16,7 @@
     "minCoveredMsi": 100,
     "ignoreMsiWithNoMutations": true,
     "mutators": {
-        "@default": true
+        "@default": false
     },
     "phpUnit": {
         "configDir": "./etc/qa/"

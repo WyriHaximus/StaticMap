@@ -37,7 +37,7 @@ final class RendererTest extends AsyncTestCase
     /** @return iterable<array{0: array<array{point: array{x: int, y: int}, colors: array{red: int, green: int, blue: int, alpha: int}}>, 1: ImagineInterface}> */
     public static function smallRenderProvider(): iterable
     {
-        $imagines = static::imagineProvider();
+        $imagines = self::imagineProvider();
         foreach ($imagines as $imagine) {
             $contents = file_get_contents(TilesTest::getBaseTilesPath() . 'RenderSmallTest.json');
             if ($contents === false) {
@@ -78,7 +78,7 @@ final class RendererTest extends AsyncTestCase
     /** @return iterable<array{0: array<array{point: array{x: int, y: int}, colors: array{red: int, green: int, blue: int, alpha: int}}>, 1: ImagineInterface}> */
     public static function mediumRenderProvider(): iterable
     {
-        $imagines = static::imagineProvider();
+        $imagines = self::imagineProvider();
         foreach ($imagines as $imagine) {
             $contents = file_get_contents(TilesTest::getBaseTilesPath() . 'RenderMediumTest.json');
             if ($contents === false) {
@@ -119,7 +119,7 @@ final class RendererTest extends AsyncTestCase
     /** @return iterable<array{0: array<array{point: array{x: int, y: int}, colors: array{red: int, green: int, blue: int, alpha: int}}>, 1: ImagineInterface}> */
     public static function bigRenderProvider(): iterable
     {
-        $imagines = static::imagineProvider();
+        $imagines = self::imagineProvider();
         foreach ($imagines as $imagine) {
             $contents = file_get_contents(TilesTest::getBaseTilesPath() . 'RenderBigTest.json');
             if ($contents === false) {
@@ -160,7 +160,7 @@ final class RendererTest extends AsyncTestCase
     /** @return iterable<array{0: array<array{point: array{x: int, y: int}, colors: array{red: int, green: int, blue: int, alpha: int}}>, 1: ImagineInterface}> */
     public static function centerBlipProvider(): iterable
     {
-        $imagines = static::imagineProvider();
+        $imagines = self::imagineProvider();
         foreach ($imagines as $imagine) {
             $contents = file_get_contents(TilesTest::getBaseTilesPath() . 'RenderCenterBlipTest.json');
             if ($contents === false) {
@@ -213,8 +213,8 @@ final class RendererTest extends AsyncTestCase
             throw new RuntimeException('Failed to open image file');
         }
 
-        static::assertEquals($size, $imSizeResult[0]);
-        static::assertEquals($size, $imSizeResult[1]);
+        static::assertSame($size, $imSizeResult[0]);
+        static::assertSame($size, $imSizeResult[1]);
 
         $imResult = imagecreatefrompng($fileResult);
         if ($imResult === false) {
@@ -229,10 +229,10 @@ final class RendererTest extends AsyncTestCase
 
             $colorsResult = imagecolorsforindex($imResult, $rgbResult);
 
-            static::assertEquals($checkPoint['colors']['red'], $colorsResult['red']);
-            static::assertEquals($checkPoint['colors']['green'], $colorsResult['green']);
-            static::assertEquals($checkPoint['colors']['blue'], $colorsResult['blue']);
-            static::assertEquals($checkPoint['colors']['alpha'], $colorsResult['alpha']);
+            static::assertSame($checkPoint['colors']['red'], $colorsResult['red']);
+            static::assertSame($checkPoint['colors']['green'], $colorsResult['green']);
+            static::assertSame($checkPoint['colors']['blue'], $colorsResult['blue']);
+            static::assertSame($checkPoint['colors']['alpha'], $colorsResult['alpha']);
         }
 
         imagedestroy($imResult);
