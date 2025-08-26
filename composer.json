@@ -1,71 +1,70 @@
 {
-    "name": "wyrihaximus/staticmap",
-    "description": "PHP implementation of the Google Maps Static API",
-    "license": "MIT",
-    "keywords": [
-        "maps",
-        "static maps",
-        "image processing",
-        "graphics"
-    ],
-    "authors": [
-        {
-            "name": "Cees-Jan Kiewiet",
-            "email": "ceesjank@gmail.com",
-            "homepage": "http://wyrihaximus.net/"
-        }
-    ],
-    "homepage": "http://wyrihaximus.net/projects/php/staticmap.html",
-    "require": {
-        "php": "^8.3",
-        "ext-filter": "*",
-        "ext-gd": "*",
-        "imagine/imagine": "^1.5.0",
-        "react/event-loop": "^1.5",
-        "react/http": "^1.11",
-        "react/promise": "^3.2",
-        "react/stream": "^1.4"
-    },
-    "require-dev": {
-        "wyrihaximus/async-test-utilities": "^9.4.2",
-        "wyrihaximus/makefiles": "^0.5.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "WyriHaximus\\StaticMap\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "WyriHaximus\\StaticMap\\Tests\\": "tests/"
-        }
-    },
-    "config": {
-        "allow-plugins": {
-            "composer/package-versions-deprecated": true,
-            "dealerdirect/phpcodesniffer-composer-installer": true,
-            "drupol/composer-packages": true,
-            "ergebnis/composer-normalize": true,
-            "icanhazstring/composer-unused": true,
-            "infection/extension-installer": true,
-            "mindplay/composer-locator": true,
-            "phpstan/extension-installer": true,
-            "wyrihaximus/broadcast": true,
-            "wyrihaximus/makefiles": true
-        },
-        "platform": {
-            "php": "8.3.13"
-        },
-        "sort-packages": true
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "composer normalize",
-            "composer update --lock --no-scripts"
-        ],
-        "post-update-cmd": [
-            "composer normalize",
-            "composer update --lock --no-scripts"
-        ]
+  "name": "wyrihaximus/staticmap",
+  "description": "PHP implementation of the Google Maps Static API",
+  "license": "MIT",
+  "keywords": [
+    "maps",
+    "static maps",
+    "image processing",
+    "graphics"
+  ],
+  "authors": [
+    {
+      "name": "Cees-Jan Kiewiet",
+      "email": "ceesjank@gmail.com",
+      "homepage": "http://wyrihaximus.net/"
     }
+  ],
+  "homepage": "http://wyrihaximus.net/projects/php/staticmap.html",
+  "require": {
+    "php": "^8.4",
+    "ext-filter": "*",
+    "ext-gd": "*",
+    "imagine/imagine": "^1.5.0",
+    "react/event-loop": "^1.5",
+    "react/http": "^1.11",
+    "react/promise": "^3.3",
+    "react/stream": "^1.4"
+  },
+  "require-dev": {
+    "wyrihaximus/async-test-utilities": "^10.0.0",
+    "wyrihaximus/makefiles": "^0.6.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "WyriHaximus\\StaticMap\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "WyriHaximus\\StaticMap\\Tests\\": "tests/"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "drupol/composer-packages": true,
+      "ergebnis/composer-normalize": true,
+      "icanhazstring/composer-unused": true,
+      "infection/extension-installer": true,
+      "mindplay/composer-locator": true,
+      "phpstan/extension-installer": true,
+      "wyrihaximus/broadcast": true,
+      "wyrihaximus/makefiles": true,
+      "wyrihaximus/test-utilities": true
+    },
+    "platform": {
+      "php": "8.4.13"
+    },
+    "sort-packages": true
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "make on-install-or-update || true"
+    ],
+    "post-update-cmd": [
+      "make on-install-or-update || true"
+    ]
+  }
 }

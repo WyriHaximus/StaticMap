@@ -24,7 +24,7 @@ final class AsyncTest extends AsyncTestCase
         $client = Mockery::mock(Browser::class);
         $client->shouldReceive('get')->with($url)->andReturn(resolve(new Response(body: 'foo:bar')));
 
-        $image = await((new Async($client))->addImage($url));
+        $image = await(new Async($client)->addImage($url));
         self::assertSame('foo:bar', $image);
     }
 }
