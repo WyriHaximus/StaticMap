@@ -25,17 +25,17 @@ final class GeoTest extends TestCase
             ),
         );
 
-        static::assertSame(6, $box->tiles->start->x);
-        static::assertSame(1, $box->tiles->start->y);
+        self::assertSame(6, $box->tiles->start->x);
+        self::assertSame(1, $box->tiles->start->y);
 
-        static::assertSame(9, $box->tiles->stop->x);
-        static::assertSame(4, $box->tiles->stop->y);
+        self::assertSame(9, $box->tiles->stop->x);
+        self::assertSame(4, $box->tiles->stop->y);
 
-        static::assertSame(363, $box->crop->x);
-        static::assertSame(429, $box->crop->y);
+        self::assertSame(363, $box->crop->x);
+        self::assertSame(429, $box->crop->y);
 
-        static::assertSame(768, $box->base->getWidth());
-        static::assertSame(768, $box->base->getHeight());
+        self::assertSame(768, $box->base->getWidth());
+        self::assertSame(768, $box->base->getHeight());
     }
 
     /** @return iterable<array{0: LatLng, 1: int, 2: Point}> */
@@ -71,6 +71,6 @@ final class GeoTest extends TestCase
         Point $point,
     ): void {
         $resultPoint = Geo::calculatePoint($latLon, $zoom);
-        static::assertEquals($point, $resultPoint);
+        self::assertEquals($point, $resultPoint);
     }
 }

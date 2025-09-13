@@ -45,7 +45,7 @@ final class BlipTest extends TestCase
     public function create(LatLng $latLng, Blip $result): void
     {
         $resultBlip = Blip::create($latLng);
-        static::assertEquals($result, $resultBlip);
+        self::assertEquals($result, $resultBlip);
     }
 
     /** @return iterable<array{0: LatLng, 1: string|null, 2: string}> */
@@ -83,7 +83,7 @@ final class BlipTest extends TestCase
     public static function getImage(LatLng $latLng, string|null $image, string $result): void
     {
         $resultBlip = Blip::create($latLng, $image);
-        static::assertSame($result, $resultBlip->getImage());
+        self::assertSame($result, $resultBlip->getImage());
     }
 
     /** @return iterable<array<LatLng>> */
@@ -107,7 +107,7 @@ final class BlipTest extends TestCase
     public function getLatLng(LatLng $latLng): void
     {
         $resultBlip = Blip::create($latLng);
-        static::assertSame($latLng, $resultBlip->getLatLng());
+        self::assertSame($latLng, $resultBlip->getLatLng());
     }
 
     /** @return iterable<array{0: Point, 1: int, 2: LatLng, 3: Box, 4: Point}> */
@@ -132,6 +132,6 @@ final class BlipTest extends TestCase
         Point $blipPoint,
     ): void {
         $resultBlip = Blip::create($latLngBlip);
-        static::assertEquals($blipPoint, $resultBlip->calculatePosition($center, $size, $zoom));
+        self::assertEquals($blipPoint, $resultBlip->calculatePosition($center, $size, $zoom));
     }
 }

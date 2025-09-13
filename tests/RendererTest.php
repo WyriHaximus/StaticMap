@@ -213,8 +213,8 @@ final class RendererTest extends AsyncTestCase
             throw new RuntimeException('Failed to open image file');
         }
 
-        static::assertSame($size, $imSizeResult[0]);
-        static::assertSame($size, $imSizeResult[1]);
+        self::assertSame($size, $imSizeResult[0]);
+        self::assertSame($size, $imSizeResult[1]);
 
         $imResult = imagecreatefrompng($fileResult);
         if ($imResult === false) {
@@ -229,10 +229,10 @@ final class RendererTest extends AsyncTestCase
 
             $colorsResult = imagecolorsforindex($imResult, $rgbResult);
 
-            static::assertSame($checkPoint['colors']['red'], $colorsResult['red']);
-            static::assertSame($checkPoint['colors']['green'], $colorsResult['green']);
-            static::assertSame($checkPoint['colors']['blue'], $colorsResult['blue']);
-            static::assertSame($checkPoint['colors']['alpha'], $colorsResult['alpha']);
+            self::assertSame($checkPoint['colors']['red'], $colorsResult['red']);
+            self::assertSame($checkPoint['colors']['green'], $colorsResult['green']);
+            self::assertSame($checkPoint['colors']['blue'], $colorsResult['blue']);
+            self::assertSame($checkPoint['colors']['alpha'], $colorsResult['alpha']);
         }
 
         imagedestroy($imResult);

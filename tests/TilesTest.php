@@ -39,7 +39,7 @@ final class TilesTest extends TestCase
         $tiles         = new Tiles($tileDirectory . '{x}/{y}.png', 'fallback.img');
         $tiles->setLoader(new Simple());
         $tile = await($tiles->getTile($x, $y));
-        static::assertSame($tileDirectory . $x . '/' . $y . '.png', $tile);
+        self::assertSame($tileDirectory . $x . '/' . $y . '.png', $tile);
     }
 
     #[Test]
@@ -48,7 +48,7 @@ final class TilesTest extends TestCase
         $tiles = new Tiles('{x}/{y}', 'fallback.img');
         $tiles->setLoader(new Simple());
         $tilePromise = $tiles->getTile(3, 4);
-        static::assertInstanceOf(Promise::class, $tilePromise);
+        self::assertInstanceOf(Promise::class, $tilePromise);
         /** @var ?string $tile */
         $tile = null;
         $tilePromise->then(
@@ -57,7 +57,7 @@ final class TilesTest extends TestCase
                 $tile = $fileName;
             },
         );
-        static::assertSame('fallback.img', $tile);
+        self::assertSame('fallback.img', $tile);
     }
 
     #[Test]
@@ -66,6 +66,6 @@ final class TilesTest extends TestCase
         $tiles = new Tiles('{x}/{y}.png');
         $tiles->setLoader(new Simple());
         $tile = await($tiles->getTile(0, 0));
-        static::assertSame('0/0.png', $tile);
+        self::assertSame('0/0.png', $tile);
     }
 }
