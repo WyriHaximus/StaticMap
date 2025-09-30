@@ -24,10 +24,10 @@ final class PointTest extends TestCase
     {
         $coordinate = new Point($x, $y);
 
-        static::assertSame($x, $coordinate->x);
-        static::assertSame($y, $coordinate->y);
+        self::assertSame($x, $coordinate->x);
+        self::assertSame($y, $coordinate->y);
 
-        static::assertSame($expected, $coordinate->in($box));
+        self::assertSame($expected, $coordinate->in($box));
     }
 
     /** @return iterable<array{0: int, 1: int, 2: Box, 3: bool}> */
@@ -47,9 +47,9 @@ final class PointTest extends TestCase
         $point = new Point($x, $y);
         $shift = $point->move($move);
 
-        static::assertInstanceOf(Point::class, $shift);
-        static::assertSame($x1, $shift->x);
-        static::assertSame($y1, $shift->y);
+        self::assertInstanceOf(Point::class, $shift);
+        self::assertSame($x1, $shift->x);
+        self::assertSame($y1, $shift->y);
     }
 
     /** @return iterable<array<int>> */
@@ -63,6 +63,6 @@ final class PointTest extends TestCase
     #[Test]
     public function testToString(): void
     {
-        static::assertSame('(50, 50)', (string) new Point(50, 50));
+        self::assertSame('(50, 50)', (string) new Point(50, 50));
     }
 }
