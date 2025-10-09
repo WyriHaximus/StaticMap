@@ -35,6 +35,8 @@ final readonly class Point implements PointInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @phpstan-ignore typeCoverage.returnTypeCoverage
      */
     public function getX()
     {
@@ -43,6 +45,8 @@ final readonly class Point implements PointInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @phpstan-ignore typeCoverage.returnTypeCoverage
      */
     public function getY()
     {
@@ -51,6 +55,8 @@ final readonly class Point implements PointInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @phpstan-ignore typeCoverage.returnTypeCoverage
      */
     public function in(BoxInterface $box)
     {
@@ -59,6 +65,8 @@ final readonly class Point implements PointInterface
 
     /**
      * {@inheritDoc}
+     *
+     * @phpstan-ignore typeCoverage.returnTypeCoverage,typeCoverage.paramTypeCoverage
      */
     public function move($amount)
     {
