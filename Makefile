@@ -55,7 +55,7 @@ syntax-php: ## Lint PHP syntax ##*ILH*##
 
 composer-normalize: ### Normalize composer.json ##*I*##
 	$(DOCKER_RUN) composer normalize
-	$(DOCKER_RUN) COMPOSER_DISABLE_NETWORK=1 composer update --lock --no-scripts
+	$(DOCKER_RUN) COMPOSER_DISABLE_NETWORK=1 composer update --lock --no-scripts || $(DOCKER_RUN) composer update --lock --no-scripts
 
 rector-upgrade: ## Upgrade any automatically upgradable old code ##*I*##
 	$(DOCKER_RUN) vendor/bin/rector -c ./etc/qa/rector.php
