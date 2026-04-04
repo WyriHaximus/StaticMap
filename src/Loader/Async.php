@@ -28,6 +28,7 @@ use function React\Promise\resolve;
 
 use const FILTER_VALIDATE_URL;
 
+/** @api */
 final readonly class Async implements LoaderInterface
 {
     private Browser $client;

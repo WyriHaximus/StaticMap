@@ -21,6 +21,8 @@ use function str_replace;
 
 /**
  * Renderer using given Imagine instance.
+ *
+ * @api
  */
 final class Tiles
 {
