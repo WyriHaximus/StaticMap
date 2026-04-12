@@ -22,7 +22,7 @@ use function getimagesize;
 
 use const DIRECTORY_SEPARATOR;
 
-final class Blip
+final readonly class Blip
 {
     /**
      * Width height array.
@@ -48,7 +48,7 @@ final class Blip
      * @param LatLng $latLng Coordinate object.
      * @param string $image  Image filename.
      */
-    public function __construct(protected LatLng $latLng, protected string $image)
+    public function __construct(public LatLng $latLng, public string $image)
     {
         $imageSize = getimagesize($this->image);
         if ($imageSize === false) {
@@ -56,22 +56,6 @@ final class Blip
         }
 
         $this->imageSize = new ImageSize($imageSize[0], $imageSize[1]);
-    }
-
-    /**
-     * Return the coordinate object.
-     */
-    public function getLatLng(): LatLng
-    {
-        return $this->latLng;
-    }
-
-    /**
-     * Return the image filename.
-     */
-    public function getImage(): string
-    {
-        return $this->image;
     }
 
     /**

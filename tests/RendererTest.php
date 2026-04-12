@@ -20,7 +20,6 @@ use function getimagesize;
 use function imagecolorat;
 use function imagecolorsforindex;
 use function imagecreatefrompng;
-use function imagedestroy;
 use function json_decode;
 
 use const DIRECTORY_SEPARATOR;
@@ -234,7 +233,5 @@ final class RendererTest extends AsyncTestCase
             self::assertSame($checkPoint['colors']['blue'], $colorsResult['blue']);
             self::assertSame($checkPoint['colors']['alpha'], $colorsResult['alpha']);
         }
-
-        imagedestroy($imResult);
     }
 }

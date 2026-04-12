@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace WyriHaximus\StaticMap;
 
+/** @api */
 final readonly class LatLng
 {
     public float $lat;

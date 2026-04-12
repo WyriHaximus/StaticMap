@@ -22,6 +22,8 @@ use WyriHaximus\StaticMap\Loader\Simple;
 
 /**
  * Renderer using given Imagine instance.
+ *
+ * @api
  */
 final class Renderer
 {
@@ -150,7 +152,7 @@ final class Renderer
      */
     private function drawBlip(Blip $blip): void
     {
-        $this->loader->addImage($blip->getImage())->then(
+        $this->loader->addImage($blip->image)->then(
             function (string $image) use ($blip): void {
                 $this->drawImage($image, $blip->calculatePosition($this->centerPoint, $this->size, $this->zoom));
             },

@@ -80,10 +80,10 @@ final class BlipTest extends TestCase
 
     #[Test]
     #[DataProvider('getImageProvider')]
-    public static function getImage(LatLng $latLng, string|null $image, string $result): void
+    public function getImage(LatLng $latLng, string|null $image, string $result): void
     {
         $resultBlip = Blip::create($latLng, $image);
-        self::assertSame($result, $resultBlip->getImage());
+        self::assertSame($result, $resultBlip->image);
     }
 
     /** @return iterable<array<LatLng>> */
@@ -107,7 +107,7 @@ final class BlipTest extends TestCase
     public function getLatLng(LatLng $latLng): void
     {
         $resultBlip = Blip::create($latLng);
-        self::assertSame($latLng, $resultBlip->getLatLng());
+        self::assertSame($latLng, $resultBlip->latLng);
     }
 
     /** @return iterable<array{0: Point, 1: int, 2: LatLng, 3: Box, 4: Point}> */
