@@ -66,7 +66,7 @@ final readonly class Point implements PointInterface
     /**
      * {@inheritDoc}
      *
-     * @phpstan-ignore typeCoverage.returnTypeCoverage,typeCoverage.paramTypeCoverage
+     * @phpstan-ignore typeCoverage.returnTypeCoverage
      */
     public function move($amount)
     {
